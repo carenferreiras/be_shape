@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "704971532176",
+    "project_id": "beshape-cd0d0",
+    "storage_bucket": "beshape-cd0d0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704971532176:android:6d479c167348e4cb8bb515",
+        "android_client_info": {
+          "package_name": "com.beShape.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7OGnwtJ4rYUyFJlAzXYLj6XSWLFSpJN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704971532176:android:68d2673e67114d958bb515",
+        "android_client_info": {
+          "package_name": "com.example.be_shape_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7OGnwtJ4rYUyFJlAzXYLj6XSWLFSpJN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,10 @@
+export 'quick_actions.dart';
+export 'recent_meals.dart';
+export 'activity_chart.dart';
+export 'fitness_metrics.dart';
+export 'fitness_resources.dart';
+export 'meal_card.dart';
+export 'user_header.dart';
+export 'virtual_coach_card.dart';
+export 'workout_card.dart';
+export 'recent_history.dart';

@@ -1,0 +1,1 @@
+export 'firebase_meal_repository.dart';

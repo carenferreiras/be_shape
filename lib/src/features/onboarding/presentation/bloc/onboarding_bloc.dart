@@ -1,0 +1,146 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../features.dart';
+
+class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
+  final UserRepository _userRepository;
+  final AuthRepository _authRepository;
+
+  OnboardingBloc({
+    required UserRepository userRepository,
+    required AuthRepository authRepository,
+  })  : _userRepository = userRepository,
+        _authRepository = authRepository,
+        super(const OnboardingState()) {
+    on<UpdateGoal>(_onUpdateGoal);
+    on<UpdateGender>(_onUpdateGender);
+    on<UpdateWeight>(_onUpdateWeight);
+    on<UpdateWeightUnit>(_onUpdateWeightUnit);
+    on<UpdateAge>(_onUpdateAge);
+    on<UpdateHeight>(_onUpdateHeight);
+    on<UpdateTargetWeight>(_onUpdateTargetWeight);
+    on<UpdateActivityLevel>(_onUpdateActivityLevel);
+    on<UpdateName>(_onUpdateName);
+    on<SaveUserProfile>(_onSaveUserProfile);
+  }
+
+  void _onUpdateGoal(UpdateGoal event, Emitter<OnboardingState> emit) {
+    emit(state.copyWith(selectedGoal: event.goal));
+  }
+
+  void _onUpdateGender(UpdateGender event, Emitter<OnboardingState> emit) {
+    emit(state.copyWith(selectedGender: event.gender));
+  }
+
+  void _onUpdateWeight(UpdateWeight event, Emitter<OnboardingState> emit) {
+    emit(state.copyWith(
+      weight: event.weight,
+      targetWeight: state.targetWeight ?? event.weight,
+    ));
+  }
+
+  void _onUpdateWeightUnit(UpdateWeightUnit event, Emitter<OnboardingState> emit) {
+    final newWeight = event.unit == 'kg' 
+        ? state.weight 
+        : state.weight * 2.20462; // Convert kg to lbs
+    emit(state.copyWith(
+      weightUnit: event.unit,
+      weight: newWeight,
+    ));
+  }
+
+  void _onUpdateAge(UpdateAge event, Emitter<OnboardingState> emit) {
+    emit(state.copyWith(age: event.age));
+  }
+
+  void _onUpdateHeight(UpdateHeight event, Emitter<OnboardingState> emit) {
+    emit(state.copyWith(height: event.height));
+  }
+
+  void _onUpdateTargetWeight(UpdateTargetWeight event, Emitter<OnboardingState> emit) {
+    emit(state.copyWith(targetWeight: event.targetWeight));
+  }
+
+  void _onUpdateActivityLevel(UpdateActivityLevel event, Emitter<OnboardingState> emit) {
+    emit(state.copyWith(activityLevel: event.activityLevel));
+  }
+
+  void _onUpdateName(UpdateName event, Emitter<OnboardingState> emit) {
+    emit(state.copyWith(name: event.name));
+  }
+
+  Future<void> _onSaveUserProfile(SaveUserProfile event, Emitter<OnboardingState> emit) async {
+    try {
+      // Validate user authentication
+      final userId = _authRepository.currentUser?.uid;
+      if (userId == null) {
+        emit(state.copyWith(error: 'User not authenticated'));
+        return;
+      }
+
+      // Validate required fields
+      final validationError = _validateFields();
+      if (validationError != null) {
+        emit(state.copyWith(error: validationError));
+        return;
+      }
+
+      // Convert weight to kg if needed
+      final weight = state.weightUnit == 'kg' ? state.weight : state.weight / 2.20462;
+      final targetWeight = state.targetWeight ?? weight;
+
+      // Calculate BMR using Harris-Benedict equation
+      double bmr;
+      if (state.selectedGender?.toLowerCase() == 'male') {
+        bmr = 88.362 + (13.397 * weight) + (4.799 * state.height!) - (5.677 * state.age!);
+      } else {
+        bmr = 447.593 + (9.247 * weight) + (3.098 * state.height!) - (4.330 * state.age!);
+      }
+
+      // Calculate TDEE using activity level
+      final activityLevel = state.activityLevel ?? 1.2; // Default to sedentary if not set
+      final tdee = bmr * activityLevel;
+
+      // Create user profile
+      final userProfile = UserProfile(
+        id: userId,
+        name: state.name ?? 'User', // Default name if not provided
+        age: state.age!,
+        gender: state.selectedGender!,
+        height: state.height!,
+        weight: weight,
+        targetWeight: targetWeight,
+        goal: state.selectedGoal!,
+        measurements: {}, // Initial empty measurements
+        bmr: bmr,
+        tdee: tdee,
+        activityLevel: activityLevel,
+      );
+
+      // Save to Firebase
+      await _userRepository.saveUserProfile(userProfile);
+      
+      emit(state.copyWith(isProfileSaved: true, error: null));
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+    }
+  }
+
+  String? _validateFields() {
+    if (state.selectedGoal == null) {
+      return 'Please select your fitness goal';
+    }
+    if (state.selectedGender == null) {
+      return 'Please select your gender';
+    }
+    if (state.age == null || state.age! < 13 || state.age! > 100) {
+      return 'Please enter a valid age between 13 and 100';
+    }
+    if (state.height == null || state.height! < 140 || state.height! > 220) {
+      return 'Please enter a valid height between 140cm and 220cm';
+    }
+    if (state.weight < 40 || state.weight > 200) {
+      return 'Please enter a valid weight';
+    }
+    return null;
+  }
+}
