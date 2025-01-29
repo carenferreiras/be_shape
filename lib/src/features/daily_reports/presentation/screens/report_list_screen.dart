@@ -34,15 +34,10 @@ class _ReportsListScreenState extends State<ReportsListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('Reports History'),
-        backgroundColor: Colors.black,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadReports,
-          ),
-        ],
+      appBar: BeShapeAppBar(
+        title: 'Histórico de relatórios',
+        actionIconPressed: _loadReports,
+        actionIcon: Icons.refresh,
       ),
       body: FutureBuilder<List<DailyReport>>(
         future: _reportsFuture,

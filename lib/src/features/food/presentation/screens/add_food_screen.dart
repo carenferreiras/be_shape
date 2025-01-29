@@ -166,6 +166,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
+          leading: IconButton(onPressed: ()=> Navigator.pop(context), icon: Icon(Icons.arrow_back_ios,color: BeShapeColors.primary,)),
           title: const Text('Add Food', style: TextStyle(color: BeShapeColors.primary)),
           backgroundColor: Colors.black,
           elevation: 2,
@@ -406,7 +407,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
                               ),
                               const SizedBox(height: 16),
                               ElevatedButton.icon(
-                                onPressed: () => Navigator.pushNamed(context, '/add-saved-food'),
+                                onPressed: () => Navigator.pushNamed(context, '/saved-food'),
                                 icon: const Icon(Icons.add),
                                 label: const Text('Add New Food'),
                                 style: ElevatedButton.styleFrom(

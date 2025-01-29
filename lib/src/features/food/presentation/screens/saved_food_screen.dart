@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:be_shape_app/src/core/core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -159,9 +160,9 @@ class _SavedFoodFormScreenState extends State<SavedFoodFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('Add New Food'),
-        backgroundColor: Colors.black,
+      appBar: BeShapeAppBar(
+        title: 'Adicionar Alimento',
+        actionIcon: Icons.food_bank,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -281,32 +282,11 @@ class _SavedFoodFormScreenState extends State<SavedFoodFormScreen> {
                 activeColor: Colors.orange,
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _isUploading ? null : _submitFood,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: _isUploading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      )
-                    : const Text(
-                        'Save Food',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-              ),
+              BeShapeCustomButton(label: 'Salvar Alimento', 
+              icon: Icons.save,
+              isLoading: _isUploading,
+              onPressed:  _isUploading ? null : _submitFood,)
+              
             ],
           ),
         ),
