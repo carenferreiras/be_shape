@@ -163,15 +163,12 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                     value == null ? "Please select a category" : null,
               ),
               const SizedBox(height: 24),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _saveHabit,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF6367F0),
-                  ),
-                  child: const Text("Save Habit"),
-                ),
-              ),
+              BeShapeCustomButton(
+                icon: Icons.save,
+                label: 'Save Habit', 
+                isLoading: false,
+                onPressed: _saveHabit,)
+              
             ],
           ),
         ),

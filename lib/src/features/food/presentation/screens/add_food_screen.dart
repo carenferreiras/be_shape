@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/core.dart';
@@ -374,7 +375,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
                   child: BlocBuilder<SavedFoodBloc, SavedFoodState>(
                     builder: (context, state) {
                       if (state.isLoading) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
                       }
 
                       if (state.foods.isEmpty) {

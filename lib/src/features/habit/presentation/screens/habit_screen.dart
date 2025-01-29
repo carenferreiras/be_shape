@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/core.dart';
@@ -51,7 +52,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
             child: BlocBuilder<HabitBloc, HabitState>(
               builder: (context, state) {
                 if (state is HabitsLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
                 } else if (state is HabitsLoaded) {
                   final habits = state.habits;
                   return Padding(

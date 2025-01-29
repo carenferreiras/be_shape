@@ -55,11 +55,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
+                          color: BeShapeColors.primary
                         ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 32),
                       TextFormField(
+                        style: TextStyle(color: BeShapeColors.backgroundLight),
                         controller: _emailController,
                         decoration: InputDecoration(
                           hintStyle: const TextStyle(color: Colors.white),

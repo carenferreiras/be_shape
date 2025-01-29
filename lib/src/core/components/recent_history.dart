@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 import '../../features/features.dart';
+import '../core.dart';
 
 class RecentHistory extends StatelessWidget {
   final UserProfile userProfile;
@@ -60,7 +62,7 @@ class RecentHistory extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitThreeBounce(color: BeShapeColors.primary,),
                 );
               }
 

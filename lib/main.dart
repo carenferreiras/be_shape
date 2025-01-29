@@ -1,10 +1,11 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:be_shape_app/app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'src/features/features.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,12 +14,16 @@ void main() async {
   // Criação das dependências do Health
   final healthDatasource = HealthDatasource();
   final healthRepository = HealthRepositoryImpl(healthDatasource);
-  final fetchHealthData = FetchHealthData(healthRepository);
 
   // Criação das dependências de Habits
   final habitRepository = HabitService(); // Implementação do repositório
   final loadHabits = LoadHabits(habitRepository); // Caso de uso de carregar hábitos
   final addHabit = AddHabit(habitRepository); // Caso de uso de adicionar hábitos
+
+  // Criação das dependências do Water Tracker
+  final waterRepository = WaterRepositoryImpl(); // Repositório para consumo de água
+  final getCurrentWaterIntake = GetCurrentWaterIntake(waterRepository); // Caso de uso para obter consumo atual
+  final updateWaterIntake = UpdateWaterIntake(waterRepository); // Caso de uso para atualizar consumo
 
   runApp(
     MultiRepositoryProvider(
@@ -49,6 +54,9 @@ void main() async {
         ),
         RepositoryProvider<HabitRepository>(
           create: (context) => habitRepository, 
+        ),
+        RepositoryProvider<WaterRepository>(
+          create: (context) => waterRepository,
         ),
       ],
       child: MultiBlocProvider(
@@ -83,12 +91,17 @@ void main() async {
               FetchHealthData(context.read<HealthRepository>()),
             ),
           ),
-           BlocProvider(
+          BlocProvider(
             create: (context) => HabitBloc(
               loadHabits: LoadHabits(context.read<HabitRepository>()), 
               addHabit: AddHabit(context.read<HabitRepository>())
-             
             ),
+          ),
+           BlocProvider(
+            create: (context) => WaterBloc(
+              getCurrentWaterIntake: getCurrentWaterIntake,
+              updateWaterIntake: updateWaterIntake,
+            )..add(LoadWaterIntake()), // 🟢 Garante que os dados são carregados
           ),
         ],
         child: const BeShapeApp(),

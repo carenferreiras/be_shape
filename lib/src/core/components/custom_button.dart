@@ -46,11 +46,11 @@ class BeShapeCustomButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if(icon != null)
-                  Icon(icon ?? Icons.arrow_forward_ios, color: Colors.white),
+                  Icon(icon ?? Icons.arrow_forward_ios, color: BeShapeColors.background),
                   Text(
                     label,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: BeShapeColors.background,
                       fontSize: BeShapeSizes.paddingMedium,
                       fontWeight: FontWeight.bold,
                     ),
@@ -58,7 +58,7 @@ class BeShapeCustomButton extends StatelessWidget {
 
                   const SizedBox(width: BeShapeSizes.paddingSmall),
                   if(icon == null)
-                  const Icon(Icons.arrow_forward_ios, color: Colors.white)
+                  const Icon(Icons.arrow_forward_ios, color: BeShapeColors.background)
                 ],
               ),
       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../../../../../core/core.dart';
 import '../../../../features.dart';
 
 
@@ -163,7 +165,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                           ),
                           child: state.isProfileSaved
-                              ? const CircularProgressIndicator()
+                              ? const SpinKitThreeBounce(color: BeShapeColors.primary,)
                               : Text(
                                   _currentPage < 5 ? 'Continue' : 'Get Started',
                                   style: const TextStyle(

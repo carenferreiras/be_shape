@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../core/core.dart';
 import '../../../features.dart';
@@ -16,7 +17,7 @@ class BeShapeDrawer extends StatelessWidget {
         future: context.read<UserRepository>().getUserProfile(userId),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
           }
 
           final userProfile = snapshot.data!;

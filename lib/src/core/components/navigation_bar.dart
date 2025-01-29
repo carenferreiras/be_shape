@@ -8,60 +8,71 @@ class BeShapeNavigatorBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavigationBar(
-      backgroundColor: Colors.grey[900],
-      indicatorColor: BeShapeColors.primary.withOpacity(0.2),
-      selectedIndex: index,
-      destinations: const [
-        NavigationDestination(
-          selectedIcon: Icon(
-            Icons.home,
-            color: BeShapeColors.primary,
-          ),
-          icon: Icon(Icons.home),
-          label: 'Home',
+    return NavigationBarTheme(
+      data: NavigationBarThemeData(
+        backgroundColor: Colors.grey[900],
+        indicatorColor: BeShapeColors.primary.withOpacity(0.2),
+        labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
+              return const TextStyle(
+                color: BeShapeColors.primary,
+                fontWeight: FontWeight.bold,
+              );
+            }
+            return const TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.normal,
+            );
+          },
         ),
-        NavigationDestination(
-          selectedIcon: Icon(
-            Icons.fitness_center,
-            color: BeShapeColors.primary,
-          ),
-          icon: Icon(Icons.fitness_center),
-          label: 'Workouts',
+        iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
+              return const IconThemeData(color: BeShapeColors.primary);
+            }
+            return const IconThemeData(color: Colors.grey);
+          },
         ),
-        NavigationDestination(
-          selectedIcon: Icon(
-            Icons.restaurant_menu,
-            color: BeShapeColors.primary,
+      ),
+      child: NavigationBar(
+        selectedIndex: index,
+        destinations: const [
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          icon: Icon(Icons.restaurant_menu),
-          label: 'Nutrition',
-        ),
-        NavigationDestination(
-          selectedIcon: Icon(
-            Icons.person,
-            color: BeShapeColors.primary,
+          NavigationDestination(
+            selectedIcon: Icon(Icons.fitness_center),
+            icon: Icon(Icons.fitness_center),
+            label: 'Workouts',
           ),
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
-      onDestinationSelected: (index) {
-        switch (index) {
-          case 0: // Nutrition tab
-            Navigator.pushNamed(context, '/home');
-            break;
-          case 2: // Nutrition tab
-            Navigator.pushNamed(context, '/daily-tracking');
-            break;
-          case 1: // Nutrition tab
-            Navigator.pushNamed(context, '/exercises-list');
-            break;
-          case 3: // Nutrition tab
-            Navigator.pushNamed(context, '/habit');
-            break;
-        }
-      },
+          NavigationDestination(
+            selectedIcon: Icon(Icons.restaurant_menu),
+            icon: Icon(Icons.restaurant_menu),
+            label: 'Nutrition',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.person),
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        onDestinationSelected: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushNamed(context, '/home');
+              break;
+            case 1:
+              Navigator.pushNamed(context, '/exercises-list');
+              break;
+            case 2:
+              Navigator.pushNamed(context, '/daily-tracking');
+              break;
+          }
+        },
+      ),
     );
   }
 }

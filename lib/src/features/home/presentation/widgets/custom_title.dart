@@ -4,9 +4,10 @@ import '../../../../core/core.dart';
 
 class CustomTitle extends StatelessWidget {
   final String title;
+  final String? buttonTitle;
   final void Function()? onTap;
 
-  const CustomTitle({super.key, required this.title, this.onTap});
+  const CustomTitle({super.key, required this.title, this.onTap, this.buttonTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +36,17 @@ class CustomTitle extends StatelessWidget {
                 color: BeShapeColors.primary.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Row(
+              child:  Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.add_circle_outline,
                     color: BeShapeColors.primary,
                     size: 18,
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(
-                    'Add Meal',
-                    style: TextStyle(
+                    buttonTitle ?? title,
+                    style: const TextStyle(
                       color: BeShapeColors.primary,
                       fontWeight: FontWeight.w500,
                     ),

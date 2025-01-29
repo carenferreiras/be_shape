@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
 class ReportsListScreen extends StatefulWidget {
@@ -46,7 +48,7 @@ class _ReportsListScreenState extends State<ReportsListScreen> {
         future: _reportsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
           }
 
           if (snapshot.hasError) {

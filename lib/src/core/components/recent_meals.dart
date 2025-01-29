@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 import '../../features/features.dart';
+import '../core.dart';
 
 class RecentMeals extends StatelessWidget {
   const RecentMeals({super.key});
@@ -34,7 +36,7 @@ class RecentMeals extends StatelessWidget {
         BlocBuilder<MealBloc, MealState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
             }
 
             if (state.meals.isEmpty) {
