@@ -31,6 +31,7 @@ class BeShapeApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Health Tracker',
         theme: ThemeData(
           primarySwatch: Colors.blue,

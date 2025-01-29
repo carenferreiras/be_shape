@@ -15,6 +15,7 @@ class SavedFoodBloc extends Bloc<SavedFoodEvent, SavedFoodState> {
     on<SearchSavedFoods>(_onSearchSavedFoods);
     on<LoadPublicSavedFoods>(_onLoadPublicSavedFoods);
   }
+  
 
   Future<void> _onAddSavedFood(
     AddSavedFood event,

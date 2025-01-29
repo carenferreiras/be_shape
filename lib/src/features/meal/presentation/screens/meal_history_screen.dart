@@ -1,3 +1,4 @@
+import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -25,10 +26,7 @@ class _MealHistoryScreenState extends State<MealHistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('Meal History'),
-        backgroundColor: Colors.black,
-      ),
+      appBar: const BeShapeAppBar(title:'Histórico de refeições',actionIcon: Icons.receipt_long,),
       body: BlocBuilder<MealBloc, MealState>(
         builder: (context, state) {
           if (state.isLoading) {

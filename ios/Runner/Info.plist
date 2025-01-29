@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>App requires access to your health data to provide better insights.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>App requires permission to write health data.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Be Shape App</string>
 	<key>CFBundleExecutable</key>

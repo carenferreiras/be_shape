@@ -1,0 +1,1 @@
+export './firebase_exercise_repository.dart';

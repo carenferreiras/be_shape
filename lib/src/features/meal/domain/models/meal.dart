@@ -13,6 +13,7 @@ class Meal {
   final bool isCompleted;
   final bool isAutoCompleted; // Novo campo
   final DateTime? completedAt;
+  
 
   Meal({
     required this.id,

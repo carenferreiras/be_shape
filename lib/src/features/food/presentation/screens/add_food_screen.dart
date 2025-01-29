@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -320,7 +322,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: BeShapeColors.textPrimary
+                          color: BeShapeColors.background
                         ),
                       ),
                     ),

@@ -31,3 +31,7 @@ class SearchSavedFoods extends SavedFoodEvent {
 class LoadPublicSavedFoods extends SavedFoodEvent {
   const LoadPublicSavedFoods();
 }
+
+class SelectedDate extends SavedFoodEvent{
+  const SelectedDate();
+}

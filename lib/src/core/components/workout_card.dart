@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../features.dart';
+import '../../features/features.dart';
 
 class WorkoutCard extends StatelessWidget {
   final UserProfile userProfile;
@@ -85,7 +85,7 @@ class WorkoutCard extends StatelessWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        _WorkoutStat(
+                        const _WorkoutStat(
                           icon: Icons.timer,
                           value: '25min',
                         ),

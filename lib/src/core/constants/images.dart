@@ -1,4 +1,4 @@
-class BeShapeIamges{
+class BeShapeImages{
  // ignore: constant_identifier_names
  static const  _PATH = 'assets/images/';
 
@@ -9,5 +9,11 @@ class BeShapeIamges{
   static const female = '$_PATH/female.png';
   static const male = '$_PATH/male.png';
   static const image = '$_PATH/image.png';
+  static const cardio = '$_PATH/cardio.png';
+  static const flexibility = '$_PATH/flexibility.png';
+  static const others = '$_PATH/others.png';
+  static const sports = '$_PATH/sports.png';
+  static const strength = '$_PATH/strength.png';
+  static const signUpBackground = '$_PATH/sign_up_background.png';
 
 }

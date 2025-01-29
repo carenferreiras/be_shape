@@ -1,10 +1,6 @@
-export 'quick_actions.dart';
-export 'recent_meals.dart';
-export 'activity_chart.dart';
-export 'fitness_metrics.dart';
-export 'fitness_resources.dart';
-export 'meal_card.dart';
-export 'user_header.dart';
-export 'virtual_coach_card.dart';
-export 'workout_card.dart';
-export 'recent_history.dart';
+export 'drawer_items.dart';
+export './macro_target_dialog.dart';
+export './drawer_edit_itens_card.dart';
+export './drawer.dart';
+export './date_widget.dart';
+export './custom_title.dart';

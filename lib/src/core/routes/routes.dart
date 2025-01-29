@@ -1,3 +1,4 @@
+import 'package:be_shape_app/src/features/chat/presentation/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/features.dart';
@@ -19,6 +20,11 @@ class AppRouter {
   static const String reports = '/reports';
   static const String dailyTracking = '/daily-tracking';
   static const String reportDetails = '/report-details';
+  static const String progressPhotos = '/progress-photos';
+  static const String exercisesList = '/exercises-list';
+  static const String healthPage = '/health-page';
+  static const String chatScreen = '/chat-screen';
+  static const String habit = '/habit';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -67,10 +73,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => DailyReportScreen(report: report),
         );
-      // case addExercise:
-      //   return MaterialPageRoute(
-      //     builder: (_) => const AddExerciseScreen(),
-      //   );
+      case addExercise:
+        return MaterialPageRoute(
+          builder: (_) => const AddExerciseScreen(),
+        );
       case dailyTracking:
         return MaterialPageRoute(
           builder: (_) => const DailyFoodTrackingScreen(),
@@ -79,10 +85,27 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const SavedFoodFormScreen(),
         );
-      // case addProgressPhoto:
-      //   return MaterialPageRoute(
-      //     builder: (_) => const AddProgressPhotoScreen(),
-      //   );
+      case addProgressPhoto:
+        return MaterialPageRoute(
+          builder: (_) => const AddProgressPhotoScreen(),
+        );
+      case progressPhotos:
+        return MaterialPageRoute(
+          builder: (_) => const ProgressPhotosScreen(),
+        );
+      case exercisesList:
+        return MaterialPageRoute(
+          builder: (_)=> const ExerciseListScreen());
+       case healthPage:
+        return MaterialPageRoute(
+          builder: (_)=> const HealthPage());
+      case chatScreen:
+        return MaterialPageRoute(
+          builder: (_)=> const ChatScreen());
+      case habit:
+        return MaterialPageRoute(
+          builder: (_)=>  HabitsScreen());
+      
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
