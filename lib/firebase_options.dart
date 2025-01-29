@@ -41,51 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAz-A7OU7sxAGxBMuIo3Gjocl-TpnPBpjQ',
-    appId: '1:67417231973:web:21439d09794f10bef2ec8c',
-    messagingSenderId: '67417231973',
-    projectId: 'ibeehc-d4069',
-    authDomain: 'ibeehc-d4069.firebaseapp.com',
-    storageBucket: 'ibeehc-d4069.appspot.com',
+    apiKey: 'AIzaSyAutEmbgb50MKyYpAU5KnWmsPFjA-ocj9U',
+    appId: '1:744118623388:web:529da38000db8ec5df2159',
+    messagingSenderId: '744118623388',
+    projectId: 'beshape-9afaf',
+    authDomain: 'beshape-9afaf.firebaseapp.com',
+    storageBucket: 'beshape-9afaf.firebasestorage.app',
+    measurementId: 'G-4JLX9NKV9R',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCqEI2f6UF-Legi2KqJHbmWChcMUPgRhSg',
-    appId: '1:67417231973:android:cb6c57caa9d0dd1ff2ec8c',
-    messagingSenderId: '67417231973',
-    projectId: 'ibeehc-d4069',
-    storageBucket: 'ibeehc-d4069.appspot.com',
+    apiKey: 'AIzaSyDSpJRppHXUCjjSPdfuq_qwfUvFeZ9mJrM',
+    appId: '1:744118623388:android:3956dcd457509f1ddf2159',
+    messagingSenderId: '744118623388',
+    projectId: 'beshape-9afaf',
+    storageBucket: 'beshape-9afaf.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDjhA4VQMv0SEU4m0Oq1uGXxBKWjU9yV0g',
-    appId: '1:67417231973:ios:6af7b813f8c68b18f2ec8c',
-    messagingSenderId: '67417231973',
-    projectId: 'ibeehc-d4069',
-    storageBucket: 'ibeehc-d4069.appspot.com',
-    androidClientId: '67417231973-2no2vr06k7ls0nib4os9n72inupv1jbm.apps.googleusercontent.com',
-    iosClientId: '67417231973-0gfq3laar08nqihlm9fs10kq69uio099.apps.googleusercontent.com',
-    iosBundleId: 'com.example.beShapeApp',
+    apiKey: 'AIzaSyDpf5IARSVNb3QhwYGhpbB2YtuCnjAzap0',
+    appId: '1:744118623388:ios:a4e85446a0943e8cdf2159',
+    messagingSenderId: '744118623388',
+    projectId: 'beshape-9afaf',
+    storageBucket: 'beshape-9afaf.firebasestorage.app',
+    iosBundleId: 'com.example.beshape',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDjhA4VQMv0SEU4m0Oq1uGXxBKWjU9yV0g',
-    appId: '1:67417231973:ios:6af7b813f8c68b18f2ec8c',
-    messagingSenderId: '67417231973',
-    projectId: 'ibeehc-d4069',
-    storageBucket: 'ibeehc-d4069.appspot.com',
-    androidClientId: '67417231973-2no2vr06k7ls0nib4os9n72inupv1jbm.apps.googleusercontent.com',
-    iosClientId: '67417231973-0gfq3laar08nqihlm9fs10kq69uio099.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDpf5IARSVNb3QhwYGhpbB2YtuCnjAzap0',
+    appId: '1:744118623388:ios:15ee8c2b53854383df2159',
+    messagingSenderId: '744118623388',
+    projectId: 'beshape-9afaf',
+    storageBucket: 'beshape-9afaf.firebasestorage.app',
     iosBundleId: 'com.example.beShapeApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDYAudlasAix4oamtMWhm4ZaXjB309AnVA',
-    appId: '1:67417231973:web:38650f05e7e2a682f2ec8c',
-    messagingSenderId: '67417231973',
-    projectId: 'ibeehc-d4069',
-    authDomain: 'ibeehc-d4069.firebaseapp.com',
-    storageBucket: 'ibeehc-d4069.appspot.com',
+    apiKey: 'AIzaSyAutEmbgb50MKyYpAU5KnWmsPFjA-ocj9U',
+    appId: '1:744118623388:web:47f77a5ac7c49807df2159',
+    messagingSenderId: '744118623388',
+    projectId: 'beshape-9afaf',
+    authDomain: 'beshape-9afaf.firebaseapp.com',
+    storageBucket: 'beshape-9afaf.firebasestorage.app',
+    measurementId: 'G-9M625JEWKR',
   );
-
 }

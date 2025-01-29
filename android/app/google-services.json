@@ -1,167 +1,26 @@
 {
   "project_info": {
-    "project_number": "67417231973",
-    "project_id": "ibeehc-d4069",
-    "storage_bucket": "ibeehc-d4069.appspot.com"
+    "project_number": "744118623388",
+    "project_id": "beshape-9afaf",
+    "storage_bucket": "beshape-9afaf.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:67417231973:android:cb6c57caa9d0dd1ff2ec8c",
+        "mobilesdk_app_id": "1:744118623388:android:3956dcd457509f1ddf2159",
         "android_client_info": {
           "package_name": "com.example.be_shape_app"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "67417231973-atmsf00os6l0l8hsu57ofhflbhv2394o.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCqEI2f6UF-Legi2KqJHbmWChcMUPgRhSg"
+          "current_key": "AIzaSyDSpJRppHXUCjjSPdfuq_qwfUvFeZ9mJrM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "67417231973-8k9slt6rfu3codvq5g8u4rq2bij9o9fr.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "67417231973-0s8b98u3pretm64enl107o6sdh32hl7k.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.ibMed.RunnerTests"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:67417231973:android:8bab1b3ac254cccef2ec8c",
-        "android_client_info": {
-          "package_name": "com.example.ib_med"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "67417231973-atmsf00os6l0l8hsu57ofhflbhv2394o.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCqEI2f6UF-Legi2KqJHbmWChcMUPgRhSg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "67417231973-8k9slt6rfu3codvq5g8u4rq2bij9o9fr.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "67417231973-0s8b98u3pretm64enl107o6sdh32hl7k.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.ibMed.RunnerTests"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:67417231973:android:9c0093612ea6cd73f2ec8c",
-        "android_client_info": {
-          "package_name": "com.ibeehc.app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "67417231973-atmsf00os6l0l8hsu57ofhflbhv2394o.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCqEI2f6UF-Legi2KqJHbmWChcMUPgRhSg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "67417231973-8k9slt6rfu3codvq5g8u4rq2bij9o9fr.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "67417231973-0s8b98u3pretm64enl107o6sdh32hl7k.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.ibMed.RunnerTests"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:67417231973:android:a26595926bd53d9ef2ec8c",
-        "android_client_info": {
-          "package_name": "com.ibeehc.ibeehc"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "67417231973-clho6sh34eglbflcmtiv2d936vpgpole.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ibeehc.ibeehc",
-            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
-          }
-        },
-        {
-          "client_id": "67417231973-tupq1evkilqt78mg3mq5p6lch1oode9n.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ibeehc.ibeehc",
-            "certificate_hash": "e3bafc19cbaa0fb1f88d82882ff1c49cd3b932f5"
-          }
-        },
-        {
-          "client_id": "67417231973-atmsf00os6l0l8hsu57ofhflbhv2394o.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCqEI2f6UF-Legi2KqJHbmWChcMUPgRhSg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "67417231973-8k9slt6rfu3codvq5g8u4rq2bij9o9fr.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "67417231973-0s8b98u3pretm64enl107o6sdh32hl7k.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.ibMed.RunnerTests"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

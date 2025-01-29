@@ -40,13 +40,33 @@ class _WaterTrackerScreenState extends State<WaterTrackerScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Controle de Água'),
+        title: Text('Adicionar dose de Água',style: TextStyle(color: Colors.blue),),
         backgroundColor: Colors.black,
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.blue,
+            )),
+        actions: [
+          Card(
+            color: Colors.blue.withOpacity(0.2),
+            child: IconButton(
+                onPressed: () => _showAddWaterDialog(context),
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.blue,
+                )),
+          )
+        ],
       ),
       body: BlocBuilder<WaterBloc, WaterState>(
         builder: (context, state) {
           if (state is WaterLoading) {
-            return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
+            return const Center(
+                child: SpinKitThreeBounce(
+              color: BeShapeColors.primary,
+            ));
           } else if (state is WaterLoaded) {
             final intake = state.intake.totalIntake;
             final progress = intake / _waterTarget;
@@ -60,144 +80,144 @@ class _WaterTrackerScreenState extends State<WaterTrackerScreen> {
                   const SizedBox(height: 32),
                   _buildWaterIntakeList(state.intake.entries),
                   const SizedBox(height: 16),
-                  _buildTargetCard(_waterTarget.toInt()), // Usa a meta baseada no peso
+                  _buildTargetCard(
+                      _waterTarget.toInt()), // Usa a meta baseada no peso
                 ],
               ),
             );
           } else {
             return const Center(
-              child: Text('Erro ao carregar dados.', style: TextStyle(color: Colors.red)),
+              child: Text('Erro ao carregar dados.',
+                  style: TextStyle(color: Colors.red)),
             );
           }
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddWaterDialog(context),
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
 
   /// 🔵 **Gráfico Circular**
- /// 🔵 **Gráfico Circular com CustomPaint e Borda**
-Widget _buildWaterProgress(int intake, double progress) {
-  return Stack(
-    alignment: Alignment.center,
-    children: [
-      // Adiciona a borda ao redor do ClipOval
-      Container(
-        width: 200,
-        height: 200,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle, // Garante que seja um círculo
-          border: Border.all(
-            color: Colors.blue.withOpacity(0.3), // Cor da borda
-            width: 8, // Espessura da borda
-          ),
-        ),
-        child: ClipOval(
-          child: CustomPaint(
-            size: const Size(200, 200),
-            painter: ModernWaterPainter(progress),
-          ),
-        ),
-      ),
-      // Texto centralizado
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '$intake ml',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+  /// 🔵 **Gráfico Circular com CustomPaint e Borda**
+  Widget _buildWaterProgress(int intake, double progress) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Adiciona a borda ao redor do ClipOval
+        Container(
+          width: 200,
+          height: 200,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle, // Garante que seja um círculo
+            border: Border.all(
+              color: Colors.blue.withOpacity(0.3), // Cor da borda
+              width: 8, // Espessura da borda
             ),
           ),
-          const Text(
-            'Meta',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
+          child: ClipOval(
+            child: CustomPaint(
+              size: const Size(200, 200),
+              painter: ModernWaterPainter(progress),
             ),
           ),
-        ],
-      ),
-    ],
-  );
-}
+        ),
+        // Texto centralizado
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.water_drop_rounded,color: Colors.blue,),
+                SizedBox(width: 4,),
+                Text(
+                  '$intake ml',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
 
-  /// 📋 **Lista de Entradas de Água**
-  Widget _buildWaterIntakeList(List<WaterEntry> entries) {
-  if (entries.isEmpty) {
-    return const Center(
-      child: Text(
-        "Nenhum registro de água ainda!",
-        style: TextStyle(color: Colors.white, fontSize: 16),
-      ),
+              ],
+            ),
+          
+          ],
+        ),
+      ],
     );
   }
 
-  return Expanded(
-    child: ListView.builder(
-      itemCount: entries.length,
-      itemBuilder: (context, index) {
-        final entry = entries[index];
+  /// 📋 **Lista de Entradas de Água**
+  Widget _buildWaterIntakeList(List<WaterEntry> entries) {
+    if (entries.isEmpty) {
+      return const Center(
+        child: Text(
+          "Nenhum registro de água ainda!",
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      );
+    }
 
-        return Dismissible(
-          key: Key(entry.time), // Identificador único
-          direction: DismissDirection.endToStart, // Arrastar para a esquerda
-          onDismissed: (direction) {
-            // Disparar evento de exclusão no Bloc
-            context.read<WaterBloc>().add(DeleteWaterIntake(entry));
+    return Expanded(
+      child: ListView.builder(
+        itemCount: entries.length,
+        itemBuilder: (context, index) {
+          final entry = entries[index];
 
-            // Exibir mensagem de exclusão
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Entrada de ${entry.amount} ml removida!'),
-                backgroundColor: Colors.red,
+          return Dismissible(
+            key: Key(entry.time), // Identificador único
+            direction: DismissDirection.endToStart, // Arrastar para a esquerda
+            onDismissed: (direction) {
+              // Disparar evento de exclusão no Bloc
+              context.read<WaterBloc>().add(DeleteWaterIntake(entry));
+
+              // Exibir mensagem de exclusão
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Entrada de ${entry.amount} ml removida!'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            },
+            background: Container(
+              color: Colors.red,
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 16),
+              child: const Icon(Icons.delete, color: Colors.white),
+            ),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+                borderRadius: BorderRadius.circular(12),
               ),
-            );
-          },
-          background: Container(
-            color: Colors.red,
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(right: 16),
-            child: const Icon(Icons.delete, color: Colors.white),
-          ),
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.grey[900],
-              borderRadius: BorderRadius.circular(12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.local_drink, color: Colors.blue),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${entry.amount} ml',
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    entry.time,
+                    style: const TextStyle(color: Colors.grey, fontSize: 14),
+                  ),
+                ],
+              ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.local_drink, color: Colors.blue),
-                    const SizedBox(width: 8),
-                    Text(
-                      '${entry.amount} ml',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ],
-                ),
-                Text(
-                  entry.time,
-                  style: const TextStyle(color: Colors.grey, fontSize: 14),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    ),
-  );
-}
+          );
+        },
+      ),
+    );
+  }
 
   /// 🎯 **Meta Diária**
   Widget _buildTargetCard(int target) {
@@ -216,7 +236,8 @@ Widget _buildWaterProgress(int intake, double progress) {
           ),
           Text(
             '$target ml',
-            style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -233,7 +254,8 @@ Widget _buildWaterProgress(int intake, double progress) {
       builder: (context) {
         return AlertDialog(
           backgroundColor: Colors.grey[900],
-          title: const Text('Adicionar Água', style: TextStyle(color: Colors.white)),
+          title: const Text('Adicionar Água',
+              style: TextStyle(color: Colors.white)),
           content: Form(
             key: formKey,
             child: TextFormField(
@@ -266,7 +288,8 @@ Widget _buildWaterProgress(int intake, double progress) {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancelar', style: TextStyle(color: Colors.grey)),
+              child:
+                  const Text('Cancelar', style: TextStyle(color: Colors.grey)),
             ),
             ElevatedButton(
               onPressed: () {

@@ -161,7 +161,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             backgroundColor: Colors.orange,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(BeShapeSizes.borderRadiusMedium),
                             ),
                           ),
                           child: state.isProfileSaved
@@ -171,6 +171,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
+                                    color: BeShapeColors.background
                                   ),
                                 ),
                         ),

@@ -39,201 +39,205 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Navigator.pushReplacementNamed(context, '/onboarding');
             }
           },
-          child: SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 32),
-                      const Text(
-                        'Create Account',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: BeShapeColors.primary
+          child: Center(
+            child: SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 32),
+                        const Text(
+                          'Create Account',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: BeShapeColors.primary
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 32),
-                      TextFormField(
-                        style: TextStyle(color: BeShapeColors.backgroundLight),
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          hintStyle: const TextStyle(color: Colors.white),
-                          labelStyle: const TextStyle(color: BeShapeColors.primary),
-                          filled: true,
-                          fillColor: Colors.grey[850],
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                BeShapeSizes.borderRadiusMedium),
-                            borderSide: const BorderSide(
-                                color: BeShapeColors.primary, width: 2),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                BeShapeSizes.borderRadiusMedium),
-                            borderSide: BorderSide.none,
-                          ),
-                          labelText: 'Email',
-                          prefixIcon: const Icon(
-                            Icons.email,
-                            color: BeShapeColors.primary,
-                          ),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          if (!value.contains('@') || !value.contains('.')) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          labelStyle: const TextStyle(color: BeShapeColors.primary),
-                          filled: true,
-                          fillColor: Colors.grey[850],
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                BeShapeSizes.borderRadiusMedium),
-                            borderSide: const BorderSide(
-                                color: BeShapeColors.primary, width: 2),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                BeShapeSizes.borderRadiusMedium),
-                            borderSide: BorderSide.none,
-                          ),
-                          labelText: 'Password',
-                          prefixIcon: const Icon(
-                            Icons.lock,
-                            color: BeShapeColors.primary,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                        const SizedBox(height: 32),
+                        TextFormField(
+                          style: TextStyle(color: BeShapeColors.backgroundLight),
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            hintStyle: const TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: BeShapeColors.primary),
+                            filled: true,
+                            fillColor: Colors.grey[850],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  BeShapeSizes.borderRadiusMedium),
+                              borderSide: const BorderSide(
+                                  color: BeShapeColors.primary, width: 2),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  BeShapeSizes.borderRadiusMedium),
+                              borderSide: BorderSide.none,
+                            ),
+                            labelText: 'Email',
+                            prefixIcon: const Icon(
+                              Icons.email,
                               color: BeShapeColors.primary,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
-                            },
                           ),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            if (!value.contains('@') || !value.contains('.')) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
                         ),
-                        obscureText: _obscurePassword,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a password';
-                          }
-                          if (value.length < 6) {
-                            return 'Password must be at least 6 characters';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _confirmPasswordController,
-                        decoration: InputDecoration(
-                          labelText: 'Confirm Password',
-                          labelStyle: const TextStyle(color: BeShapeColors.primary),
-                          filled: true,
-                          fillColor: Colors.grey[850],
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                BeShapeSizes.borderRadiusMedium),
-                            borderSide: const BorderSide(
-                                color: BeShapeColors.primary, width: 2),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                BeShapeSizes.borderRadiusMedium),
-                            borderSide: BorderSide.none,
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.lock,
-                            color: BeShapeColors.primary,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscureConfirmPassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          style: TextStyle(color: BeShapeColors.backgroundLight),
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            labelStyle: const TextStyle(color: BeShapeColors.primary),
+                            filled: true,
+                            fillColor: Colors.grey[850],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  BeShapeSizes.borderRadiusMedium),
+                              borderSide: const BorderSide(
+                                  color: BeShapeColors.primary, width: 2),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  BeShapeSizes.borderRadiusMedium),
+                              borderSide: BorderSide.none,
+                            ),
+                            labelText: 'Password',
+                            prefixIcon: const Icon(
+                              Icons.lock,
                               color: BeShapeColors.primary,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                _obscureConfirmPassword = !_obscureConfirmPassword;
-                              });
-                            },
-                          ),
-                        ),
-                        obscureText: _obscureConfirmPassword,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please confirm your password';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Passwords do not match';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 24),
-                      BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, state) {
-                          return ElevatedButton(
-                            onPressed: state.isLoading ? null : _handleSignUp,
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: BeShapeColors.primary,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: BeShapeSizes.borderRadiusMedium),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      BeShapeSizes.borderRadiusMedium),
-                                ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: BeShapeColors.primary,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
                             ),
-                            child: state.isLoading
-                                ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  )
-                                : const Text('Sign Up',style: TextStyle(color: BeShapeColors.textPrimary),),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Already have an account? ',style: TextStyle(color: BeShapeColors.textPrimary),),
-                          TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/login');
-                        },
-                        child:  const Text('Login',
-                        style: TextStyle(color:BeShapeColors.primary, decoration: TextDecoration.underline, decorationColor: BeShapeColors.primary),),
-                      ),
-                        ],
-                      ),
-                      
-                    ],
+                          ),
+                          obscureText: _obscurePassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a password';
+                            }
+                            if (value.length < 6) {
+                              return 'Password must be at least 6 characters';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          style: TextStyle(color: BeShapeColors.backgroundLight),
+                          controller: _confirmPasswordController,
+                          decoration: InputDecoration(
+                            labelText: 'Confirm Password',
+                            labelStyle: const TextStyle(color: BeShapeColors.primary),
+                            filled: true,
+                            fillColor: Colors.grey[850],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  BeShapeSizes.borderRadiusMedium),
+                              borderSide: const BorderSide(
+                                  color: BeShapeColors.primary, width: 2),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  BeShapeSizes.borderRadiusMedium),
+                              borderSide: BorderSide.none,
+                            ),
+                            prefixIcon: const Icon(
+                              Icons.lock,
+                              color: BeShapeColors.primary,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscureConfirmPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: BeShapeColors.primary,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscureConfirmPassword = !_obscureConfirmPassword;
+                                });
+                              },
+                            ),
+                          ),
+                          obscureText: _obscureConfirmPassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please confirm your password';
+                            }
+                            if (value != _passwordController.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 24),
+                        BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                            return ElevatedButton(
+                              onPressed: state.isLoading ? null : _handleSignUp,
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: BeShapeColors.primary,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: BeShapeSizes.borderRadiusMedium),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        BeShapeSizes.borderRadiusMedium),
+                                  ),
+                              ),
+                              child: state.isLoading
+                                  ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Text('Sign Up',style: TextStyle(color: BeShapeColors.textPrimary),),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Already have an account? ',style: TextStyle(color: BeShapeColors.textPrimary),),
+                            TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, '/login');
+                          },
+                          child:  const Text('Login',
+                          style: TextStyle(color:BeShapeColors.primary, decoration: TextDecoration.underline, decorationColor: BeShapeColors.primary),),
+                        ),
+                          ],
+                        ),
+                        
+                      ],
+                    ),
                   ),
                 ),
               ),
