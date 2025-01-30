@@ -34,10 +34,6 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) =>  SplashScreen(),
         );
-      case initial:
-        return MaterialPageRoute(
-          builder: (_) => const LoginScreen(),
-        );
       case login:
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
