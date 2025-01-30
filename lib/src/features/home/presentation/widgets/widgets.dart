@@ -4,3 +4,7 @@ export './drawer_edit_itens_card.dart';
 export './drawer.dart';
 export './date_widget.dart';
 export './custom_title.dart';
+export 'water_reminder_card.dart';
+export './daily_habits_section.dart';
+export './emotion_bar_chart.dart';
+export './emotion_bar.dart';

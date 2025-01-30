@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../features.dart';
 import '../../../../core/core.dart';
@@ -59,8 +60,8 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
               builder: (context, state) {
                 if (state.isLoading) {
                   return const Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(BeShapeColors.primary),
+                    child: SpinKitThreeBounce(
+                     color: BeShapeColors.primary,
                     ),
                   );
                 }

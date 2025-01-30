@@ -7,10 +7,14 @@ import '../../../features.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
+  final UserRepository _userRepository;
   late final StreamSubscription<dynamic> _authStateSubscription;
 
-  AuthBloc({required AuthRepository authRepository})
+  AuthBloc({
+    required AuthRepository authRepository,
+    required UserRepository userRepository,})
       : _authRepository = authRepository,
+        _userRepository = userRepository,
         super(const AuthState()) {
     on<SignUpRequested>(_onSignUpRequested);
     on<SignInRequested>(_onSignInRequested);
@@ -23,20 +27,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (user) => add(AuthStateChanged(user != null)),
     );
   }
-
-  Future<void> _onSignUpRequested(
+Future<void> _onSignUpRequested(
     SignUpRequested event,
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(isLoading: true, error: null));
     try {
-      await _authRepository.signUp(event.email, event.password);
+      final userCredential = await _authRepository.signUp(event.email, event.password);
+
+      // Crie o perfil do usuário com o nome fornecido
+      final userId = userCredential.user?.uid;
+      if (userId != null) {
+        final userProfile = UserProfile(
+          id: userId,
+          name: event.name,
+          age: 0,
+          gender: 'Not Specified',
+          height: 0.0,
+          weight: 0.0,
+          targetWeight: 0.0,
+          goal: '',
+          measurements: {},
+        );
+        // Use o UserRepository para salvar o perfil
+        await _userRepository.saveUserProfile(userProfile);
+      }
+
       emit(state.copyWith(isLoading: false));
     } catch (e) {
       emit(state.copyWith(isLoading: false, error: e.toString()));
     }
   }
-
   Future<void> _onSignInRequested(
     SignInRequested event,
     Emitter<AuthState> emit,

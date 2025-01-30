@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
@@ -248,6 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SignInRequested(
               _emailController.text,
               _passwordController.text,
+              _nameController.text,
             ),
           );
     }

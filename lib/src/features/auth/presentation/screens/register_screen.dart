@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../core/core.dart';
 import '../../../features.dart';
@@ -13,6 +14,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -23,7 +25,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage( BeShapeImages.signUpBackground),fit: BoxFit.cover)
+        image: DecorationImage(
+          image: AssetImage(BeShapeImages.signUpBackground),
+          fit: BoxFit.cover,
+        ),
       ),
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -56,17 +61,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: BeShapeColors.primary
+                            color: BeShapeColors.primary,
                           ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 32),
+                        // Campo para inserir o nome
                         TextFormField(
-                          style: TextStyle(color: BeShapeColors.backgroundLight),
-                          controller: _emailController,
+                          style: const TextStyle(color: Colors.white),
+                          controller: _nameController,
                           decoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white),
-                            labelStyle: const TextStyle(color: BeShapeColors.primary),
+                            labelText: 'Full Name',
+                            labelStyle:
+                                const TextStyle(color: BeShapeColors.primary),
                             filled: true,
                             fillColor: Colors.grey[850],
                             focusedBorder: OutlineInputBorder(
@@ -80,7 +87,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   BeShapeSizes.borderRadiusMedium),
                               borderSide: BorderSide.none,
                             ),
+                            prefixIcon: const Icon(
+                              Icons.person,
+                              color: BeShapeColors.primary,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your full name';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        // Campo para inserir o email
+                        TextFormField(
+                          style: const TextStyle(color: Colors.white),
+                          controller: _emailController,
+                          decoration: InputDecoration(
                             labelText: 'Email',
+                            labelStyle:
+                                const TextStyle(color: BeShapeColors.primary),
+                            filled: true,
+                            fillColor: Colors.grey[850],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  BeShapeSizes.borderRadiusMedium),
+                              borderSide: const BorderSide(
+                                  color: BeShapeColors.primary, width: 2),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  BeShapeSizes.borderRadiusMedium),
+                              borderSide: BorderSide.none,
+                            ),
                             prefixIcon: const Icon(
                               Icons.email,
                               color: BeShapeColors.primary,
@@ -98,11 +138,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                         ),
                         const SizedBox(height: 16),
+                        // Campo para senha
                         TextFormField(
-                          style: TextStyle(color: BeShapeColors.backgroundLight),
+                          style: const TextStyle(color: Colors.white),
                           controller: _passwordController,
                           decoration: InputDecoration(
-                            labelStyle: const TextStyle(color: BeShapeColors.primary),
+                            labelText: 'Password',
+                            labelStyle:
+                                const TextStyle(color: BeShapeColors.primary),
                             filled: true,
                             fillColor: Colors.grey[850],
                             focusedBorder: OutlineInputBorder(
@@ -116,7 +159,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   BeShapeSizes.borderRadiusMedium),
                               borderSide: BorderSide.none,
                             ),
-                            labelText: 'Password',
                             prefixIcon: const Icon(
                               Icons.lock,
                               color: BeShapeColors.primary,
@@ -147,12 +189,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                         ),
                         const SizedBox(height: 16),
+                        // Campo para confirmar senha
                         TextFormField(
-                          style: TextStyle(color: BeShapeColors.backgroundLight),
+                          style: const TextStyle(color: Colors.white),
                           controller: _confirmPasswordController,
                           decoration: InputDecoration(
                             labelText: 'Confirm Password',
-                            labelStyle: const TextStyle(color: BeShapeColors.primary),
+                            labelStyle:
+                                const TextStyle(color: BeShapeColors.primary),
                             filled: true,
                             fillColor: Colors.grey[850],
                             focusedBorder: OutlineInputBorder(
@@ -179,7 +223,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  _obscureConfirmPassword = !_obscureConfirmPassword;
+                                  _obscureConfirmPassword =
+                                      !_obscureConfirmPassword;
                                 });
                               },
                             ),
@@ -201,41 +246,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return ElevatedButton(
                               onPressed: state.isLoading ? null : _handleSignUp,
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: BeShapeColors.primary,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: BeShapeSizes.borderRadiusMedium),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        BeShapeSizes.borderRadiusMedium),
-                                  ),
+                                backgroundColor: BeShapeColors.primary,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: BeShapeSizes.borderRadiusMedium),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      BeShapeSizes.borderRadiusMedium),
+                                ),
                               ),
                               child: state.isLoading
-                                  ? const SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ),
+                                  ? SpinKitThreeBounce(
+                                      size: 20,
+                                      color: BeShapeColors.primary,
                                     )
-                                  : const Text('Sign Up',style: TextStyle(color: BeShapeColors.textPrimary),),
+                                  : const Text(
+                                      'Sign Up',
+                                      style: TextStyle(
+                                          color: BeShapeColors.textPrimary),
+                                    ),
                             );
                           },
                         ),
                         const SizedBox(height: 16),
-                         Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('Already have an account? ',style: TextStyle(color: BeShapeColors.textPrimary),),
+                            const Text(
+                              'Already have an account? ',
+                              style:
+                                  TextStyle(color: BeShapeColors.textPrimary),
+                            ),
                             TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(context, '/login');
-                          },
-                          child:  const Text('Login',
-                          style: TextStyle(color:BeShapeColors.primary, decoration: TextDecoration.underline, decorationColor: BeShapeColors.primary),),
-                        ),
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, '/login');
+                              },
+                              child: const Text(
+                                'Login',
+                                style: TextStyle(
+                                  color: BeShapeColors.primary,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: BeShapeColors.primary,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                        
                       ],
                     ),
                   ),
@@ -254,6 +310,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SignUpRequested(
               _emailController.text,
               _passwordController.text,
+              _nameController.text,
             ),
           );
     }
@@ -261,6 +318,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();

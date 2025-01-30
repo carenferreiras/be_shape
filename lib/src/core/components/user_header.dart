@@ -24,7 +24,7 @@ class UserHeader extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 12),
                 child: Text(
-                  'Hello, ${userProfile.name}!',
+                  'Olá, ${userProfile.name}!',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -98,12 +98,14 @@ class UserHeader extends StatelessWidget {
             ],
           ),
           Card(
-            color: BeShapeColors.primary.withOpacity(0.2),
-            child: const IconButton(onPressed: null, icon: Icon(
-              Icons.person,
-              color: BeShapeColors.primary,
-            ),)
-          ),
+              color: BeShapeColors.primary.withOpacity(0.2),
+              child: IconButton(
+                onPressed: () => Navigator.pushNamed(context, '/profile'),
+                icon: Icon(
+                  Icons.person,
+                  color: BeShapeColors.primary,
+                ),
+              )),
         ],
       ),
     );

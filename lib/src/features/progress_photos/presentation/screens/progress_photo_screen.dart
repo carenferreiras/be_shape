@@ -1,6 +1,7 @@
 import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 import '../../../features.dart';
@@ -85,8 +86,8 @@ class _ProgressPhotosScreenState extends State<ProgressPhotosScreen> with Single
         child: BlocBuilder<ProgressPhotoBloc, ProgressPhotoState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(BeShapeColors.primary),
+              return const Center(child: SpinKitThreeBounce(
+                color: BeShapeColors.primary,
               ));
             }
 

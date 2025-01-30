@@ -25,8 +25,8 @@ class AppRouter {
   static const String healthPage = '/health-page';
   static const String chatScreen = '/chat-screen';
   static const String habit = '/habits';
-  static const String waterTracker =
-      '/water-tracker'; // 📌 Nova Rota Adicionada
+  static const String waterTracker ='/water-tracker'; 
+  static const String profile = '/profile';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -99,6 +99,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ExerciseListScreen(),
         );
+      case profile:
+        return MaterialPageRoute(builder: (_)=> const UserProfileScreen());
       case healthPage:
         return MaterialPageRoute(builder: (_) => const HealthPage());
       case chatScreen:

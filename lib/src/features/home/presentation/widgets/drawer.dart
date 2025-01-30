@@ -28,6 +28,7 @@ class BeShapeDrawer extends StatelessWidget {
               children: [
                 // Header
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Image.asset(
                       BeShapeImages.beShape,
@@ -49,7 +50,7 @@ class BeShapeDrawer extends StatelessWidget {
                       subtitle: 'View Profile',
                       iconColor: Colors.blue,
                       onTap: () {
-                        // Navigate to profile
+                        Navigator.pushNamed(context, '/profile');
                       },
                     ),
                   ],

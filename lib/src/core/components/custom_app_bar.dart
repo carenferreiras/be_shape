@@ -6,12 +6,14 @@ class BeShapeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final IconData? actionIcon;
   final bool hasLeading;
   final void Function()? actionIconPressed;
+  final Color? appBarColor;
   const BeShapeAppBar(
       {super.key,
       this.title,
       this.actionIcon,
       this.actionIconPressed,
-      this.hasLeading = true});
+      this.hasLeading = true,
+      this.appBarColor});
 
   @override
   PreferredSizeWidget build(BuildContext context) {
@@ -46,7 +48,7 @@ class BeShapeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ): const SizedBox.shrink(),
-      backgroundColor: Colors.black,
+      backgroundColor: appBarColor?? Colors.black,
       elevation: 0,
     );
   }

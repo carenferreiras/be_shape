@@ -67,7 +67,6 @@ class WaterRepositoryImpl implements WaterRepository {
   
   @override
   Future<void> removeWaterEntry(WaterEntry entry) {
-    // TODO: implement removeWaterEntry
     throw UnimplementedError();
   }
 

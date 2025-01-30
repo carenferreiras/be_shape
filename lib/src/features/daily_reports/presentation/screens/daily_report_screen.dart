@@ -2,8 +2,10 @@
 
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 import '../../../features.dart';
@@ -70,14 +72,9 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                   ),
                 ),
                 child: _isSaving
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      )
+                    ?  SpinKitThreeBounce(
+                      color: BeShapeColors.primary,
+                    )
                     : const Text(
                         'Save Report',
                         style: TextStyle(

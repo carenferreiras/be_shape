@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -424,14 +425,9 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
                   ),
                 ),
                 child: _isSubmitting
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      )
+                    ?  SpinKitThreeBounce(
+                    color: BeShapeColors.primary,
+                    size: 20,)
                     : const Text(
                         'Save Progress',
                         style: TextStyle(

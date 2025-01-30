@@ -1,3 +1,5 @@
+import '../../auth.dart';
+
 class UserProfile {
   final String id;
   final String name;
@@ -12,6 +14,7 @@ class UserProfile {
   final double tdee;
   final double activityLevel;
   final MacroTargets macroTargets;
+  final String? profileImageUrl; 
 
   UserProfile({
     required this.id,
@@ -26,6 +29,7 @@ class UserProfile {
     this.bmr = 0.0,
     this.tdee = 0.0,
     this.activityLevel = 1.2,
+    this.profileImageUrl,
     MacroTargets? macroTargets,
   }) : macroTargets = macroTargets ?? MacroTargets.fromTDEE(tdee, weight);
 
@@ -48,6 +52,7 @@ class UserProfile {
       macroTargets: json['macroTargets'] != null
           ? MacroTargets.fromJson(json['macroTargets'] as Map<String, dynamic>)
           : null,
+      profileImageUrl: json['profileImageUrl'] as String?,
     );
   }
 
@@ -66,6 +71,7 @@ class UserProfile {
       'tdee': tdee,
       'activityLevel': activityLevel,
       'macroTargets': macroTargets.toJson(),
+      'profileImageUrl': profileImageUrl,
     };
   }
 
@@ -83,6 +89,7 @@ class UserProfile {
     double? tdee,
     double? activityLevel,
     MacroTargets? macroTargets,
+    String? profileImageUrl,
   }) {
     return UserProfile(
       id: id ?? this.id,
@@ -98,59 +105,8 @@ class UserProfile {
       tdee: tdee ?? this.tdee,
       activityLevel: activityLevel ?? this.activityLevel,
       macroTargets: macroTargets ?? this.macroTargets,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
     );
   }
 }
 
-class MacroTargets {
-  final double proteins;
-  final double carbs;
-  final double fats;
-
-  const MacroTargets({
-    required this.proteins,
-    required this.carbs,
-    required this.fats,
-  });
-
-  factory MacroTargets.fromTDEE(double tdee, double weight) {
-    // Calculate macro targets based on TDEE and weight
-    final proteins = weight * 2.2; // 2.2g per kg of body weight
-    final fats = (tdee * 0.25) / 9; // 25% of calories from fats
-    final carbs = (tdee * 0.45) / 4; // 45% of calories from carbs
-
-    return MacroTargets(
-      proteins: proteins,
-      carbs: carbs,
-      fats: fats,
-    );
-  }
-
-  factory MacroTargets.fromJson(Map<String, dynamic> json) {
-    return MacroTargets(
-      proteins: json['proteins'] as double,
-      carbs: json['carbs'] as double,
-      fats: json['fats'] as double,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'proteins': proteins,
-      'carbs': carbs,
-      'fats': fats,
-    };
-  }
-
-  MacroTargets copyWith({
-    double? proteins,
-    double? carbs,
-    double? fats,
-  }) {
-    return MacroTargets(
-      proteins: proteins ?? this.proteins,
-      carbs: carbs ?? this.carbs,
-      fats: fats ?? this.fats,
-    );
-  }
-}

@@ -70,6 +70,9 @@ class BeShapeNavigatorBar extends StatelessWidget {
             case 2:
               Navigator.pushNamed(context, '/daily-tracking');
               break;
+            case 3:
+              Navigator.pushNamed(context, '/profile');
+              break;
           }
         },
       ),

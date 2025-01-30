@@ -18,7 +18,7 @@ class ActivityChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Activities',
+                'Atividades',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -48,7 +48,7 @@ class ActivityChart extends StatelessWidget {
                     isSelected: false,
                   ),
                   _DaySelector(
-                    day: 'All',
+                    day: 'Todos',
                     isSelected: false,
                   ),
                 ],

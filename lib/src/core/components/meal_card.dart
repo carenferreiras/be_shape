@@ -47,24 +47,6 @@ class MealCard extends StatelessWidget {
           child: Column(
             children: [
              
-              // Header Section
-              // Container(
-              //   padding: const EdgeInsets.all(20),
-              //   decoration: BoxDecoration(
-              //     gradient: LinearGradient(
-              //       begin: Alignment.topLeft,
-              //       end: Alignment.bottomRight,
-              //       colors: [
-              //         BeShapeColors.primary.withOpacity(0.2),
-              //         BeShapeColors.background.withOpacity(0.3),
-              //       ],
-              //     ),
-              //     borderRadius: const BorderRadius.vertical(
-              //       top: Radius.circular(24),
-              //     ),
-              //   ),
-                
-              // ),
               // Macros Progress Section
               Padding(
                 padding: const EdgeInsets.all(20),

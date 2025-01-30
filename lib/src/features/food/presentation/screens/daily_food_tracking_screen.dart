@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../core/core.dart';
 import '../../../features.dart';
 
@@ -203,11 +204,9 @@ class _DailyFoodTrackingScreenState extends State<DailyFoodTrackingScreen> {
               .getUserProfile(context.read<AuthRepository>().currentUser!.uid),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(BeShapeColors.primary),
-              ));
+              return Center(
+                child: SpinKitThreeBounce(color: BeShapeColors.primary),
+              );
             }
 
             final userProfile = snapshot.data!;
@@ -217,11 +216,9 @@ class _DailyFoodTrackingScreenState extends State<DailyFoodTrackingScreen> {
               return BlocBuilder<ExerciseBloc, ExerciseState>(
                 builder: (context, exerciseState) {
                   if (state.isLoading) {
-                    return const Center(
-                        child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(BeShapeColors.primary),
-                    ));
+                    return Center(
+                      child: SpinKitThreeBounce(color: BeShapeColors.primary),
+                    );
                   }
 
                   // Filter meals by selected date

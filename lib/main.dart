@@ -64,6 +64,7 @@ void main() async {
           BlocProvider(
             create: (context) => AuthBloc(
               authRepository: context.read<AuthRepository>(),
+              userRepository: context.read<UserRepository>(),
             ),
           ),
           BlocProvider(
