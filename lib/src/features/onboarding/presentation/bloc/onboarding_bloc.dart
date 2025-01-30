@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../features.dart';
 
@@ -21,6 +23,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     on<UpdateActivityLevel>(_onUpdateActivityLevel);
     on<UpdateName>(_onUpdateName);
     on<SaveUserProfile>(_onSaveUserProfile);
+    _loadInitialUserData();
   }
 
   void _onUpdateGoal(UpdateGoal event, Emitter<OnboardingState> emit) {
@@ -103,7 +106,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
       // Create user profile
       final userProfile = UserProfile(
         id: userId,
-        name: state.name ?? 'User', // Default name if not provided
+        name: state.name ?? _authRepository.currentUser?.displayName ?? 'User', // 🔥 Usa o nome do Auth se não houver outro
         age: state.age!,
         gender: state.selectedGender!,
         height: state.height!,
@@ -143,4 +146,16 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     }
     return null;
   }
+  Future<void> _loadInitialUserData() async {
+  final user = _authRepository.currentUser;
+  if (user != null) {
+    // Busca o perfil do usuário no banco de dados
+    final userProfile = await _userRepository.getUserProfile(user.uid);
+
+    // 🔥 Só atualiza se o perfil já existir (para não pular o onboarding)
+    if (userProfile != null && userProfile.name.isNotEmpty) {
+      emit(state.copyWith(name: userProfile.name));
+    }
+  }
+}
 }

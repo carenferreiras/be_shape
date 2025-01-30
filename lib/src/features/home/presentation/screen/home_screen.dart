@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadUserWaterTarget();
   }
 
+
   void _loadTodayData() {
     final userId = context.read<AuthRepository>().currentUser?.uid;
     if (userId != null) {
