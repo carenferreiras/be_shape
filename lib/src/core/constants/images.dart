@@ -16,5 +16,6 @@ class BeShapeImages{
   static const strength = '$_PATH/strength.png';
   static const signUpBackground = '$_PATH/sign_up_background.png';
   static const profileBackground = '$_PATH/profile_background.png';
+  static const splashBackground = '$_PATH/splash_background.png';
 
 }

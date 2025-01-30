@@ -34,12 +34,6 @@ class ProfileHeader extends StatelessWidget {
                   
                 ),
               ),
-              // CircleAvatar(
-              //   radius: 50,
-              //   backgroundImage: image != null
-              //       ? NetworkImage(image!)
-              //       : const AssetImage(BeShapeImages.beShape) as ImageProvider,
-              // ),
                Container(
                decoration: BoxDecoration(
                 color: BeShapeColors.primary,
@@ -54,10 +48,13 @@ class ProfileHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        Text(
-          userProfile!.name,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: BeShapeSizes.paddingMedium),
+          child: Text(
+            userProfile!.name,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis),
+          ),
         ),
         const SizedBox(height: 4),
         Text(

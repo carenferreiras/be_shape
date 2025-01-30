@@ -153,25 +153,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 userProfile: _userProfile,),
               const SizedBox(height: 24),
               // _buildMacroTargets(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  BuildCard(
-                      icon: Icons.fitness_center,
-                      boldTitle: macros.proteins.round().toString(),
-                      title: 'Proteínas',
-                      color: Colors.blue),
-                  BuildCard(
-                      icon: Icons.grain,
-                      boldTitle: macros.carbs.round().toString(),
-                      title: 'Carboidratos',
-                      color: Colors.green),
-                  BuildCard(
-                      icon: Icons.opacity,
-                      boldTitle: macros.carbs.round().toString(),
-                      title: 'Gordura',
-                      color: BeShapeColors.primary)
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BuildCard(
+                        icon: Icons.fitness_center,
+                        boldTitle: macros.proteins.round().toString(),
+                        title: 'Proteínas',
+                        color: Colors.blue),
+                    BuildCard(
+                        icon: Icons.grain,
+                        boldTitle: macros.carbs.round().toString(),
+                        title: 'Carboidratos',
+                        color: Colors.green),
+                    BuildCard(
+                        icon: Icons.opacity,
+                        boldTitle: macros.carbs.round().toString(),
+                        title: 'Gordura',
+                        color: BeShapeColors.primary)
+                  ],
+                ),
               ),
             ],
           ),

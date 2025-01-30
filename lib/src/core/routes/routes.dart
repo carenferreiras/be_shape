@@ -32,6 +32,10 @@ class AppRouter {
     switch (settings.name) {
       case initial:
         return MaterialPageRoute(
+          builder: (_) =>  SplashScreen(),
+        );
+      case initial:
+        return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
         );
       case login:

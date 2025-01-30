@@ -174,6 +174,7 @@ class BeShapeDrawer extends StatelessWidget {
             color: titleColor,
             fontSize: 13,
             fontWeight: FontWeight.w600,
+            overflow: TextOverflow.ellipsis
           ),
         ),
         const SizedBox(height: 12),
