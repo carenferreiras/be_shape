@@ -18,8 +18,8 @@ class BuildCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Container(
-        height: 120,
-        width: 120,
+        height: 100,
+        width: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: color.withOpacity(0.2),
@@ -33,7 +33,7 @@ class BuildCard extends StatelessWidget {
                 Icon(
                   icon,
                   color: color,
-                  size: 30,
+                  size: 25,
                 ),
                 SizedBox(
                   height: 4,
@@ -44,7 +44,7 @@ class BuildCard extends StatelessWidget {
                     Text(
                       boldTitle,
                       style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
                     ),
@@ -53,7 +53,7 @@ class BuildCard extends StatelessWidget {
                     ),
                     Text(
                       'g',
-                      style: TextStyle(fontSize: 15, color: Colors.white),
+                      style: TextStyle(fontSize: 10, color: Colors.white),
                     ),
                   ],
                 ),

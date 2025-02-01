@@ -35,7 +35,7 @@ class FitnessMetrics extends StatelessWidget {
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                   color: BeShapeColors.primary.withOpacity(0.2),
-                  width: 1,
+                  width: 2,
                 ),
               ),
               child: Column(

@@ -158,6 +158,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
       context.read<SavedFoodBloc>().add(SearchSavedFoods(query));
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {

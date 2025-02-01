@@ -41,33 +41,33 @@ class UserHeader extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 8),
                 child: Row(
                   children: [
-                    // Container(
-                    //   padding: const EdgeInsets.symmetric(
-                    //     horizontal: 8,
-                    //     vertical: 4,
-                    //   ),
-                    //   decoration: BoxDecoration(
-                    //     color: BeShapeColors.primary.withOpacity(0.2),
-                    //     borderRadius: BorderRadius.circular(12),
-                    //   ),
-                    //   child: const Row(
-                    //     children: [
-                    //       Icon(
-                    //         Icons.favorite,
-                    //         size: 16,
-                    //         color: BeShapeColors.primary,
-                    //       ),
-                    //       SizedBox(width: 4),
-                    //       Text(
-                    //         '88% Healthy',
-                    //         style: TextStyle(
-                    //           color: BeShapeColors.primary,
-                    //           fontWeight: FontWeight.w500,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: BeShapeColors.primary.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.production_quantity_limits_outlined,
+                            size: 16,
+                            color: BeShapeColors.primary,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            'Free',
+                            style: TextStyle(
+                              color: BeShapeColors.primary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(

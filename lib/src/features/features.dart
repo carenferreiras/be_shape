@@ -11,3 +11,4 @@ export './chat/chat.dart';
 export './habit/habit.dart';
 export './water/water.dart';
 export './profile/profile.dart';
+export './suggestions/suggestions.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,12 +17,15 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  double? _initialTDEE;
+  MacroTargets? _initialMacroTargets;
   UserProfile? _userProfile;
   bool _isEditing = false;
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _targetWeightController = TextEditingController();
-  final TextEditingController _goalController = TextEditingController();
-  String? _profileImageUrl; // URL da imagem de perfil
+
+  String? _selectedGoal;
+  String? _profileImageUrl;
 
   @override
   void initState() {
@@ -29,22 +34,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Future<void> _loadUserProfile() async {
-    final userId = context.read<AuthRepository>().currentUser?.uid;
-    if (userId != null) {
-      final profile =
-          await context.read<UserRepository>().getUserProfile(userId);
-      if (profile != null) {
-        setState(() {
-          _userProfile = profile;
-          _profileImageUrl = profile.measurements["profileImageUrl"]
-              as String?; // URL da imagem
-          _weightController.text = profile.weight.toString();
-          _targetWeightController.text = profile.targetWeight.toString();
-          _goalController.text = profile.goal;
-        });
-      }
+  final userId = context.read<AuthRepository>().currentUser?.uid;
+  if (userId != null) {
+    final profile = await context.read<UserRepository>().getUserProfile(userId);
+    if (profile != null) {
+      setState(() {
+        _userProfile = profile;
+        _profileImageUrl = profile.profileImageUrl;
+        _weightController.text = profile.weight.toString();
+        _targetWeightController.text = profile.targetWeight.toString();
+        _selectedGoal = profile.goal;
+
+        // 🔹 Salva os valores iniciais na primeira vez
+        _initialTDEE ??= profile.tdee;
+        _initialMacroTargets ??= profile.macroTargets;
+      });
     }
   }
+}
 
   Future<void> _updateProfileImage() async {
     final userId = context.read<AuthRepository>().currentUser?.uid;
@@ -99,7 +106,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         weight: double.tryParse(_weightController.text) ?? _userProfile!.weight,
         targetWeight: double.tryParse(_targetWeightController.text) ??
             _userProfile!.targetWeight,
-        goal: _goalController.text,
+        goal: _selectedGoal ?? _userProfile!.goal,
       );
 
       await context.read<UserRepository>().updateUserProfile(updatedProfile);
@@ -109,6 +116,44 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       });
     }
   }
+
+  void _onGoalChanged(String? newGoal) {
+  if (newGoal == null || _userProfile == null) return;
+
+  setState(() {
+    _selectedGoal = newGoal;
+
+    double adjustedTDEE;
+    MacroTargets updatedMacroTargets;
+
+    switch (newGoal) {
+      case 'lose_weight':
+        adjustedTDEE = _initialTDEE! - 500; // Déficit para perda de peso
+        break;
+      case 'bulk':
+        adjustedTDEE = _initialTDEE! + 500; // Superávit para ganho de massa
+        break;
+      case 'endurance':
+        adjustedTDEE = _initialTDEE!; // Mantém o TDEE original
+        break;
+      case 'try_out': // 🔹 Se escolher "continuar normalmente", volta aos valores iniciais
+      case 'ai_coach':
+      default:
+        adjustedTDEE = _initialTDEE!;
+    }
+
+    // 🔹 Se for "continuar normalmente", volta aos valores iniciais de macro
+    updatedMacroTargets = (newGoal == 'try_out' || newGoal == 'ai_coach')
+        ? _initialMacroTargets!
+        : MacroTargets.fromTDEE(adjustedTDEE, _userProfile!.weight);
+
+    _userProfile = _userProfile!.copyWith(
+      goal: newGoal,
+      tdee: adjustedTDEE,
+      macroTargets: updatedMacroTargets,
+    );
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -126,19 +171,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         appBarColor: Colors.transparent,
         actionIcon: _isEditing ? Icons.check : Icons.edit,
         actionIconPressed: _isEditing ? _saveProfileChanges : _toggleEdit,
-      ),      
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(BeShapeImages.profileBackground),
-            fit: BoxFit.cover
-          ),
+              image: AssetImage(BeShapeImages.profileBackground),
+              fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              SizedBox(height: 150,),
+              SizedBox(
+                height: 150,
+              ),
               ProfileHeader(
                 onTap: _updateProfileImage,
                 image: _profileImageUrl,
@@ -146,13 +192,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               const SizedBox(height: 24),
               ProfileDetails(
-                isEditing: _isEditing, 
-                weightController: _weightController, 
+                isEditing: _isEditing,
+                weightController: _weightController,
                 targetWeightController: _targetWeightController,
-                goalController: _goalController,
-                userProfile: _userProfile,),
+                goalDropdown: _buildGoalDropdown(),
+                userProfile: _userProfile!,
+              ),
               const SizedBox(height: 24),
-              // _buildMacroTargets(),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -160,17 +206,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   children: [
                     BuildCard(
                         icon: Icons.fitness_center,
-                        boldTitle: macros.proteins.round().toString(),
+                        boldTitle: _userProfile!.macroTargets.proteins.round().toString(), // 🔹 Atualizado dinamicamente
                         title: 'Proteínas',
                         color: Colors.blue),
                     BuildCard(
                         icon: Icons.grain,
-                        boldTitle: macros.carbs.round().toString(),
+                        boldTitle: _userProfile!.macroTargets.carbs.round().toString(),
                         title: 'Carboidratos',
                         color: Colors.green),
                     BuildCard(
                         icon: Icons.opacity,
-                        boldTitle: macros.carbs.round().toString(),
+                        boldTitle: _userProfile!.macroTargets.fats.round().toString(),
                         title: 'Gordura',
                         color: BeShapeColors.primary)
                   ],
@@ -180,16 +226,53 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
         ),
       ),
-       bottomNavigationBar: const BeShapeNavigatorBar(
+      bottomNavigationBar: const BeShapeNavigatorBar(
         index: 3,
       ),
     );
   }
+
+  Widget _buildGoalDropdown() {
+    List<Map<String, String>> goalOptions = [
+      {'value': 'lose_weight', 'label': 'Eu quero perder Peso'},
+      {'value': 'ai_coach', 'label': 'I wanna try AI Coach'},
+      {'value': 'bulk', 'label': 'Eu quero ganhar Massa'},
+      {'value': 'endurance', 'label': 'I wanna gain endurance'},
+      {'value': 'try_out', 'label': 'Just trying out the app! 👍'},
+    ];
+
+    return _isEditing
+        ? DropdownButtonFormField<String>(
+            value: _selectedGoal,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: BeShapeColors.primary),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+            ),
+            items: goalOptions.map((goal) {
+              return DropdownMenuItem<String>(
+                value: goal['value'],
+                child: Text(goal['label']!,
+                    style: const TextStyle(color: Colors.white)),
+              );
+            }).toList(),
+            onChanged: _onGoalChanged, // 🔹 Atualiza os valores imediatamente
+            dropdownColor: Colors.black,
+          )
+        : Text(
+            goalOptions.firstWhere((goal) => goal['value'] == _selectedGoal,
+                orElse: () => {'label': 'Not set'})['label']!,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+          );
+  }
+
   @override
   void dispose() {
     _weightController.dispose();
     _targetWeightController.dispose();
-    _goalController.dispose();
     super.dispose();
   }
 }

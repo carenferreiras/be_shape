@@ -5,84 +5,101 @@ import '../core.dart';
 import '../../features/features.dart';
 
 class MealCard extends StatelessWidget {
-  final UserProfile userProfile;
-
-  const MealCard({
-    super.key,
-    required this.userProfile,
-  });
+  const MealCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MealBloc, MealState>(
-      builder: (context, state) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, authState) {
+        final userId = context.read<AuthRepository>().currentUser?.uid;
 
-        
-        // Calculate consumed macros
-        double consumedProtein = 0;
-        double consumedCarbs = 0;
-        double consumedFat = 0;
-
-        for (final meal in state.meals) {
-          consumedProtein += meal.proteins;
-          consumedCarbs += meal.carbs;
-          consumedFat += meal.fats;
+        if (userId == null) {
+          return const Center(child: Text("Usuário não autenticado"));
         }
 
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                BeShapeColors.primary.withOpacity(0.2),
-                BeShapeColors.primary.withOpacity(0.05),
-              ],
-            ),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: BeShapeColors.primary.withOpacity(0.2),
-            ),
-          ),
-          child: Column(
-            children: [
-             
-              // Macros Progress Section
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    _buildMacroProgress(
-                      'Proteína',
-                      consumedProtein,
-                      userProfile.macroTargets.proteins,
-                      Colors.blue,
-                      Icons.fitness_center,
-                      
+        return FutureBuilder<UserProfile?>(
+          future: context.read<UserRepository>().getUserProfile(userId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                  child: CircularProgressIndicator(color: BeShapeColors.primary));
+            }
+
+            final userProfile = snapshot.data;
+            if (userProfile == null) {
+              return const Center(child: Text("Perfil do usuário não encontrado"));
+            }
+
+            return BlocBuilder<MealBloc, MealState>(
+              builder: (context, state) {
+                // 🔹 **Calcula os Macros Consumidos**
+                double consumedProtein = 0;
+                double consumedCarbs = 0;
+                double consumedFat = 0;
+
+                for (final meal in state.meals) {
+                  consumedProtein += meal.proteins;
+                  consumedCarbs += meal.carbs;
+                  consumedFat += meal.fats;
+                }
+
+                // 🔹 **Agora Pegamos os Macros Direto da Collection `user`**
+                final macroTargets = userProfile.macroTargets;
+
+                return Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        BeShapeColors.primary.withOpacity(0.2),
+                        BeShapeColors.primary.withOpacity(0.05),
+                      ],
                     ),
-                    const SizedBox(height: 20),
-                    _buildMacroProgress(
-                      'Carboidrato',
-                      consumedCarbs,
-                      userProfile.macroTargets.carbs,
-                      Colors.green,
-                      Icons.grain,
-                      
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: BeShapeColors.primary.withOpacity(0.2),
                     ),
-                    const SizedBox(height: 20),
-                    _buildMacroProgress(
-                      'Gordura',
-                      consumedFat,
-                      userProfile.macroTargets.fats,
-                      Colors.orange,
-                      Icons.opacity,
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            _buildMacroProgress(
+                              'Proteína',
+                              consumedProtein,
+                              macroTargets.proteins, // 🔹 Agora pegamos os dados reais
+                              Colors.blue,
+                              Icons.fitness_center,
+                            ),
+                            const SizedBox(height: 20),
+                            _buildMacroProgress(
+                              'Carboidrato',
+                              consumedCarbs,
+                              macroTargets.carbs, // 🔹 Agora pegamos os dados reais
+                              Colors.green,
+                              Icons.grain,
+                            ),
+                            const SizedBox(height: 20),
+                            _buildMacroProgress(
+                              'Gordura',
+                              consumedFat,
+                              macroTargets.fats, // 🔹 Agora pegamos os dados reais
+                              Colors.orange,
+                              Icons.opacity,
+                            ),
+                          ],
+                        ),
+                      ),
                       
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
         );
       },
     );

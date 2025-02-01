@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, unused_element
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -118,197 +118,236 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final userId = context.read<AuthRepository>().currentUser?.uid;
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      drawer: userId == null ? null : BeShapeDrawer(userId: userId),
-      body: userId == null
-          ? const Center(
-              child: SpinKitThreeBounce(
-              color: BeShapeColors.primary,
-            ))
-          : FutureBuilder(
-              future: context.read<UserRepository>().getUserProfile(userId),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                      child: SpinKitThreeBounce(
-                    color: BeShapeColors.primary,
-                  ));
-                }
+    return BlocListener<OnboardingBloc, OnboardingState>(
+      listener: (context, state) {
+        // 🔹 Quando o objetivo for alterado, recarrega os dados do usuário
+        setState(() {});
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        drawer: userId == null ? null : BeShapeDrawer(userId: userId),
+        body: userId == null
+            ? const Center(
+                child: SpinKitThreeBounce(
+                color: BeShapeColors.primary,
+              ))
+            : FutureBuilder(
+                future: context.read<UserRepository>().getUserProfile(userId),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                        child: SpinKitThreeBounce(
+                      color: BeShapeColors.primary,
+                    ));
+                  }
 
-                final userProfile = snapshot.data;
-                if (userProfile == null) {
-                  return const Center(child: Text('No user profile found'));
-                }
+                  final userProfile = snapshot.data;
+                  if (userProfile == null) {
+                    return const Center(child: Text('No user profile found'));
+                  }
 
-                return SafeArea(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Builder(
-                                builder: (context) => Card(
-                                  color: BeShapeColors.primary.withOpacity(0.2),
-                                  child: IconButton(
-                                    icon: const Icon(Icons.menu,
-                                        color: BeShapeColors.primary),
-                                    onPressed: () =>
-                                        Scaffold.of(context).openDrawer(),
+                  return SafeArea(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Builder(
+                                  builder: (context) => Card(
+                                    color:
+                                        BeShapeColors.primary.withOpacity(0.2),
+                                    child: IconButton(
+                                      icon: const Icon(Icons.menu,
+                                          color: BeShapeColors.primary),
+                                      onPressed: () =>
+                                          Scaffold.of(context).openDrawer(),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: UserHeader(userProfile: userProfile),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 24),
+                            dateWidet,
+                            const SizedBox(height: 24),
+                            Text(
+                              'Métricas',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            FitnessMetrics(userProfile: userProfile),
+                            const SizedBox(height: 24),
+                            CustomTitle(
+                              title: 'Meal',
+                              onTap: () =>
+                                  Navigator.pushNamed(context, '/saved-food'),
+                            ),
+                            const SizedBox(height: 16),
+
+                            // 🔹 MealCard Agora Atualiza Instantaneamente
+                            BlocBuilder<OnboardingBloc, OnboardingState>(
+                              builder: (context, onboardingState) {
+                                return MealCard();
+                              },
+                            ),
+
+                            const SizedBox(height: 24),
+                            CustomTitle(
+                              title: 'Controle de Água',
+                              onTap: () => Navigator.pushNamed(
+                                  context, '/water-tracker'),
+                            ),
+                            const SizedBox(height: 16),
+                            BlocBuilder<WaterBloc, WaterState>(
+                              builder: (context, state) {
+                                if (state is WaterLoading) {
+                                  return const Center(
+                                      child: SpinKitThreeBounce(
+                                    color: BeShapeColors.primary,
+                                  ));
+                                } else if (state is WaterLoaded) {
+                                  _waterIntake = state.intake.totalIntake;
+                                  final progress = _waterIntake / _waterTarget;
+
+                                  return Card(
+                                    color: Colors.blue[900]!.withOpacity(0.2),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(16)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            "💧 Mantenha-se Hidratado!",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            "Consumo Atual: $_waterIntake ml / ${_waterTarget.toInt()} ml",
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          LinearProgressIndicator(
+                                            value: progress.clamp(0.0, 1.0),
+                                            backgroundColor: Colors.blue[700]!
+                                                .withOpacity(0.3),
+                                            valueColor:
+                                                const AlwaysStoppedAnimation<
+                                                    Color>(Colors.blue),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const Text(
+                                                    "Não se esqueça de beber água regularmente!",
+                                                    style: TextStyle(
+                                                        color: Colors.white70,
+                                                        fontSize: 12),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  Icon(
+                                                    Icons.water_drop_rounded,
+                                                    color: Colors.blue,
+                                                    size: 10,
+                                                  )
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              BeShapeCustomButton(
+                                                buttonColor: Colors.blue
+                                                    .withOpacity(0.5),
+                                                buttonTitleColor: Colors.blue,
+                                                label: '+ Água',
+                                                icon: Icons.water_drop_outlined,
+                                                isLoading: false,
+                                                onPressed: _showAddWaterDialog,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
+                            ),
+                            const SizedBox(height: 24),
+
+                            /// 🔹 **Botão para Acessar Sugestões de Dieta**
+                            CustomTitle(
+                              title: 'Sugestão de Alimentos',
+                              buttonTitle: 'Ver',
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FoodSuggestionsScreen(
+                                    userProfile: userProfile,
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: UserHeader(userProfile: userProfile),
-                              ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 16),
+                            IdealValuesCard(userProfile: userProfile),
+                            const SizedBox(height: 24),
 
-                          const SizedBox(height: 16),
+                            /// 📌 **Sessão de Hábitos do Dia**
+                            CustomTitle(
+                              title: 'Hábitos',
+                              onTap: () =>
+                                  Navigator.pushNamed(context, '/habits'),
+                            ),
+                            const SizedBox(height: 16),
+                            DailyHabitsSection(),
+                            const SizedBox(height: 24),
+                            CustomTitle(
+                              buttonTitle: 'Mais...',
+                              title: 'Emoções',
+                              onTap: () => _navigateToEmotionReportScreen(),
+                            ),
+                            const SizedBox(height: 16),
 
-                          dateWidet,
-                          const SizedBox(height: 24),
-                          FitnessMetrics(userProfile: userProfile),
-                          const SizedBox(height: 24),
-                          CustomTitle(
-                            title: 'Meal',
-                            onTap: () =>
-                                Navigator.pushNamed(context, '/saved-food'),
-                          ),
-                          const SizedBox(height: 16),
-                          MealCard(userProfile: userProfile),
-                          const SizedBox(height: 32),
-                          CustomTitle(
-                            title: 'Controle de Água',
-                            onTap: () =>
-                                Navigator.pushNamed(context, '/water-tracker'),
-                          ),
-                          const SizedBox(height: 16),
-                          BlocBuilder<WaterBloc, WaterState>(
-                            builder: (context, state) {
-                              if (state is WaterLoading) {
-                                return const Center(
-                                    child: SpinKitThreeBounce(
-                                  color: BeShapeColors.primary,
-                                ));
-                              } else if (state is WaterLoaded) {
-                                _waterIntake = state.intake.totalIntake;
-                                final progress = _waterIntake / _waterTarget;
+                            /// 📊 **Gráfico Horizontal de Emoções**
+                            EmotionBarChart(),
 
-                                return Card(
-                                  color: Colors.blue[900]!.withOpacity(0.2),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          "💧 Mantenha-se Hidratado!",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          "Consumo Atual: $_waterIntake ml / ${_waterTarget.toInt()} ml",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        LinearProgressIndicator(
-                                          value: progress.clamp(0.0, 1.0),
-                                          backgroundColor: Colors.blue[700]!
-                                              .withOpacity(0.3),
-                                          valueColor:
-                                              const AlwaysStoppedAnimation<
-                                                  Color>(Colors.blue),
-                                        ),
-                                        const SizedBox(height: 12),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                const Text(
-                                                  "Não se esqueça de beber água regularmente!",
-                                                  style: TextStyle(
-                                                      color: Colors.white70,
-                                                      fontSize: 12),
-                                                ),
-                                                SizedBox(
-                                                  width: 4,
-                                                ),
-                                                Icon(
-                                                  Icons.water_drop_rounded,
-                                                  color: Colors.blue,
-                                                  size: 10,
-                                                )
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            BeShapeCustomButton(
-                                              buttonColor:
-                                                  Colors.blue.withOpacity(0.5),
-                                              buttonTitleColor: Colors.blue,
-                                              label: '+ Água',
-                                              icon: Icons.water_drop_outlined,
-                                              isLoading: false,
-                                              onPressed: _showAddWaterDialog,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
-                              return const SizedBox.shrink();
-                            },
-                          ),
-
-                          const SizedBox(height: 24),
-
-                          /// 📌 **Sessão de Hábitos do Dia**
-                          CustomTitle(
-                            title: 'Hábitos',
-                            onTap: () =>
-                                Navigator.pushNamed(context, '/habits'),
-                          ),
-                          const SizedBox(height: 16),
-                          DailyHabitsSection(),
-                          const SizedBox(height: 24),
-                          CustomTitle(
-                            buttonTitle: 'Mais...',
-                            title: 'Emoções',
-                            onTap: () => _navigateToEmotionReportScreen(),
-                          ),
-                          const SizedBox(height: 16),
-
-                          /// 📊 **Gráfico Horizontal de Emoções**
-                          EmotionBarChart(),
-                          const SizedBox(height: 24),
-                        ],
+                            const SizedBox(height: 32),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-      bottomNavigationBar: const BeShapeNavigatorBar(
-        index: 0,
+                  );
+                },
+              ),
+        bottomNavigationBar: const BeShapeNavigatorBar(
+          index: 0,
+        ),
       ),
     );
   }
