@@ -35,3 +35,4 @@ class LoadPublicSavedFoods extends SavedFoodEvent {
 class SelectedDate extends SavedFoodEvent{
   const SelectedDate();
 }
+class LoadFoodsFromDatabase extends SavedFoodEvent {}

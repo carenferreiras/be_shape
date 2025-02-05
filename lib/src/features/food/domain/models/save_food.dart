@@ -15,6 +15,9 @@ class SavedFood {
   final bool isPublic;
   final String? photoUrl;
   final DateTime createdAt;
+  final String? fibers;
+  final String? classification;
+
 
   SavedFood({
     required this.id,
@@ -24,6 +27,8 @@ class SavedFood {
     required this.proteins,
     required this.carbs,
     required this.fats,
+    this.fibers,
+    this.classification,
     this.brand,
     this.servingSize,
     this.servingUnit,
@@ -42,11 +47,14 @@ class SavedFood {
       carbs: (json['carbs'] as num).toDouble(),
       fats: (json['fats'] as num).toDouble(),
       brand: json['brand'] as String?,
+      fibers: json['fibers'] as String?,
+      classification: json['classification'] as String?,
       servingSize: json['servingSize'] as String?,
       servingUnit: json['servingUnit'] as String?,
       isPublic: json['isPublic'] as bool? ?? false,
       photoUrl: json['photoUrl'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
+
     );
   }
 
@@ -65,6 +73,8 @@ class SavedFood {
       'isPublic': isPublic,
       'photoUrl': photoUrl,
       'createdAt': createdAt.toIso8601String(),
+      'fibers': fibers,
+      'classification':classification,
     };
   }
 

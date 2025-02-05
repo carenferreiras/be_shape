@@ -107,6 +107,7 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
                               '${safeParseDouble(data['fibras']).toStringAsFixed(2)}',
                           foodName: data['nome_alimento'] ?? 'Sem nome',
                           classification: data['classificacao'] ?? 'Sem nome',
+                          foodData: data, // Aqui passamos os dados corretos
                         );
                       },
                     ),
@@ -125,15 +126,17 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
     return double.tryParse(value.toString()) ?? 0.0;
   }
 
-  Widget _customCard(
-      {required IconData caloriesIcon,
-      required IconData proteinIcon,
-      required IconData fibersIcon,
-      required String calories,
-      required String carbo,
-      required String fibers,
-      required String foodName,
-      required String classification}) {
+  Widget _customCard({
+    required IconData caloriesIcon,
+    required IconData proteinIcon,
+    required IconData fibersIcon,
+    required String calories,
+    required String carbo,
+    required String fibers,
+    required String foodName,
+    required String classification,
+    required Map<String, dynamic> foodData,
+  }) {
     return Container(
       width: double.infinity,
       height: 160,
@@ -153,7 +156,7 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
           color: BeShapeColors.primary.withOpacity(0.3),
         ),
       ),
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Padding(
         padding: const EdgeInsets.only(left: 16, top: 8, bottom: 16),
         child: Column(
@@ -166,14 +169,14 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
                 _numberCard(
                     icon: caloriesIcon,
                     number: calories,
-                    measure: 'g',
+                    measure: 'kcal',
                     name: 'Calorias',
                     color: Colors.orange),
                 _numberCard(
                     icon: proteinIcon,
-                    number: calories,
+                    number: carbo,
                     measure: 'g',
-                    name: 'Proteínas',
+                    name: 'Carboidratos',
                     color: Colors.blue),
                 _numberCard(
                     icon: fibersIcon,
@@ -184,22 +187,19 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: Text(
-                        foodName,
-                        maxLines: 2,
-                        style: TextStyle(
-                            color: BeShapeColors.textPrimary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            overflow: TextOverflow.ellipsis),
-                      ),
+                    Text(
+                      foodName,
+                      maxLines: 2,
+                      style: const TextStyle(
+                          color: BeShapeColors.textPrimary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          overflow: TextOverflow.ellipsis),
                     ),
                     Card(
                       color: BeShapeColors.primary.withOpacity(0.2),
@@ -217,11 +217,93 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
                     ),
                   ],
                 ),
+                IconButton(
+                  icon: Icon(Icons.add, color: BeShapeColors.primary),
+                  onPressed: () => _selecionarQuantidadeAlimento(foodData),
+                ),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _selecionarQuantidadeAlimento(Map<String, dynamic> foodData) {
+    final TextEditingController quantidadeController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Adicionar Alimento"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Quantos gramas/ml deseja adicionar?"),
+              const SizedBox(height: 8),
+              TextField(
+                controller: quantidadeController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Ex: 100",
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancelar"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                double quantidade =
+                    double.tryParse(quantidadeController.text) ?? 0;
+                if (quantidade > 0) {
+                  _adicionarAlimentoAoDiario(foodData, quantidade);
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text("Adicionar"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _adicionarAlimentoAoDiario(
+      Map<String, dynamic> foodData, double quantidade) async {
+    final userId = widget.userProfile.id;
+
+    // Ajusta os valores nutricionais com base na quantidade informada
+    double fator = quantidade / 100;
+    double calorias = safeParseDouble(foodData['energia_kcal']) * fator;
+    double carboidratos = safeParseDouble(foodData['carboidrato']) * fator;
+    double proteinas = safeParseDouble(foodData['proteina']) * fator;
+    double gorduras = safeParseDouble(foodData['gordura']) * fator;
+    double fibras = safeParseDouble(foodData['fibras']) * fator;
+
+    final alimentoConsumido = {
+      'nome_alimento': foodData['nome_alimento'],
+      'quantidade': quantidade,
+      'calorias': calorias,
+      'carboidratos': carboidratos,
+      'proteinas': proteinas,
+      'gorduras': gorduras,
+      'fibras': fibras,
+      'data': DateTime.now(),
+    };
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('food_diary')
+        .add(alimentoConsumido);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("${foodData['nome_alimento']} adicionado!")),
     );
   }
 

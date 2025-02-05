@@ -1,9 +1,10 @@
 // ignore_for_file: unused_element
 
+import 'package:be_shape_app/src/features/food/presentation/widgets/search_my_food_tab.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/core.dart';
 import '../../../features.dart';
@@ -15,7 +16,8 @@ class AddFoodScreen extends StatefulWidget {
   State<AddFoodScreen> createState() => _AddFoodScreenState();
 }
 
-class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProviderStateMixin {
+class _AddFoodScreenState extends State<AddFoodScreen>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _servingSizeController = TextEditingController();
@@ -25,18 +27,71 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
   final _fatsController = TextEditingController();
   final _brandController = TextEditingController();
   final _searchController = TextEditingController();
+  final _fibersController = TextEditingController();
+  final _classificationController = TextEditingController();
+  final _quantityController = TextEditingController(text: '1');
+  double baseCalories = 0.0;
+  double baseProteins = 0.0;
+  double baseCarbs = 0.0;
+  double baseFibers = 0.0;
   late TabController _tabController;
   String _selectedUnit = 'g';
   bool _isFavorite = false;
   bool _isPublic = false;
   bool _isCreatingNew = true;
   DateTime _selectedDate = DateTime.now();
+  List<Map<String, dynamic>> allAlimentos = [];
+  List<Map<String, dynamic>> alimentosFiltrados = [];
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _nameController.dispose();
+    _servingSizeController.dispose();
+    _caloriesController.dispose();
+    _proteinsController.dispose();
+    _carbsController.dispose();
+    _fatsController.dispose();
+    _brandController.dispose();
+    _searchController.dispose();
+    _quantityController.removeListener(_updateNutritionValues);
+    _quantityController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(
+        length: 3, vsync: this); // Atualize para o número correto de abas
     context.read<SavedFoodBloc>().add(const LoadUserSavedFoods());
+
+    _loadFoodsFromDatabase();
+    _searchController.addListener(_filterFoods);
+  }
+
+  void _loadFoodsFromDatabase() async {
+    final querySnapshot =
+        await FirebaseFirestore.instance.collection('foods').get();
+    setState(() {
+      allAlimentos = querySnapshot.docs.map((doc) => doc.data()).toList();
+      alimentosFiltrados = List.from(allAlimentos);
+    });
+  }
+
+  void _filterFoods() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      if (query.isEmpty) {
+        alimentosFiltrados = List.from(allAlimentos);
+      } else {
+        alimentosFiltrados = allAlimentos.where((food) {
+          final foodName = food['nome_alimento']?.toLowerCase() ?? '';
+          return foodName.contains(query);
+        }).toList();
+      }
+    });
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -67,6 +122,45 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
     }
   }
 
+  Widget _buildMyFoodsTab() {
+    return alimentosFiltrados.isEmpty
+        ? const Center(child: Text('Nenhum alimento encontrado.'))
+        : Expanded(
+            child: ListView.builder(
+              itemCount: alimentosFiltrados.length,
+              itemBuilder: (context, index) {
+                final data = alimentosFiltrados[index];
+
+                return GestureDetector(
+                  onTap: () => _selectFoodFromDatabase(data),
+                  child: CustomCard(
+                    caloriesIcon: Icons.water_drop_outlined,
+                    calories:
+                        '${safeParseDouble(data['energia_kcal']).toStringAsFixed(2)}',
+                    carbo:
+                        '${safeParseDouble(data['carboidrato']).toStringAsFixed(2)}',
+                    proteinIcon: Icons.fitness_center,
+                    fibersIcon: Icons.fiber_smart_record,
+                    fibers:
+                        '${safeParseDouble(data['fibras']).toStringAsFixed(2)}',
+                    foodName: data['nome_alimento'] ?? 'Sem nome',
+                    classification: data['classificacao'] ?? 'Sem nome',
+                    data: data,
+                  ),
+                );
+              },
+            ),
+          );
+  }
+
+  // Função auxiliar para tratar valores numéricos
+  double safeParseDouble(dynamic value) {
+    if (value == null || value == 'NA') return 0.0;
+    if (value is double) return value;
+    if (value is int) return value.toDouble();
+    return double.tryParse(value.toString()) ?? 0.0;
+  }
+
   void _selectExistingFood(SavedFood food) {
     setState(() {
       _nameController.text = food.name;
@@ -81,8 +175,22 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
       _isFavorite = false;
       _isPublic = food.isPublic;
     });
-    
-    _tabController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+
+    _tabController.animateTo(0,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+  }
+
+  void _updateNutritionValues() {
+    final quantityText = _quantityController.text;
+    final quantity =
+        (quantityText.isEmpty) ? 1.0 : double.tryParse(quantityText) ?? 1.0;
+
+    setState(() {
+      _caloriesController.text = (baseCalories * quantity).toStringAsFixed(2);
+      _proteinsController.text = (baseProteins * quantity).toStringAsFixed(2);
+      _carbsController.text = (baseCarbs * quantity).toStringAsFixed(2);
+      _fibersController.text = (baseFibers * quantity).toStringAsFixed(2);
+    });
   }
 
   void _clearForm() {
@@ -98,6 +206,21 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
       _isFavorite = false;
       _isPublic = false;
     });
+  }
+
+  void _selectFoodFromDatabase(Map<String, dynamic> food) {
+    setState(() {
+      _nameController.text = food['nome_alimento'] ?? '';
+      baseCalories = safeParseDouble(food['energia_kcal']);
+      baseProteins = safeParseDouble(food['proteina']);
+      baseCarbs = safeParseDouble(food['carboidrato']);
+      baseFibers = safeParseDouble(food['fibras']);
+      _classificationController.text = food['classificacao'] ?? '';
+      _quantityController.text = '1';
+      _updateNutritionValues();
+    });
+    _tabController.animateTo(0,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   void _submitFood() async {
@@ -138,7 +261,9 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
           carbs: double.parse(_carbsController.text),
           fats: double.parse(_fatsController.text),
           brand: _brandController.text.isEmpty ? null : _brandController.text,
-          servingSize: _servingSizeController.text.isEmpty ? null : _servingSizeController.text,
+          servingSize: _servingSizeController.text.isEmpty
+              ? null
+              : _servingSizeController.text,
           servingUnit: _selectedUnit,
           isPublic: _isPublic,
         );
@@ -158,23 +283,29 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
       context.read<SavedFoodBloc>().add(SearchSavedFoods(query));
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          leading: IconButton(onPressed: ()=> Navigator.pop(context), icon: Icon(Icons.arrow_back_ios,color: BeShapeColors.primary,)),
-          title: const Text('Add Food', style: TextStyle(color: BeShapeColors.primary)),
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: BeShapeColors.primary,
+              )),
+          title: const Text('Add Food',
+              style: TextStyle(color: BeShapeColors.primary)),
           backgroundColor: Colors.black,
           elevation: 2,
           bottom: TabBar(
             controller: _tabController,
             tabs: const [
               Tab(text: 'Create New'),
+              Tab(text: 'App Foods'),
               Tab(text: 'My Foods'),
             ],
             indicatorColor: BeShapeColors.primary,
@@ -200,322 +331,69 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
           controller: _tabController,
           children: [
             // Create New Tab
-            SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    InkWell(
-                      onTap: () => _selectDate(context),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[900],
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey[800]!),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Date: ${DateFormat('MMM d, yyyy').format(_selectedDate)}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const Icon(
-                              Icons.calendar_today,
-                              color: BeShapeColors.primary,
-                              size: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _nameController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: _buildInputDecoration(
-                        'Food Name',
-                        Icons.restaurant_menu,
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a food name';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _brandController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: _buildInputDecoration(
-                        'Brand (optional)',
-                        Icons.business,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: TextFormField(
-                            controller: _servingSizeController,
-                            style: const TextStyle(color: Colors.white),
-                            keyboardType: TextInputType.number,
-                            decoration: _buildInputDecoration(
-                              'Serving Size',
-                              Icons.scale,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: _buildUnitSelector(),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    _NutritionCard(
-                      caloriesController: _caloriesController,
-                      proteinsController: _proteinsController,
-                      carbsController: _carbsController,
-                      fatsController: _fatsController,
-                    ),
-                    if (_isFavorite) ...[
-                      const SizedBox(height: 16),
-                      SwitchListTile(
-                        title: const Text(
-                          'Make Public',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: const Text(
-                          'Allow other users to see and use this food',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        value: _isPublic,
-                        onChanged: (bool value) {
-                          setState(() {
-                            _isPublic = value;
-                          });
-                        },
-                        activeColor: BeShapeColors.primary,
-                      ),
-                    ],
-                    const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: _submitFood,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: BeShapeColors.primary,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        _isCreatingNew ? 'Add Food' : 'Add to Today',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: BeShapeColors.background
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            CreateNewTabWidget(
+              nameController: _nameController,
+              brandController: _brandController,
+              servingSizeController: _servingSizeController,
+              quantityController: _quantityController,
+              caloriesController: _caloriesController,
+              proteinsController: _proteinsController,
+              carbsController: _carbsController,
+              fatsController: _fatsController,
+              formKey: _formKey,
+              isFavorite: _isFavorite,
+              isPublic: _isPublic,
+              isCreatingNew: _isCreatingNew,
+              selecteDate: _selectedDate,
+              selectDatetap: () => _selectDate(context),
+              isPubliconChanged: (bool value) {
+                setState(() {
+                  _isPublic = value;
+                });
+              },
+              submitFoodPressed: _submitFood,
+              updateNutritionValues: (_) => _updateNutritionValues(),
+            ),
+            Column(
+              children: [
+                SearchInput(
+                    controller: _searchController, searchText: 'Alimento'),
+                _buildMyFoodsTab(),
+              ],
             ),
             // My Foods Tab
             Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _searchController,
-                          style: const TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: 'Search foods...',
-                            hintStyle: const TextStyle(color: Colors.grey),
-                            prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.grey[800]!),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: BeShapeColors.primary),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[900],
-                          ),
-                          onChanged: _searchFoods,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      IconButton(
-                        icon: const Icon(Icons.add_circle_outline, color: BeShapeColors.primary),
-                        onPressed: () => Navigator.pushNamed(context, '/saved-food'),
-                      ),
-                    ],
-                  ),
-                ),
+                SearchMyFoodTab(
+                    onChanged: _searchFoods,
+                    searchController: _searchController),
                 Expanded(
                   child: BlocBuilder<SavedFoodBloc, SavedFoodState>(
                     builder: (context, state) {
                       if (state.isLoading) {
-                        return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
+                        return const Center(
+                            child: SpinKitThreeBounce(
+                          color: BeShapeColors.primary,
+                        ));
                       }
-
                       if (state.foods.isEmpty) {
-                        return Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.no_food,
-                                size: 64,
-                                color: Colors.grey[700],
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                'No saved foods yet',
-                                style: TextStyle(
-                                  color: Colors.grey[500],
-                                  fontSize: 18,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Save foods by marking them as favorites',
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              ElevatedButton.icon(
-                                onPressed: () => Navigator.pushNamed(context, '/saved-food'),
-                                icon: const Icon(Icons.add),
-                                label: const Text('Add New Food'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: BeShapeColors.primary,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 24,
-                                    vertical: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+                        return AddFoodButtonTab();
                       }
 
                       return ListView.builder(
                         itemCount: state.foods.length,
                         itemBuilder: (context, index) {
                           final food = state.foods[index];
-                          return Dismissible(
-                            key: Key(food.id),
-                            direction: DismissDirection.endToStart,
-                            background: Container(
-                              alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.only(right: 20),
-                              color: Colors.red,
-                              child: const Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              ),
-                            ),
-                            onDismissed: (_) {
-                              context.read<SavedFoodBloc>().add(DeleteSavedFood(food.id));
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[900],
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: ListTile(
-                                onTap: () => _selectExistingFood(food),
-                                leading: Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[800],
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: food.photoUrl != null
-                                      ? ClipRRect(
-                                          borderRadius: BorderRadius.circular(8),
-                                          child: Image.network(
-                                            food.photoUrl!,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (context, error, stackTrace) {
-                                              return const Icon(
-                                                Icons.restaurant_menu,
-                                                color: Colors.white,
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      : const Icon(
-                                          Icons.restaurant_menu,
-                                          color: Colors.white,
-                                        ),
-                                ),
-                                title: Text(
-                                  food.name,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (food.brand != null)
-                                      Text(
-                                        food.brand!,
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    Text(
-                                      'P: ${food.proteins.round()}g  C: ${food.carbs.round()}g  F: ${food.fats.round()}g',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                trailing: Text(
-                                  '${food.calories.round()} kcal',
-                                  style: const TextStyle(
-                                    color: BeShapeColors.primary,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
+                          return MyFoodsCardTab(
+                              onDismissed: (_) {
+                                context
+                                    .read<SavedFoodBloc>()
+                                    .add(DeleteSavedFood(food.id));
+                              },
+                              onTapSelectExistingFood: () =>
+                                  _selectExistingFood(food),
+                              dimissibleKey: Key(food.id),
+                              food: food);
                         },
                       );
                     },
@@ -526,197 +404,6 @@ class _AddFoodScreenState extends State<AddFoodScreen> with SingleTickerProvider
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildUnitSelector() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[800]!),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: _selectedUnit,
-          dropdownColor: Colors.grey[900],
-          style: const TextStyle(color: Colors.white),
-          items: ['g', 'ml', 'oz', 'cup'].map((String unit) {
-            return DropdownMenuItem<String>(
-              value: unit,
-              child: Text(unit),
-            );
-          }).toList(),
-          onChanged: (String? newValue) {
-            if (newValue != null) {
-              setState(() {
-                _selectedUnit = newValue;
-              });
-            }
-          },
-        ),
-      ),
-    );
-  }
-
-  InputDecoration _buildInputDecoration(String label, IconData icon) {
-    return InputDecoration(
-      labelText: label,
-      labelStyle: const TextStyle(color: Colors.grey),
-      prefixIcon: Icon(icon, color: Colors.grey),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey[800]!),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: BeShapeColors.primary),
-      ),
-      filled: true,
-      fillColor: Colors.grey[900],
-    );
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _nameController.dispose();
-    _servingSizeController.dispose();
-    _caloriesController.dispose();
-    _proteinsController.dispose();
-    _carbsController.dispose();
-    _fatsController.dispose();
-    _brandController.dispose();
-    _searchController.dispose();
-    super.dispose();
-  }
-}
-
-class _NutritionCard extends StatelessWidget {
-  final TextEditingController caloriesController;
-  final TextEditingController proteinsController;
-  final TextEditingController carbsController;
-  final TextEditingController fatsController;
-
-  const _NutritionCard({
-    required this.caloriesController,
-    required this.proteinsController,
-    required this.carbsController,
-    required this.fatsController,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Nutrition Facts',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          _buildNutritionInput(
-            'Calories',
-            caloriesController,
-            BeShapeColors.primary,
-            'kcal',
-          ),
-          const SizedBox(height: 12),
-          _buildNutritionInput(
-            'Protein',
-            proteinsController,
-            Colors.blue,
-            'g',
-          ),
-          const SizedBox(height: 12),
-          _buildNutritionInput(
-            'Carbs',
-            carbsController,
-            Colors.green,
-            'g',
-          ),
-          const SizedBox(height: 12),
-          _buildNutritionInput(
-            'Fat',
-            fatsController,
-            Colors.red,
-            'g',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNutritionInput(
-    String label,
-    TextEditingController controller,
-    Color color,
-    String unit,
-  ) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 100,
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
-            ),
-          ),
-        ),
-        Expanded(
-          child: TextFormField(
-            controller: controller,
-            style: TextStyle(color: color),
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              suffix: Text(
-                unit,
-                style: const TextStyle(color: Colors.grey),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 8,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: color.withOpacity(0.3)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: color),
-              ),
-              filled: true,
-              fillColor: color.withOpacity(0.1),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Required';
-              }
-              return null;
-            },
-          ),
-        ),
-      ],
     );
   }
 }
