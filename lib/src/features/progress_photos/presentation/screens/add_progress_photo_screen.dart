@@ -35,6 +35,15 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
     'thighs': TextEditingController(),
   };
 
+  final Map<String, TextEditingController> _skinfoldControllers = {
+    'chest': TextEditingController(),
+    'abdominal': TextEditingController(),
+    'thigh': TextEditingController(),
+    'triceps': TextEditingController(),
+    'suprailiac': TextEditingController(),
+    'subscapular': TextEditingController(),
+  };
+
   Future<void> _takePhoto() async {
     final ImagePicker picker = ImagePicker();
     final XFile? photo = await showDialog<XFile>(
@@ -123,7 +132,7 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
       });
 
       try {
-        final userId = context.read<AuthRepository>().currentUser?.uid;
+        final userId = context.read<AuthBloc>().currentUserId;
         if (userId == null) {
           throw Exception('User not authenticated');
         }
@@ -135,6 +144,13 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
           }
         });
 
+        final skinfolds = <String, double>{};
+        _skinfoldControllers.forEach((key, controller) {
+          if (controller.text.isNotEmpty) {
+            skinfolds[key] = double.parse(controller.text);
+          }
+        });
+
         final photo = ProgressPhoto(
           id: DateTime.now().toString(),
           userId: userId,
@@ -143,6 +159,7 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
           type: _selectedType,
           weight: double.parse(_weightController.text),
           measurements: measurements,
+          skinfolds: skinfolds,
           notes: _notesController.text.isEmpty ? null : _notesController.text,
         );
 
@@ -164,9 +181,9 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('Add Progress Photo'),
-        backgroundColor: Colors.black,
+      appBar: BeShapeAppBar(
+        title: 'Progresso',
+        actionIcon: Icons.photo,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -236,7 +253,7 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
                       ),
                       const Icon(
                         Icons.calendar_today,
-                        color: Colors.orange,
+                        color: BeShapeColors.primary,
                       ),
                     ],
                   ),
@@ -379,6 +396,104 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.purple.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(
+                            Icons.straighten,
+                            color: Colors.purple,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        const Text(
+                          'Dobras Cutâneas',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildSkinfoldField(
+                            'chest',
+                            'Peitoral',
+                            Icons.straighten,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _buildSkinfoldField(
+                            'abdominal',
+                            'Abdominal',
+                            Icons.straighten,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildSkinfoldField(
+                            'thigh',
+                            'Coxa',
+                            Icons.straighten,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _buildSkinfoldField(
+                            'triceps',
+                            'Tríceps',
+                            Icons.straighten,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildSkinfoldField(
+                            'suprailiac',
+                            'Supra-ilíaca',
+                            Icons.straighten,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _buildSkinfoldField(
+                            'subscapular',
+                            'Subescapular',
+                            Icons.straighten,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[900],
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     const Text(
                       'Notes',
                       style: TextStyle(
@@ -403,9 +518,9 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(color: Colors.grey[800]!),
                         ),
-                        focusedBorder: OutlineInputBorder(
+                        focusedBorder:  OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.orange),
+                          borderSide: BorderSide(color: BeShapeColors.primary),
                         ),
                         filled: true,
                         fillColor: Colors.grey[800],
@@ -425,15 +540,20 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
                   ),
                 ),
                 child: _isSubmitting
-                    ?  SpinKitThreeBounce(
-                    color: BeShapeColors.primary,
-                    size: 20,)
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
                     : const Text(
-                        'Save Progress',
+                        'Salvar Progresso',
                         style: TextStyle(
                           fontSize: 16,
+                          color: BeShapeColors.textPrimary,
                           fontWeight: FontWeight.bold,
-                          color: BeShapeColors.background
                         ),
                       ),
               ),
@@ -488,6 +608,32 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
     );
   }
 
+  Widget _buildSkinfoldField(String key, String label, IconData icon) {
+    return TextFormField(
+      controller: _skinfoldControllers[key],
+      style: const TextStyle(color: Colors.white),
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: '$label (mm)',
+        labelStyle: const TextStyle(color: Colors.grey),
+        prefixIcon: Icon(icon, color: Colors.grey),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey[800]!),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Colors.purple),
+        ),
+        filled: true,
+        fillColor: Colors.grey[800],
+      ),
+    );
+  }
+
   InputDecoration _buildInputDecoration(String label, IconData icon) {
     return InputDecoration(
       labelText: label,
@@ -500,9 +646,9 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: Colors.grey[800]!),
       ),
-      focusedBorder: OutlineInputBorder(
+      focusedBorder:  OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.orange),
+        borderSide: BorderSide(color: BeShapeColors.primary),
       ),
       filled: true,
       fillColor: Colors.grey[800],
@@ -514,6 +660,7 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
     _weightController.dispose();
     _notesController.dispose();
     _measurementControllers.values.forEach((controller) => controller.dispose());
+    _skinfoldControllers.values.forEach((controller) => controller.dispose());
     super.dispose();
   }
 }

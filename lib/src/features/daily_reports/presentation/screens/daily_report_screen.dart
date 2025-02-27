@@ -65,16 +65,16 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
               child: ElevatedButton(
                 onPressed: _isSaving ? null : _saveReport,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: BeShapeColors.accent,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 child: _isSaving
-                    ?  SpinKitThreeBounce(
-                      color: BeShapeColors.primary,
-                    )
+                    ? SpinKitWaveSpinner(
+                        color: BeShapeColors.primary,
+                      )
                     : const Text(
                         'Save Report',
                         style: TextStyle(
@@ -91,8 +91,10 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
   }
 
   Widget _buildSummaryCard() {
-    final caloriePercentage = (widget.report.totalCalories / widget.report.targetCalories * 100).round();
-    
+    final caloriePercentage =
+        (widget.report.totalCalories / widget.report.targetCalories * 100)
+            .round();
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -116,12 +118,12 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
               _buildCalorieInfo(
                 'Consumed',
                 widget.report.totalCalories,
-                Colors.orange,
+                BeShapeColors.primary,
               ),
               _buildCalorieInfo(
                 'Target',
                 widget.report.targetCalories,
-                Colors.blue,
+                BeShapeColors.link,
               ),
             ],
           ),
@@ -160,14 +162,14 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
             'Protein',
             widget.report.totalProteins,
             widget.report.targetProteins,
-            Colors.blue,
+            BeShapeColors.link,
           ),
           const SizedBox(height: 12),
           _buildMacroRow(
             'Carbs',
             widget.report.totalCarbs,
             widget.report.targetCarbs,
-            Colors.green,
+            BeShapeColors.accent,
           ),
           const SizedBox(height: 12),
           _buildMacroRow(
@@ -217,7 +219,7 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Colors.orange),
+                borderSide: const BorderSide(color: BeShapeColors.primary),
               ),
               filled: true,
               fillColor: Colors.grey[800],
@@ -258,9 +260,10 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
     );
   }
 
-  Widget _buildMacroRow(String label, double value, double target, Color color) {
+  Widget _buildMacroRow(
+      String label, double value, double target, Color color) {
     final percentage = (value / target * 100).clamp(0.0, 100.0);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -309,7 +312,9 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
         notes: _notesController.text.isEmpty ? null : _notesController.text,
       );
 
-      await context.read<DailyReportRepository>().updateDailyReport(updatedReport);
+      await context
+          .read<DailyReportRepository>()
+          .updateDailyReport(updatedReport);
 
       if (mounted) {
         Navigator.pop(context);

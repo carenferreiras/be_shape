@@ -17,11 +17,11 @@ class BeShapeColors{
   static const Color primaryDark = Color(0xFFCC8400); // Laranja escuro
   static const Color accent = Color(0xFF4CAF50); // Verde
   static const Color disabled = Color(0xFF808080); // Cinza desativado
-  static const Color link = Color(0xFF007BFF); // Azul para links
+  static const Color link = Color.fromARGB(255, 0, 111, 230); // Azul para links
 
   // Sucesso e Erros
-  static const Color success = Color(0xFF4CAF50); // Verde
-  static const Color error = Color(0xFFFF4D4D); // Vermelho
+  static const Color success = Color.fromARGB(255, 49, 180, 53); // Verde
+  static const Color error = Color.fromARGB(255, 241, 6, 6); // Vermelho
   static const Color warning = Color(0xFFFFC107); // Amarelo
 
   // Bordas

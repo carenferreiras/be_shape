@@ -2,12 +2,12 @@
 
 import 'dart:io';
 
-import 'package:be_shape_app/src/core/core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
 class SavedFoodFormScreen extends StatefulWidget {
@@ -279,7 +279,7 @@ class _SavedFoodFormScreenState extends State<SavedFoodFormScreen> {
                     _isPublic = value;
                   });
                 },
-                activeColor: Colors.orange,
+                activeColor: BeShapeColors.primary,
               ),
               const SizedBox(height: 24),
               BeShapeCustomButton(label: 'Salvar Alimento', 
@@ -339,7 +339,7 @@ class _SavedFoodFormScreenState extends State<SavedFoodFormScreen> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.orange),
+        borderSide: const BorderSide(color: BeShapeColors.primary),
       ),
       filled: true,
       fillColor: Colors.grey[900],
@@ -395,21 +395,21 @@ class _NutritionCard extends StatelessWidget {
           _buildNutritionInput(
             'Calories',
             caloriesController,
-            Colors.orange,
+            BeShapeColors.primary,
             'kcal',
           ),
           const SizedBox(height: 12),
           _buildNutritionInput(
             'Protein',
             proteinsController,
-            Colors.blue,
+            BeShapeColors.link,
             'g',
           ),
           const SizedBox(height: 12),
           _buildNutritionInput(
             'Carbs',
             carbsController,
-            Colors.green,
+            BeShapeColors.accent,
             'g',
           ),
           const SizedBox(height: 12),

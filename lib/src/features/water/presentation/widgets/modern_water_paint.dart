@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/core.dart';
+
 class ModernWaterPainter extends CustomPainter {
   final double progress;
 
@@ -8,12 +10,12 @@ class ModernWaterPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint circlePaint = Paint()
-      ..color = Colors.blue.withOpacity(0.2)
+      ..color = BeShapeColors.link.withOpacity(0.2)
       ..style = PaintingStyle.fill;
 
     final Paint waterPaint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.blue.withOpacity(0.7), Colors.blue],
+        colors: [BeShapeColors.link.withOpacity(0.7), BeShapeColors.link],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ).createShader(Rect.fromCircle(

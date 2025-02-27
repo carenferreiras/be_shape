@@ -1,6 +1,7 @@
-import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../core/core.dart';
 
 Widget dateWidet = Container(
   padding: const EdgeInsets.symmetric(
@@ -17,15 +18,14 @@ Widget dateWidet = Container(
       const Icon(
         Icons.calendar_today,
         color: BeShapeColors.primary,
-        size: 20,
+        size: 10,
       ),
       const SizedBox(width: 8),
       Text(
         DateFormat('EEEE, MMMM d').format(DateTime.now()),
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
+          // fontWeight: FontWeight.normal,
         ),
       ),
     ],

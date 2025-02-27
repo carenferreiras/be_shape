@@ -13,7 +13,7 @@ class DailyHabitsSection extends StatelessWidget {
     return BlocBuilder<HabitBloc, HabitState>(
       builder: (context, state) {
         if (state is HabitsLoading) {
-          return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
+          return const Center(child: SpinKitWaveSpinner(color: BeShapeColors.primary,));
         } else if (state is HabitsLoaded) {
           if (state.habits.isEmpty) {
             return const Center(

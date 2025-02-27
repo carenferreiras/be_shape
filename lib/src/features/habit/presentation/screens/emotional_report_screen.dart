@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/core.dart';
 import '../../habit.dart';
 
 class EmotionReportScreen extends StatelessWidget {
@@ -191,15 +192,15 @@ class EmotionReportScreen extends StatelessWidget {
   Color _getEmotionColor(String emotion) {
     switch (emotion) {
       case 'Feliz':
-        return Colors.green;
+        return BeShapeColors.accent;
       case 'Triste':
-        return Colors.blue;
+        return BeShapeColors.link;
       case 'Ansioso':
         return Colors.yellow;
       case 'Relaxado':
         return Colors.purple;
       case 'Cansado':
-        return Colors.orange;
+        return BeShapeColors.primary;
       default:
         return Colors.grey;
     }
@@ -209,15 +210,15 @@ class EmotionReportScreen extends StatelessWidget {
   Color _getEmotionColorBar(String emotion) {
     switch (emotion) {
       case 'Feliz':
-        return Colors.green.withOpacity(0.2);
+        return BeShapeColors.accent.withOpacity(0.2);
       case 'Triste':
-        return Colors.blue.withOpacity(0.2);
+        return BeShapeColors.link.withOpacity(0.2);
       case 'Ansioso':
         return Colors.yellow.withOpacity(0.2);
       case 'Relaxado':
         return Colors.purple.withOpacity(0.2);
       case 'Cansado':
-        return Colors.orange.withOpacity(0.2);
+        return BeShapeColors.primary.withOpacity(0.2);
       default:
         return Colors.grey.withOpacity(0.2);
     }

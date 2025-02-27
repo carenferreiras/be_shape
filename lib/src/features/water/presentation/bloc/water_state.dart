@@ -1,18 +1,28 @@
-import '../../water.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class WaterState {}
+class WaterState extends Equatable {
+  final double currentIntake;
+  final bool isLoading;
+  final String? error;
 
-class WaterInitial extends WaterState {}
+  const WaterState({
+    this.currentIntake = 0,
+    this.isLoading = false,
+    this.error,
+  });
 
-class WaterLoading extends WaterState {}
+  WaterState copyWith({
+    double? currentIntake,
+    bool? isLoading,
+    String? error,
+  }) {
+    return WaterState(
+      currentIntake: currentIntake ?? this.currentIntake,
+      isLoading: isLoading ?? this.isLoading,
+      error: error ?? this.error,
+    );
+  }
 
-class WaterLoaded extends WaterState {
-  final WaterIntake intake;
-
-  WaterLoaded(this.intake);
-}
-class WaterError extends WaterState {
-  final String message;
-
-  WaterError(this.message);
+  @override
+  List<Object?> get props => [currentIntake, isLoading, error];
 }

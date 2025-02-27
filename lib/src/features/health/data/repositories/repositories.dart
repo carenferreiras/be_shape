@@ -1,1 +1,1 @@
-export './health_repository_impl.dart';
+export 'health_repository_impl.dart';

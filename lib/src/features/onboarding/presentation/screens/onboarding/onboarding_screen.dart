@@ -5,8 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../../core/core.dart';
 import '../../../../features.dart';
 
-
-
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -50,7 +48,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       case 2: // Age input
         return state.age != null && state.age! >= 13 && state.age! <= 100;
       case 3: // Height input
-        return state.height != null && state.height! >= 140 && state.height! <= 220;
+        return state.height != null &&
+            state.height! >= 140 &&
+            state.height! <= 220;
       case 4: // Weight input
         return state.weight >= 40 && state.weight <= 200;
       case 5: // Activity level
@@ -111,7 +111,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         '${_currentPage + 1} of 6',
                         style: const TextStyle(
-                          color: Colors.blue,
+                          color: BeShapeColors.link,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -150,7 +150,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               : () {
                                   if (_currentPage < 5) {
                                     _pageController.nextPage(
-                                      duration: const Duration(milliseconds: 300),
+                                      duration:
+                                          const Duration(milliseconds: 300),
                                       curve: Curves.easeInOut,
                                     );
                                   } else {
@@ -161,18 +162,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             backgroundColor: BeShapeColors.primary,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(BeShapeSizes.borderRadiusMedium),
+                              borderRadius: BorderRadius.circular(
+                                  BeShapeSizes.borderRadiusMedium),
                             ),
                           ),
                           child: state.isProfileSaved
-                              ? const SpinKitThreeBounce(color: BeShapeColors.primary,)
+                              ? const SpinKitWaveSpinner(
+                                  color: BeShapeColors.primary,
+                                )
                               : Text(
                                   _currentPage < 5 ? 'Continue' : 'Get Started',
                                   style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: BeShapeColors.background
-                                  ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: BeShapeColors.background),
                                 ),
                         ),
                       ),

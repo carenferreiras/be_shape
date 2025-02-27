@@ -18,6 +18,9 @@ class BeShapeImages{
   static const profileBackground = '$_PATH/profile_background.png';
   static const splashBackground = '$_PATH/splash_background.png';
   static const foodBackground = '$_PATH/food_background.png';
+  static const foodBackground2 = '$_PATH/food_background_2.png';
+  static const beShapeImage = '$_PATH//beShape.gif';
+  static const backgroundProfile = '$_PATH/background_profile.png';
 
 
 }

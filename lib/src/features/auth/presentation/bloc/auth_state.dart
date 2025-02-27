@@ -1,23 +1,33 @@
+import '../../auth.dart';
+
 class AuthState {
-  final bool isLoading;
   final bool isAuthenticated;
+  final bool isLoading;
   final String? error;
+  final UserProfile? userProfile;
+  final bool isInitialized; // Novo campo para controlar inicialização
 
   const AuthState({
-    this.isLoading = false,
     this.isAuthenticated = false,
+    this.isLoading = false,
     this.error,
+    this.userProfile,
+    this.isInitialized = false,
   });
 
   AuthState copyWith({
-    bool? isLoading,
     bool? isAuthenticated,
+    bool? isLoading,
     String? error,
+    UserProfile? userProfile,
+    bool? isInitialized,
   }) {
     return AuthState(
-      isLoading: isLoading ?? this.isLoading,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
-      error: error ?? this.error,
+      isLoading: isLoading ?? this.isLoading,
+      error: error,
+      userProfile: userProfile ?? this.userProfile,
+      isInitialized: isInitialized ?? this.isInitialized,
     );
   }
 }

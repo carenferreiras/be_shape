@@ -1,1 +1,1 @@
-export './firebase_exercise_repository.dart';
+export 'firebase_exercise_repository.dart';

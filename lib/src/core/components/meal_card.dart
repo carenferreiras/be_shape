@@ -52,7 +52,7 @@ class MealCard extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        BeShapeColors.primary.withOpacity(0.2),
+                        BeShapeColors.primary.withOpacity(0.1),
                         BeShapeColors.primary.withOpacity(0.05),
                       ],
                     ),
@@ -71,7 +71,7 @@ class MealCard extends StatelessWidget {
                               'Proteína',
                               consumedProtein,
                               macroTargets.proteins, // 🔹 Agora pegamos os dados reais
-                              Colors.blue,
+                              BeShapeColors.link,
                               Icons.fitness_center,
                             ),
                             const SizedBox(height: 20),
@@ -79,7 +79,7 @@ class MealCard extends StatelessWidget {
                               'Carboidrato',
                               consumedCarbs,
                               macroTargets.carbs, // 🔹 Agora pegamos os dados reais
-                              Colors.green,
+                              BeShapeColors.accent,
                               Icons.grain,
                             ),
                             const SizedBox(height: 20),
@@ -87,7 +87,7 @@ class MealCard extends StatelessWidget {
                               'Gordura',
                               consumedFat,
                               macroTargets.fats, // 🔹 Agora pegamos os dados reais
-                              Colors.orange,
+                              BeShapeColors.primary,
                               Icons.opacity,
                             ),
                           ],

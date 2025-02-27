@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../features/features.dart';
+import '../core.dart';
 
 class BodyCompositionCard extends StatelessWidget {
   final UserProfile userProfile;
@@ -149,21 +150,21 @@ class BodyCompositionCard extends StatelessWidget {
                         'Weight',
                         '${userProfile.weight.toStringAsFixed(1)} kg',
                         Icons.monitor_weight,
-                        Colors.orange,
+                        BeShapeColors.primary,
                       ),
                       const SizedBox(height: 16),
                       _buildMetricRow(
                         'Height',
                         '${userProfile.height.toStringAsFixed(1)} cm',
                         Icons.height,
-                        Colors.green,
+                        BeShapeColors.accent,
                       ),
                       const SizedBox(height: 16),
                       _buildMetricRow(
-                        'BMI',
+                        'bmi',
                         bmi.toStringAsFixed(1),
                         Icons.analytics,
-                        Colors.blue,
+                        BeShapeColors.link,
                       ),
                     ],
                   ),

@@ -9,6 +9,8 @@ class Exercise {
   final double caloriesBurned;
   final DateTime date;
   final String? notes;
+  final List<String> equipmentIds;
+  final List<String> equipmentNames;
 
   Exercise({
     required this.id,
@@ -19,6 +21,8 @@ class Exercise {
     required this.caloriesBurned,
     required this.date,
     this.notes,
+    required this.equipmentIds,
+    required this.equipmentNames,
   });
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
@@ -28,9 +32,11 @@ class Exercise {
       name: json['name'] as String,
       type: json['type'] as String,
       duration: json['duration'] as int,
-      caloriesBurned: json['caloriesBurned'] as double,
+      caloriesBurned: (json['caloriesBurned'] as num).toDouble(),
       date: DateTime.parse(json['date'] as String),
       notes: json['notes'] as String?,
+      equipmentIds: (json['equipmentIds'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+      equipmentNames: (json['equipmentNames'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
     );
   }
 
@@ -48,6 +54,8 @@ class Exercise {
           : double.parse(map['caloriesBurned'].toString()),
       date: (map['date'] as Timestamp).toDate(),
       notes: map['notes'] as String?,
+      equipmentIds: (map['equipmentIds'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+      equipmentNames: (map['equipmentNames'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
     );
   }
 
@@ -61,6 +69,8 @@ class Exercise {
       'caloriesBurned': caloriesBurned,
       'date': date.toIso8601String(),
       'notes': notes,
+      'equipmentIds': equipmentIds,
+      'equipmentNames': equipmentNames,
     };
   }
 
@@ -73,6 +83,8 @@ class Exercise {
     double? caloriesBurned,
     DateTime? date,
     String? notes,
+    List<String>? equipmentIds,
+    List<String>? equipmentNames,
   }) {
     return Exercise(
       id: id ?? this.id,
@@ -83,6 +95,8 @@ class Exercise {
       caloriesBurned: caloriesBurned ?? this.caloriesBurned,
       date: date ?? this.date,
       notes: notes ?? this.notes,
+      equipmentIds: equipmentIds ?? this.equipmentIds,
+      equipmentNames: equipmentNames ?? this.equipmentNames,
     );
   }
 }

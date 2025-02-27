@@ -1,0 +1,1 @@
+export './ai_assistent_widget.dart';

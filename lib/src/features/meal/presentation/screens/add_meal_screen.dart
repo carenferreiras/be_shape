@@ -171,7 +171,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.orange),
+        borderSide: const BorderSide(color: BeShapeColors.primary),
       ),
       filled: true,
       fillColor: Colors.grey[900],

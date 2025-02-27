@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../core.dart';
+
 class VirtualCoachCard extends StatelessWidget {
   const VirtualCoachCard({super.key});
 
@@ -31,13 +33,13 @@ class VirtualCoachCard extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(0.2),
+                  color: BeShapeColors.primary.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Text(
                   'GPT-4',
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: BeShapeColors.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

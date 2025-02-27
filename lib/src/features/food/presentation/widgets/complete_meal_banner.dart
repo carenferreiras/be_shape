@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
 class CompleteMealBanner extends StatelessWidget {
@@ -19,10 +20,10 @@ class CompleteMealBanner extends StatelessWidget {
           vertical: 8,
         ),
         decoration: BoxDecoration(
-          color: Colors.green.withOpacity(0.2),
+          color: BeShapeColors.accent.withOpacity(0.2),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: Colors.green.withOpacity(0.3),
+            color: BeShapeColors.accent.withOpacity(0.3),
           ),
         ),
         child: Row(
@@ -30,7 +31,7 @@ class CompleteMealBanner extends StatelessWidget {
           children: [
             const Icon(
               Icons.check_circle,
-              color: Colors.green,
+              color: BeShapeColors.accent,
               size: 20,
             ),
             const SizedBox(width: 8),
@@ -39,7 +40,7 @@ class CompleteMealBanner extends StatelessWidget {
                   ? 'Day Auto-Completed'
                   : 'Day Completed',
               style: const TextStyle(
-                color: Colors.green,
+                color: BeShapeColors.accent,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -49,7 +50,7 @@ class CompleteMealBanner extends StatelessWidget {
                 mealsForDate.first.completedAt ?? DateTime.now(),
               ),
               style: TextStyle(
-                color: Colors.green.withOpacity(0.7),
+                color: BeShapeColors.accent.withOpacity(0.7),
                 fontSize: 12,
               ),
             ),

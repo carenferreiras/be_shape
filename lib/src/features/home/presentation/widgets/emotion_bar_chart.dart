@@ -1,9 +1,9 @@
-import 'package:be_shape_app/src/features/features.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../core/core.dart';
+import '../../../features.dart';
 
 class EmotionBarChart extends StatelessWidget {
   const EmotionBarChart({super.key});
@@ -13,7 +13,7 @@ class EmotionBarChart extends StatelessWidget {
     return BlocBuilder<HabitBloc, HabitState>(
       builder: (context, state) {
         if (state is HabitsLoading) {
-          return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
+          return const Center(child: SpinKitWaveSpinner(color: BeShapeColors.primary,));
         } else if (state is HabitsLoaded) {
           final emotionCounts = _getEmotionCounts(state.habits);
           final total =

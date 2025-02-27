@@ -20,10 +20,10 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
   HabitCategory? _selectedCategory;
   final List<HabitCategory> habitCategories = [
     HabitCategory(
-        name: "Health", color: Colors.green, icon: Icons.health_and_safety),
-    HabitCategory(name: "Work", color: Colors.blue, icon: Icons.work),
+        name: "Health", color: BeShapeColors.accent, icon: Icons.health_and_safety),
+    HabitCategory(name: "Work", color: BeShapeColors.link, icon: Icons.work),
     HabitCategory(
-        name: "Leisure", color: Colors.orange, icon: Icons.sports_esports),
+        name: "Leisure", color: BeShapeColors.primary, icon: Icons.sports_esports),
     HabitCategory(
         name: "Fitness", color: Colors.red, icon: Icons.fitness_center),
   ];

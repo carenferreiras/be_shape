@@ -52,7 +52,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
             child: BlocBuilder<HabitBloc, HabitState>(
               builder: (context, state) {
                 if (state is HabitsLoading) {
-                  return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
+                  return const Center(child: SpinKitWaveSpinner(color: BeShapeColors.primary,));
                 } else if (state is HabitsLoaded) {
                   final habits = state.habits;
                   return Padding(

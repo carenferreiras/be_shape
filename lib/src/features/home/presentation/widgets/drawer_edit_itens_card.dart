@@ -52,12 +52,12 @@ class DrawerEditItensCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.15),
+                  color: BeShapeColors.link.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
                   Icons.fitness_center,
-                  color: Colors.blue,
+                  color: BeShapeColors.link,
                   size: 20,
                 ),
               ),
@@ -93,7 +93,7 @@ class DrawerEditItensCard extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: const Icon(
                       Icons.edit,
-                      color: Colors.blue,
+                      color: BeShapeColors.link,
                       size: 20,
                     ),
                   ),
@@ -107,12 +107,12 @@ class DrawerEditItensCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.15),
+                  color: BeShapeColors.accent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
                   Icons.grain,
-                  color: Colors.green,
+                  color: BeShapeColors.accent,
                   size: 20,
                 ),
               ),
@@ -148,7 +148,7 @@ class DrawerEditItensCard extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: const Icon(
                       Icons.edit,
-                      color: Colors.green,
+                      color: BeShapeColors.accent,
                       size: 20,
                     ),
                   ),

@@ -14,12 +14,6 @@ class BeShapeApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AuthBloc(
-            authRepository: context.read<AuthRepository>(), 
-            userRepository: context.read<UserRepository>(),
-          ),
-        ),
-        BlocProvider(
           create: (context) => OnboardingBloc(
             userRepository: context.read<UserRepository>(),
             authRepository: context.read<AuthRepository>(),

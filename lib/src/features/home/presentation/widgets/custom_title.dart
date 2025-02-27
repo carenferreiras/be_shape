@@ -6,8 +6,9 @@ class CustomTitle extends StatelessWidget {
   final String title;
   final String? buttonTitle;
   final void Function()? onTap;
+  final IconData? icon;
 
-  const CustomTitle({super.key, required this.title, this.onTap, this.buttonTitle});
+  const CustomTitle({super.key, required this.title, this.onTap, this.buttonTitle, this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +39,8 @@ class CustomTitle extends StatelessWidget {
               ),
               child:  Row(
                 children: [
-                  const Icon(
-                    Icons.add_circle_outline,
+                   Icon(
+                   icon?? Icons.add_circle_outline,
                     color: BeShapeColors.primary,
                     size: 18,
                   ),

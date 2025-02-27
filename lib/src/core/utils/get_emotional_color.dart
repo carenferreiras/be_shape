@@ -1,18 +1,20 @@
  import 'package:flutter/material.dart';
 
+import '../core.dart';
+
 /// 🔹 **Cores para Emoções**
   Color getEmotionColor(String emotion) {
     switch (emotion) {
       case 'Feliz':
-        return Colors.green;
+        return BeShapeColors.accent;
       case 'Triste':
-        return Colors.blue;
+        return BeShapeColors.link;
       case 'Ansioso':
         return Colors.yellow;
       case 'Relaxado':
         return Colors.purple;
       case 'Cansado':
-        return Colors.orange;
+        return BeShapeColors.primary;
       default:
         return Colors.grey;
     }

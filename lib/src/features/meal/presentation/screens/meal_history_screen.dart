@@ -1,9 +1,9 @@
-import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
 class MealHistoryScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _MealHistoryScreenState extends State<MealHistoryScreen> {
       body: BlocBuilder<MealBloc, MealState>(
         builder: (context, state) {
           if (state.isLoading) {
-            return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
+            return const Center(child: SpinKitWaveSpinner(color: BeShapeColors.primary,));
           }
 
           final completedMeals = state.meals
@@ -128,7 +128,7 @@ class _MealHistoryScreenState extends State<MealHistoryScreen> {
                             Text(
                               '${totalCalories.round()} kcal',
                               style: const TextStyle(
-                                color: Colors.orange,
+                                color: BeShapeColors.primary,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -142,12 +142,12 @@ class _MealHistoryScreenState extends State<MealHistoryScreen> {
                             _MacroSummary(
                               label: 'Protein',
                               value: totalProteins,
-                              color: Colors.blue,
+                              color: BeShapeColors.link,
                             ),
                             _MacroSummary(
                               label: 'Carbs',
                               value: totalCarbs,
-                              color: Colors.green,
+                              color: BeShapeColors.accent,
                             ),
                             _MacroSummary(
                               label: 'Fat',
@@ -260,7 +260,7 @@ class _MealHistoryItem extends StatelessWidget {
           Text(
             '${meal.calories.round()} kcal',
             style: const TextStyle(
-              color: Colors.orange,
+              color: BeShapeColors.primary,
               fontWeight: FontWeight.bold,
             ),
           ),

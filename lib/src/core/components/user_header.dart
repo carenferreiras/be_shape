@@ -1,7 +1,7 @@
-import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/features.dart';
+import '../core.dart';
 
 class UserHeader extends StatelessWidget {
   final UserProfile userProfile;
@@ -24,7 +24,7 @@ class UserHeader extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 12),
                 child: Container(
-                  width: MediaQuery.of(context).size.width *0.5,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: Text(
                     'Olá, ${userProfile.name}',
                     style: const TextStyle(
@@ -75,7 +75,7 @@ class UserHeader extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.2),
+                        color: BeShapeColors.link.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -83,13 +83,13 @@ class UserHeader extends StatelessWidget {
                           const Icon(
                             Icons.workspace_premium,
                             size: 16,
-                            color: Colors.blue,
+                            color: BeShapeColors.link,
                           ),
                           const SizedBox(width: 4),
                           Text(
                             'Pro',
                             style: TextStyle(
-                              color: Colors.blue[300],
+                              color: BeShapeColors.link,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -101,15 +101,6 @@ class UserHeader extends StatelessWidget {
               ),
             ],
           ),
-          Card(
-              color: BeShapeColors.primary.withOpacity(0.2),
-              child: IconButton(
-                onPressed: () => Navigator.pushNamed(context, '/profile'),
-                icon: Icon(
-                  Icons.person,
-                  color: BeShapeColors.primary,
-                ),
-              )),
         ],
       ),
     );

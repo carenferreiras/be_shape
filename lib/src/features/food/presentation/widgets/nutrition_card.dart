@@ -45,14 +45,14 @@ class NutritionCard extends StatelessWidget {
           _buildNutritionInput(
             'Protein',
             proteinsController,
-            Colors.blue,
+            BeShapeColors.link,
             'g',
           ),
           const SizedBox(height: 12),
           _buildNutritionInput(
             'Carbs',
             carbsController,
-            Colors.green,
+            BeShapeColors.accent,
             'g',
           ),
           const SizedBox(height: 12),

@@ -1,1 +1,1 @@
-export './exercise.dart';
+export 'exercise.dart';

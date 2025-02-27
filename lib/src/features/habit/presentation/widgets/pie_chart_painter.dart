@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../../../core/core.dart';
+
 class PieChartPainter extends CustomPainter {
   final Map<String, int> data;
   final int total;
@@ -32,15 +34,15 @@ class PieChartPainter extends CustomPainter {
 Color _getEmotionColor(String emotion) {
   switch (emotion) {
     case 'Feliz':
-      return Colors.green;
+      return BeShapeColors.accent;
     case 'Triste':
-      return Colors.blue;
+      return BeShapeColors.link;
     case 'Ansioso':
       return Colors.yellow;
     case 'Relaxado':
       return Colors.purple;
     case 'Cansado':
-      return Colors.orange;
+      return BeShapeColors.primary;
     default:
       return Colors.grey;
   }

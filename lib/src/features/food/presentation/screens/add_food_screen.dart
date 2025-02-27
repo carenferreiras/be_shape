@@ -1,6 +1,5 @@
 // ignore_for_file: unused_element
 
-import 'package:be_shape_app/src/features/food/presentation/widgets/search_my_food_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -288,120 +287,126 @@ class _AddFoodScreenState extends State<AddFoodScreen>
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: BeShapeColors.primary,
-              )),
-          title: const Text('Add Food',
-              style: TextStyle(color: BeShapeColors.primary)),
-          backgroundColor: Colors.black,
-          elevation: 2,
-          bottom: TabBar(
-            controller: _tabController,
-            tabs: const [
-              Tab(text: 'Create New'),
-              Tab(text: 'App Foods'),
-              Tab(text: 'My Foods'),
-            ],
-            indicatorColor: BeShapeColors.primary,
-            labelColor: BeShapeColors.primary,
-            unselectedLabelColor: Colors.grey,
-          ),
-          actions: [
-            if (_isCreatingNew)
-              IconButton(
+      child: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(BeShapeImages.foodBackground),
+                fit: BoxFit.cover)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            leading: IconButton(
+                onPressed: () => Navigator.pop(context),
                 icon: Icon(
-                  _isFavorite ? Icons.favorite : Icons.favorite_border,
+                  Icons.arrow_back_ios,
                   color: BeShapeColors.primary,
+                )),
+            title: const Text('Add Food',
+                style: TextStyle(color: BeShapeColors.primary)),
+            backgroundColor: Colors.black.withOpacity(0.7),
+            elevation: 2,
+            bottom: TabBar(
+              controller: _tabController,
+              tabs: const [
+                Tab(text: 'Create New'),
+                Tab(text: 'App Foods'),
+                Tab(text: 'My Foods'),
+              ],
+              indicatorColor: BeShapeColors.primary,
+              labelColor: BeShapeColors.primary,
+              unselectedLabelColor: Colors.grey,
+            ),
+            actions: [
+              if (_isCreatingNew)
+                IconButton(
+                  icon: Icon(
+                    _isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: BeShapeColors.primary,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isFavorite = !_isFavorite;
+                    });
+                  },
                 ),
-                onPressed: () {
+            ],
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              // Create New Tab
+              CreateNewTabWidget(
+                nameController: _nameController,
+                brandController: _brandController,
+                servingSizeController: _servingSizeController,
+                quantityController: _quantityController,
+                caloriesController: _caloriesController,
+                proteinsController: _proteinsController,
+                carbsController: _carbsController,
+                fatsController: _fatsController,
+                formKey: _formKey,
+                isFavorite: _isFavorite,
+                isPublic: _isPublic,
+                isCreatingNew: _isCreatingNew,
+                selecteDate: _selectedDate,
+                selectDatetap: () => _selectDate(context),
+                isPubliconChanged: (bool value) {
                   setState(() {
-                    _isFavorite = !_isFavorite;
+                    _isPublic = value;
                   });
                 },
+                submitFoodPressed: _submitFood,
+                updateNutritionValues: (_) => _updateNutritionValues(),
               ),
-          ],
-        ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            // Create New Tab
-            CreateNewTabWidget(
-              nameController: _nameController,
-              brandController: _brandController,
-              servingSizeController: _servingSizeController,
-              quantityController: _quantityController,
-              caloriesController: _caloriesController,
-              proteinsController: _proteinsController,
-              carbsController: _carbsController,
-              fatsController: _fatsController,
-              formKey: _formKey,
-              isFavorite: _isFavorite,
-              isPublic: _isPublic,
-              isCreatingNew: _isCreatingNew,
-              selecteDate: _selectedDate,
-              selectDatetap: () => _selectDate(context),
-              isPubliconChanged: (bool value) {
-                setState(() {
-                  _isPublic = value;
-                });
-              },
-              submitFoodPressed: _submitFood,
-              updateNutritionValues: (_) => _updateNutritionValues(),
-            ),
-            Column(
-              children: [
-                SearchInput(
-                    controller: _searchController, searchText: 'Alimento'),
-                _buildMyFoodsTab(),
-              ],
-            ),
-            // My Foods Tab
-            Column(
-              children: [
-                SearchMyFoodTab(
-                    onChanged: _searchFoods,
-                    searchController: _searchController),
-                Expanded(
-                  child: BlocBuilder<SavedFoodBloc, SavedFoodState>(
-                    builder: (context, state) {
-                      if (state.isLoading) {
-                        return const Center(
-                            child: SpinKitThreeBounce(
-                          color: BeShapeColors.primary,
-                        ));
-                      }
-                      if (state.foods.isEmpty) {
-                        return AddFoodButtonTab();
-                      }
+              Column(
+                children: [
+                  SearchInput(
+                      controller: _searchController, searchText: 'Alimento'),
+                  _buildMyFoodsTab(),
+                ],
+              ),
+              // My Foods Tab
+              Column(
+                children: [
+                  SearchMyFoodTab(
+                      onChanged: _searchFoods,
+                      searchController: _searchController),
+                  Expanded(
+                    child: BlocBuilder<SavedFoodBloc, SavedFoodState>(
+                      builder: (context, state) {
+                        if (state.isLoading) {
+                          return const Center(
+                              child: SpinKitWaveSpinner(
+                            color: BeShapeColors.primary,
+                          ));
+                        }
+                        if (state.foods.isEmpty) {
+                          return AddFoodButtonTab();
+                        }
 
-                      return ListView.builder(
-                        itemCount: state.foods.length,
-                        itemBuilder: (context, index) {
-                          final food = state.foods[index];
-                          return MyFoodsCardTab(
-                              onDismissed: (_) {
-                                context
-                                    .read<SavedFoodBloc>()
-                                    .add(DeleteSavedFood(food.id));
-                              },
-                              onTapSelectExistingFood: () =>
-                                  _selectExistingFood(food),
-                              dimissibleKey: Key(food.id),
-                              food: food);
-                        },
-                      );
-                    },
+                        return ListView.builder(
+                          itemCount: state.foods.length,
+                          itemBuilder: (context, index) {
+                            final food = state.foods[index];
+                            return MyFoodsCardTab(
+                                onDismissed: (_) {
+                                  context
+                                      .read<SavedFoodBloc>()
+                                      .add(DeleteSavedFood(food.id));
+                                },
+                                onTapSelectExistingFood: () =>
+                                    _selectExistingFood(food),
+                                dimissibleKey: Key(food.id),
+                                food: food);
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

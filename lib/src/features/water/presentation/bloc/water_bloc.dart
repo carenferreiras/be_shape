@@ -1,73 +1,93 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-
-import '../../water.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'water_event.dart';
+import 'water_state.dart';
 
 class WaterBloc extends Bloc<WaterEvent, WaterState> {
-  final GetCurrentWaterIntake getCurrentWaterIntake;
-  final UpdateWaterIntake updateWaterIntake;
+  final SharedPreferences _prefs;
+  static const String _waterKey = 'water_intake';
+  static const String _dateKey = 'water_date';
 
-  WaterBloc({
-    required this.getCurrentWaterIntake,
-    required this.updateWaterIntake,
-  }) : super(WaterInitial()) {
+  WaterBloc({required SharedPreferences prefs})
+      : _prefs = prefs,
+        super(const WaterState()) {
+    on<AddWater>(_onAddWater);
     on<LoadWaterIntake>(_onLoadWaterIntake);
-    on<AddWaterIntake>(_onAddWaterIntake);
+    on<ResetWaterIntake>(_onResetWaterIntake);
+
+    // Verifica se precisa resetar o contador diariamente
+    _checkDailyReset();
   }
 
-  Future<void> _onLoadWaterIntake(
-    LoadWaterIntake event, Emitter<WaterState> emit) async {
-  emit(WaterLoading());
-  try {
-    final waterIntake = await getCurrentWaterIntake.call();
-
-    // Garante que a lista de entradas não seja nula
-    final validEntries = waterIntake.entries;
-
-    emit(WaterLoaded(
-      WaterIntake(
-        date: waterIntake.date,
-        totalIntake: waterIntake.totalIntake,
-        entries: validEntries,
-      ),
-    ));
-  } catch (e) {
-    emit(WaterError("Erro ao carregar os dados de água."));
-  }
-}
-
-  Future<void> _onAddWaterIntake(
-    AddWaterIntake event, Emitter<WaterState> emit) async {
-  if (state is WaterLoaded) {
-    final currentState = state as WaterLoaded;
-
+  Future<void> _onAddWater(AddWater event, Emitter<WaterState> emit) async {
     try {
-      // Adiciona a quantidade de água ao total
-      final updatedIntake = currentState.intake.totalIntake + event.amount;
-
-      // Cria uma nova lista de entradas com o novo registro
-      final updatedEntries = List<WaterEntry>.from(currentState.intake.entries)
-        ..add(WaterEntry(
-          time: DateFormat('h:mm a').format(DateTime.now()), // Hora atual
-          amount: event.amount,
-        ));
-
-      // Cria um novo objeto `WaterIntake` atualizado
-      final updatedWaterIntake = WaterIntake(
-        date: currentState.intake.date,
-        totalIntake: updatedIntake,
-        entries: updatedEntries,
-      );
-
-      // Atualiza o repositório
-      await updateWaterIntake.call(event.amount);
-
-      // Emite o novo estado com os dados atualizados
-      emit(WaterLoaded(updatedWaterIntake));
+      emit(state.copyWith(isLoading: true));
+      
+      final newIntake = state.currentIntake + event.amount;
+      await _prefs.setDouble(_waterKey, newIntake);
+      
+      emit(state.copyWith(
+        isLoading: false,
+        currentIntake: newIntake,
+      ));
     } catch (e) {
-      emit(WaterError("Erro ao adicionar consumo de água."));
+      emit(state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      ));
     }
   }
-}
 
+  Future<void> _onLoadWaterIntake(LoadWaterIntake event, Emitter<WaterState> emit) async {
+    try {
+      emit(state.copyWith(isLoading: true));
+      
+      final intake = _prefs.getDouble(_waterKey) ?? 0;
+      
+      emit(state.copyWith(
+        isLoading: false,
+        currentIntake: intake,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> _onResetWaterIntake(ResetWaterIntake event, Emitter<WaterState> emit) async {
+    try {
+      emit(state.copyWith(isLoading: true));
+      
+      await _prefs.setDouble(_waterKey, 0);
+      await _prefs.setString(_dateKey, DateTime.now().toIso8601String());
+      
+      emit(state.copyWith(
+        isLoading: false,
+        currentIntake: 0,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> _checkDailyReset() async {
+    final lastDate = _prefs.getString(_dateKey);
+    if (lastDate != null) {
+      final lastDateTime = DateTime.parse(lastDate);
+      final now = DateTime.now();
+      
+      if (lastDateTime.day != now.day ||
+          lastDateTime.month != now.month ||
+          lastDateTime.year != now.year) {
+        add(ResetWaterIntake());
+      }
+    } else {
+      await _prefs.setString(_dateKey, DateTime.now().toIso8601String());
+    }
+  }
 }

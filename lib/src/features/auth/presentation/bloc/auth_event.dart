@@ -1,3 +1,5 @@
+import '../../auth.dart';
+
 abstract class AuthEvent {
   const AuthEvent();
 }
@@ -13,7 +15,7 @@ class SignUpRequested extends AuthEvent {
 class SignInRequested extends AuthEvent {
   final String email;
   final String password;
-  final String name; // Adicionado
+  final String name;
 
   const SignInRequested(this.email, this.password, this.name);
 }
@@ -28,6 +30,12 @@ class AuthCheckRequested extends AuthEvent {
 
 class AuthStateChanged extends AuthEvent {
   final bool isAuthenticated;
+  final UserProfile? userProfile; // Tornando opcional com ?
 
-  const AuthStateChanged(this.isAuthenticated);
+  const AuthStateChanged(this.isAuthenticated, {this.userProfile}); // Tornando um parâmetro nomeado opcional
 }
+class UpdateUserProfile extends AuthEvent {
+  final UserProfile userProfile;
+  UpdateUserProfile(this.userProfile);
+}
+

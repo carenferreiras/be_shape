@@ -1,7 +1,7 @@
-import 'package:be_shape_app/src/features/features.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/core.dart';
+import '../../../features.dart';
 
 class CustomCard extends StatelessWidget {
   final IconData caloriesIcon;
@@ -29,7 +29,6 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 170,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -64,19 +63,25 @@ class CustomCard extends StatelessWidget {
                     number: calories,
                     measure: 'kcal',
                     name: 'Calorias',
-                    color: Colors.orange),
+                    color: BeShapeColors.primary),
                 NumberCard(
                     icon: proteinIcon,
                     number: carbo,
                     measure: 'g',
                     name: 'Carboidratos',
-                    color: Colors.blue),
+                    color: BeShapeColors.link),
                 NumberCard(
                     icon: fibersIcon,
                     number: fibers,
                     measure: 'g',
                     name: 'Fibras',
-                    color: Colors.green),
+                    color: BeShapeColors.accent),
+               NumberCard(
+                    icon: fibersIcon,
+                    number: fibers,
+                    measure: 'g',
+                    name: 'Gorduras',
+                    color: BeShapeColors.error),
               ],
             ),
             Row(

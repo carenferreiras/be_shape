@@ -60,7 +60,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
               builder: (context, state) {
                 if (state.isLoading) {
                   return const Center(
-                    child: SpinKitThreeBounce(
+                    child: SpinKitWaveSpinner(
                      color: BeShapeColors.primary,
                     ),
                   );
@@ -140,13 +140,17 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: BeShapeColors.primary),
+          borderRadius: BorderRadius.circular(16),
+        ),
         onPressed: () {
           Navigator.pushNamed(context, '/add-exercise');
         },
-        backgroundColor: BeShapeColors.primary,
+        backgroundColor: BeShapeColors.primary.withOpacity(0.2),
         child: const Icon(
           Icons.add,
-          color: BeShapeColors.background,
+          color: BeShapeColors.primary,
         ),
       ),
     );

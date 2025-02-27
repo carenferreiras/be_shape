@@ -1,5 +1,6 @@
-import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
+
+import '../core.dart';
 
 class BeShapeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;

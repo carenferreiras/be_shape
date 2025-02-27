@@ -1,1 +1,1 @@
-export './progress_photo.dart';
+export 'progress_photo.dart';

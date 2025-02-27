@@ -10,24 +10,27 @@ class CustomFloatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
-          icon: Icons.add,
+          icon: Icons.more_horiz_outlined,
           activeIcon: Icons.close,
-          backgroundColor: BeShapeColors.primary,
-          foregroundColor: BeShapeColors.background,
+          backgroundColor: BeShapeColors.primary.withOpacity(0.2),
+          foregroundColor: BeShapeColors.primary,
           activeBackgroundColor: Colors.red,
           activeForegroundColor: Colors.white,
           buttonSize: const Size(56.0, 56.0),
           visible: true,
           closeManually: false,
           curve: Curves.bounceIn,
-          overlayColor: Colors.black,
+          overlayColor: BeShapeColors.background,
           overlayOpacity: 0.5,
           elevation: 8.0,
-          shape: const CircleBorder(),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(color: BeShapeColors.primary,),
+            borderRadius: BorderRadius.circular(BeShapeSizes.paddingMedium),
+          ),
           children: [
             SpeedDialChild(
               child: const Icon(Icons.bookmark_add),
-              backgroundColor: Colors.blue,
+              backgroundColor: BeShapeColors.link,
               foregroundColor: Colors.white,
               label: 'Add Saved Food',
               labelStyle:
@@ -37,7 +40,7 @@ class CustomFloatingButton extends StatelessWidget {
             ),
             SpeedDialChild(
               child: const Icon(Icons.add),
-              backgroundColor: Colors.green,
+              backgroundColor: BeShapeColors.accent,
               foregroundColor: Colors.white,
               label: 'Add New Food',
               labelStyle:

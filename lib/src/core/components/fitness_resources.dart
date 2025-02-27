@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../core.dart';
+
 class FitnessResources extends StatelessWidget {
   const FitnessResources({super.key});
 
@@ -22,7 +24,7 @@ class FitnessResources extends StatelessWidget {
             Text(
               'See All',
               style: TextStyle(
-                color: Colors.orange[300],
+                color: BeShapeColors.primary,
               ),
             ),
           ],
@@ -125,7 +127,7 @@ class _ResourceCard extends StatelessWidget {
                     _StatBadge(
                       value: stats[2],
                       icon: Icons.people,
-                      color: Colors.blue,
+                      color: BeShapeColors.link,
                     ),
                   ],
                 ),
@@ -135,12 +137,12 @@ class _ResourceCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.orange.withOpacity(0.2),
+              color: BeShapeColors.primary.withOpacity(0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(
               Icons.play_arrow,
-              color: Colors.orange,
+              color: BeShapeColors.primary,
               size: 20,
             ),
           ),

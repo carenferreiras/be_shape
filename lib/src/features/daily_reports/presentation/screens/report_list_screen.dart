@@ -43,7 +43,7 @@ class _ReportsListScreenState extends State<ReportsListScreen> {
         future: _reportsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
+            return const Center(child: SpinKitWaveSpinner(color: BeShapeColors.primary,));
           }
 
           if (snapshot.hasError) {
@@ -233,12 +233,12 @@ class _ReportCard extends StatelessWidget {
                     _MacroStat(
                       label: 'Protein',
                       percentage: proteinPercentage,
-                      color: Colors.blue,
+                      color: BeShapeColors.link,
                     ),
                     _MacroStat(
                       label: 'Carbs',
                       percentage: carbsPercentage,
-                      color: Colors.green,
+                      color: BeShapeColors.accent,
                     ),
                     _MacroStat(
                       label: 'Fat',
@@ -269,8 +269,8 @@ class _ReportCard extends StatelessWidget {
 
   Color _getCalorieColor(int percentage) {
     if (percentage < 80) return Colors.red;
-    if (percentage < 95) return Colors.orange;
-    if (percentage <= 105) return Colors.green;
+    if (percentage < 95) return BeShapeColors.primary;
+    if (percentage <= 105) return BeShapeColors.accent;
     return Colors.red;
   }
 }

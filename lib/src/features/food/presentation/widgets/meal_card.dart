@@ -60,12 +60,12 @@ class MealCardWidget extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: Colors.green.withOpacity(0.2),
+                              color: BeShapeColors.accent.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(
                               Icons.check,
-                              color: Colors.green,
+                              color: BeShapeColors.accent,
                               size: 16,
                             ),
                           ),
@@ -104,14 +104,14 @@ class MealCardWidget extends StatelessWidget {
                       icon: Icons.fitness_center,
                       value: meal.proteins,
                       unit: 'g',
-                      color: Colors.blue,
+                      color: BeShapeColors.link,
                       label: 'Protein',
                     ),
                     MacroInfo(
                       icon: Icons.grain,
                       value: meal.carbs,
                       unit: 'g',
-                      color: Colors.green,
+                      color: BeShapeColors.accent,
                       label: 'Carbs',
                     ),
                     MacroInfo(

@@ -1,1 +1,1 @@
-export './pie_chart_painter.dart';
+export 'pie_chart_painter.dart';

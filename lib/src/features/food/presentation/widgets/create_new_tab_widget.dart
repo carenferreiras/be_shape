@@ -168,24 +168,11 @@ class CreateNewTabWidget extends StatelessWidget {
               ),
             ],
             const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: submitFoodPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: BeShapeColors.primary,
-                padding: const EdgeInsets.symmetric(
-                    vertical: BeShapeSizes.paddingMedium),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: Text(
-                isCreatingNew ? 'Add Food' : 'Add to Today',
-                style: const TextStyle(
-                    fontSize: BeShapeSizes.paddingMedium,
-                    fontWeight: FontWeight.bold,
-                    color: BeShapeColors.background),
-              ),
-            ),
+            BeShapeCustomButton(
+              buttonColor: BeShapeColors.background.withOpacity(0.3),
+              icon: Icons.add_box_outlined,
+              label:  isCreatingNew ? 'Add Food' : 'Add to Today', 
+              isLoading: false, onPressed: submitFoodPressed,)
           ],
         ),
       ),

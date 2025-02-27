@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/core.dart';
+
 class EmotionCheckInScreen extends StatefulWidget {
   final Function(String emotion) onSaveEmotion;
 
@@ -46,7 +48,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> {
                       emotion,
                       style: TextStyle(
                         color: selectedEmotion == emotion
-                            ? Colors.orange
+                            ? BeShapeColors.primary
                             : Colors.white,
                       ),
                     ),
@@ -67,7 +69,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
+                backgroundColor: BeShapeColors.primary,
               ),
               child: const Text('Salvar'),
             ),

@@ -79,7 +79,7 @@ class WeightInputStep extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? Colors.blue : Colors.grey[900],
+            color: isSelected ? BeShapeColors.link : Colors.grey[900],
             borderRadius: BorderRadius.circular(30),
           ),
           child: Text(

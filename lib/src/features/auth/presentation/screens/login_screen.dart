@@ -250,6 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _emailController.text,
               _passwordController.text,
               _nameController.text,
+              
             ),
           );
     }

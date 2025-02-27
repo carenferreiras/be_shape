@@ -255,7 +255,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               child: state.isLoading
-                                  ? SpinKitThreeBounce(
+                                  ? SpinKitWaveSpinner(
                                       size: 20,
                                       color: BeShapeColors.primary,
                                     )

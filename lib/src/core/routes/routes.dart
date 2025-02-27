@@ -1,4 +1,3 @@
-import 'package:be_shape_app/src/features/chat/presentation/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +26,20 @@ class AppRouter {
   static const String habit = '/habits';
   static const String waterTracker ='/water-tracker'; 
   static const String profile = '/profile';
+  static const String suplement = '/suplement';
+  static const String training = '/training';
+  static const String bodyProgress = '/body-progress';
+  // Equipment routes
+  static const String equipment = '/equipment';
+  static const String addEquipment = '/add-equipment';
+  static const String editEquipment = '/edit-equipment';
+  
+  // Workout routes
+  static const String createWorkout = '/create-workout';
+  static const String workoutTemplates = '/workout-templates';
+  static const String workoutHistory = '/workout-history';
+  static const String executeWorkout = '/execute-workout';
+  
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -99,22 +112,59 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ExerciseListScreen(),
         );
+      case training:
+        return MaterialPageRoute(
+          builder: (_) =>  TrainingSelectionScreen(),
+        );
+    case workoutHistory: 
+      return MaterialPageRoute(builder: (_)=> WorkoutHistoryScreen());
       case profile:
-        return MaterialPageRoute(builder: (_)=> const UserProfileScreen());
+        return MaterialPageRoute(builder: (_)=>  UserMetricsScreen());
       case healthPage:
         return MaterialPageRoute(builder: (_) => const HealthPage());
-      case chatScreen:
-        return MaterialPageRoute(builder: (_) => const ChatScreen());
       case habit:
         return MaterialPageRoute(builder: (_) => const HabitsScreen());
-      case waterTracker:
+      case suplement:
+        return MaterialPageRoute(builder: (_) => const SupplementsScreen());
+       // Equipment routes
+      case equipment:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: BlocProvider.of<WaterBloc>(
-                _), // 🟢 Obtém o WaterBloc do contexto global
-            child: const WaterTrackerScreen(),
-          ),
-        ); // 📌 Chama a tela de água
+          builder: (_) => const EquipmentScreen(),
+        );
+
+      case addEquipment:
+        return MaterialPageRoute(
+          builder: (_) => const AddEquipmentScreen(),
+        );
+
+      case editEquipment:
+        final equipment = settings.arguments as Equipment;
+        return MaterialPageRoute(
+          builder: (_) => EditEquipmentScreen(equipment: equipment),
+        );
+
+      // Workout routes
+      case createWorkout:
+        final equipment = settings.arguments as Equipment?;
+        return MaterialPageRoute(
+          builder: (_) => CreateWorkoutScreen(equipment: equipment),
+        );
+
+      case workoutTemplates:
+        return MaterialPageRoute(
+          builder: (_) => const WorkoutTemplatesScreen(),
+        );
+
+      case executeWorkout:
+        final workout = settings.arguments as Workout;
+        return MaterialPageRoute(
+          builder: (_) => ExecuteWorkoutScreen(workout: workout),
+        );
+      case bodyProgress:
+        return MaterialPageRoute(
+          builder: (_) => BodyProgressScreen(),
+        );
+
 
       default:
         return MaterialPageRoute(

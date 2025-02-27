@@ -1,1 +1,1 @@
-export './health_repostitory.dart';
+export 'health_repostitory.dart';

@@ -27,7 +27,7 @@ class LoadingOverlay {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SpinKitThreeBounce(
+                const SpinKitWaveSpinner(
                   color: Colors.white,
                 ),
                 if (message != null) ...[

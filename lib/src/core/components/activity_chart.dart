@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../core.dart';
+
 class ActivityChart extends StatelessWidget {
   const ActivityChart({super.key});
 
@@ -78,19 +80,19 @@ class ActivityChart extends StatelessWidget {
                 icon: Icons.local_fire_department,
                 value: '1,548',
                 label: 'kcal',
-                color: Colors.orange,
+                color: BeShapeColors.primary,
               ),
               _CalorieStat(
                 icon: Icons.timer,
                 value: '7,853',
                 label: 'steps',
-                color: Colors.blue,
+                color: BeShapeColors.link,
               ),
               _CalorieStat(
                 icon: Icons.lightbulb_outline,
                 value: '8',
                 label: 'suggestions',
-                color: Colors.green,
+                color: BeShapeColors.accent,
               ),
             ],
           ),
@@ -122,12 +124,12 @@ class _ChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.orange
+      ..color = BeShapeColors.primary
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 
     final fillPaint = Paint()
-      ..color = Colors.orange.withOpacity(0.1)
+      ..color = BeShapeColors.primary.withOpacity(0.1)
       ..style = PaintingStyle.fill;
 
     final path = Path();
@@ -213,7 +215,7 @@ class _DaySelector extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 4),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: isSelected ? Colors.orange : Colors.transparent,
+        color: isSelected ? BeShapeColors.primary : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

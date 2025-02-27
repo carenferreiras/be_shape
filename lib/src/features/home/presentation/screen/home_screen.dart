@@ -1,9 +1,8 @@
-// ignore_for_file: unused_field, unused_element
-
+import 'package:be_shape_app/src/features/home/presentation/widgets/bmi_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart';
 import '../../../../core/core.dart';
 import '../../../features.dart';
 
@@ -14,357 +13,325 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  double _waterTarget = 2000; // Meta de água padrão
-  int _waterIntake = 0;
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _loadUserWaterTarget();
-    _loadTodayData();
+    WidgetsBinding.instance.addObserver(this);
+    _loadInitialData();
   }
 
-  void _loadTodayData() {
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _loadInitialData();
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadInitialData();
+  }
+
+  Future<void> _loadInitialData() async {
     final userId = context.read<AuthRepository>().currentUser?.uid;
     if (userId != null) {
-      final today = DateTime.now();
-      final formattedDate = DateFormat('yyyy-MM-dd').format(today);
+      try {
+        // Carrega o perfil atualizado
+        final profile =
+            await context.read<UserRepository>().getUserProfile(userId);
+        if (profile != null && mounted) {
+          // Atualiza o AuthBloc com o perfil atualizado
+          context
+              .read<AuthBloc>()
+              .add(AuthStateChanged(true, userProfile: profile));
 
-      // Carregar refeições do dia
-      context.read<MealBloc>().add(LoadMealsForDate(today));
-
-      // Carregar hábitos do dia
-      context.read<HabitBloc>().add(LoadHabitsEvent(formattedDate));
+          // Atualiza o WeightBloc
+          context.read<WeightBloc>().add(WeightUpdated(profile.weight));
+          context
+              .read<WeightBloc>()
+              .add(TargetWeightUpdated(profile.targetWeight));
+        }
+// Carregar dados para o AI Assistant
+        final userProfile = context.read<AuthBloc>().state.userProfile;
+        if (userProfile != null) {
+          context.read<AIAssistantBloc>().add(GetSuggestions(
+                userProfile: userProfile,
+                currentCalories: 0, // Você pode pegar isso do MealBloc
+                currentProtein: 0, // Você pode pegar isso do MealBloc
+                currentCarbs: 0, // Você pode pegar isso do MealBloc
+                currentFat: 0, // Você pode pegar isso do MealBloc
+                waterIntake: context.read<WaterBloc>().state.currentIntake,
+                exerciseMinutes: 0, // Você pode pegar isso do ExerciseBloc
+              ));
+        }
+        // Carrega outros dados
+        final today = DateTime.now();
+        if (mounted) {
+          context.read<MealBloc>().add(LoadMealsForDate(today));
+          context.read<ExerciseBloc>().add(LoadExercisesForDate(today));
+          context.read<HabitBloc>().add(LoadHabitsEvent(today.toString()));
+          context.read<WaterBloc>().add(LoadWaterIntake());
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erro ao carregar dados: $e')),
+          );
+        }
+      }
     }
-  }
-
-  /// 🔹 **Busca o perfil do usuário para definir a meta de água**
-  Future<void> _loadUserWaterTarget() async {
-    final userProfile = await context.read<AuthRepository>().getUserProfile();
-    if (userProfile != null) {
-      setState(() {
-        _waterTarget = _calculateWaterTarget(userProfile.weight);
-      });
-    }
-  }
-
-  /// 🔹 **Calcula a meta de água baseada no peso corporal**
-  double _calculateWaterTarget(double weight) {
-    return weight * 35; // 35ml por kg
-  }
-
-  /// 🔹 **Mostra um diálogo para adicionar consumo de água**
-  void _showAddWaterDialog() {
-    final controller = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.grey[900],
-          title: const Text('Adicionar Água',
-              style: TextStyle(color: Colors.white)),
-          content: TextField(
-            controller: controller,
-            style: const TextStyle(color: Colors.white),
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'Quantidade (ml)',
-              labelStyle: const TextStyle(color: Colors.grey),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.grey[800]!),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Colors.blue),
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancelar',
-                  style: TextStyle(color: BeShapeColors.primary)),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                final amount = int.tryParse(controller.text) ?? 0;
-                if (amount > 0) {
-                  setState(() {
-                    _waterIntake += amount;
-                  });
-
-                  // Dispara o evento para atualizar o consumo de água no Bloc
-                  context.read<WaterBloc>().add(AddWaterIntake(amount));
-
-                  Navigator.pop(context);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: BeShapeColors.primary.withOpacity(0.2)),
-              child: const Text(
-                'Adicionar',
-                style: TextStyle(color: BeShapeColors.primary),
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final userId = context.read<AuthRepository>().currentUser?.uid;
+    return MultiBlocListener(
+      listeners: [
+        // Listener para WeightBloc
+        BlocListener<WeightBloc, WeightState>(
+          listener: (context, weightState) {
+            if (weightState.isSuccess) {
+              // Usando isSuccess ao invés de WeightStatus
+              _loadInitialData(); // Recarrega dados quando o peso é atualizado
+            }
+          },
+        ),
+        // Listener para AuthBloc
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, authState) {
+            if (authState.error != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(authState.error!)),
+              );
+            }
+          },
+        ),
+      ],
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, authState) {
+          if (authState.isLoading) {
+            return const Scaffold(
+              body: Center(
+                child: SpinKitWaveSpinner(
+                  color: BeShapeColors.primary,
+                ),
+              ),
+            );
+          }
 
-    return BlocListener<OnboardingBloc, OnboardingState>(
-      listener: (context, state) {
-        // 🔹 Quando o objetivo for alterado, recarrega os dados do usuário
-        setState(() {});
-      },
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        drawer: userId == null ? null : BeShapeDrawer(userId: userId),
-        body: userId == null
-            ? const Center(
-                child: SpinKitThreeBounce(
-                color: BeShapeColors.primary,
-              ))
-            : FutureBuilder(
-                future: context.read<UserRepository>().getUserProfile(userId),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                        child: SpinKitThreeBounce(
-                      color: BeShapeColors.primary,
-                    ));
-                  }
+          if (!authState.isAuthenticated || authState.userProfile == null) {
+            return const LoginScreen();
+          }
 
-                  final userProfile = snapshot.data;
-                  if (userProfile == null) {
-                    return const Center(child: Text('No user profile found'));
-                  }
+          final userProfile = authState.userProfile!;
 
-                  return SafeArea(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+          return Scaffold(
+            backgroundColor: Colors.black,
+            drawer: BeShapeDrawer(userId: userProfile.id),
+            body: RefreshIndicator(
+              onRefresh: _loadInitialData,
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header com Menu e Perfil
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Builder(
-                                  builder: (context) => Card(
-                                    color:
-                                        BeShapeColors.primary.withOpacity(0.2),
-                                    child: IconButton(
-                                      icon: const Icon(Icons.menu,
-                                          color: BeShapeColors.primary),
-                                      onPressed: () =>
-                                          Scaffold.of(context).openDrawer(),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: UserHeader(userProfile: userProfile),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 24),
-                            dateWidet,
-                            const SizedBox(height: 24),
-                            Text(
-                              'Métricas',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                            Builder(
+                              builder: (context) => IconButton(
+                                icon: const Icon(Icons.menu,
+                                    color: BeShapeColors.primary),
+                                onPressed: () =>
+                                    Scaffold.of(context).openDrawer(),
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            FitnessMetrics(userProfile: userProfile),
-                            const SizedBox(height: 24),
-                            CustomTitle(
-                              title: 'Meal',
-                              onTap: () =>
-                                  Navigator.pushNamed(context, '/saved-food'),
+                            Expanded(
+                              child: UserHeader(userProfile: userProfile),
                             ),
-                            const SizedBox(height: 16),
-
-                            // 🔹 MealCard Agora Atualiza Instantaneamente
-                            BlocBuilder<OnboardingBloc, OnboardingState>(
-                              builder: (context, onboardingState) {
-                                return MealCard();
-                              },
-                            ),
-
-                            const SizedBox(height: 24),
-                            CustomTitle(
-                              title: 'Controle de Água',
-                              onTap: () => Navigator.pushNamed(
-                                  context, '/water-tracker'),
-                            ),
-                            const SizedBox(height: 16),
-                            BlocBuilder<WaterBloc, WaterState>(
-                              builder: (context, state) {
-                                if (state is WaterLoading) {
-                                  return const Center(
-                                      child: SpinKitThreeBounce(
-                                    color: BeShapeColors.primary,
-                                  ));
-                                } else if (state is WaterLoaded) {
-                                  _waterIntake = state.intake.totalIntake;
-                                  final progress = _waterIntake / _waterTarget;
-
-                                  return Card(
-                                    color: Colors.blue[900]!.withOpacity(0.2),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(16)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            "💧 Mantenha-se Hidratado!",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            "Consumo Atual: $_waterIntake ml / ${_waterTarget.toInt()} ml",
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          LinearProgressIndicator(
-                                            value: progress.clamp(0.0, 1.0),
-                                            backgroundColor: Colors.blue[700]!
-                                                .withOpacity(0.3),
-                                            valueColor:
-                                                const AlwaysStoppedAnimation<
-                                                    Color>(Colors.blue),
-                                          ),
-                                          const SizedBox(height: 12),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  const Text(
-                                                    "Não se esqueça de beber água regularmente!",
-                                                    style: TextStyle(
-                                                        color: Colors.white70,
-                                                        fontSize: 12),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  Icon(
-                                                    Icons.water_drop_rounded,
-                                                    color: Colors.blue,
-                                                    size: 10,
-                                                  )
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              BeShapeCustomButton(
-                                                buttonColor: Colors.blue
-                                                    .withOpacity(0.5),
-                                                buttonTitleColor: Colors.blue,
-                                                label: '+ Água',
-                                                icon: Icons.water_drop_outlined,
-                                                isLoading: false,
-                                                onPressed: _showAddWaterDialog,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                            const SizedBox(height: 24),
-
-                            /// 🔹 **Botão para Acessar Sugestões de Dieta**
-                            CustomTitle(
-                              title: 'Sugestão de Alimentos',
-                              buttonTitle: 'Ver',
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FoodSuggestionsScreen(
-                                    userProfile: userProfile,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            IdealValuesCard(userProfile: userProfile),
-                            const SizedBox(height: 24),
-
-                            /// 📌 **Sessão de Hábitos do Dia**
-                            CustomTitle(
-                              title: 'Hábitos',
-                              onTap: () =>
-                                  Navigator.pushNamed(context, '/habits'),
-                            ),
-                            const SizedBox(height: 16),
-                            DailyHabitsSection(),
-                            const SizedBox(height: 24),
-                            CustomTitle(
-                              buttonTitle: 'Mais...',
-                              title: 'Emoções',
-                              onTap: () => _navigateToEmotionReportScreen(),
-                            ),
-                            const SizedBox(height: 16),
-
-                            /// 📊 **Gráfico Horizontal de Emoções**
-                            EmotionBarChart(),
-
-                            const SizedBox(height: 32),
                           ],
                         ),
-                      ),
+                        const SizedBox(height: 24),
+
+                        // Data Atual
+                        dateWidet,
+                        const SizedBox(height: 24),
+
+                        // Seção de Progresso
+                        CustomTitle(
+                          icon: Icons.account_circle,
+                          title: '',
+                          buttonTitle: 'Perfil',
+                          onTap: () => Navigator.pushNamed(context, '/profile'),
+                        ),
+                        const SizedBox(height: 16),
+                        BMICard(
+                          userProfile: userProfile,
+                          onWeightUpdated: _loadInitialData,
+                        ),
+                        const SizedBox(height: 24),
+                        // const AIAssistantCard(),
+                        // Métricas
+                        const Text(
+                          'Métricas',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        FitnessMetrics(userProfile: userProfile),
+                        const SizedBox(height: 24),
+
+                        // Seção de Alimentos
+                        CustomTitle(
+                          title: 'Alimentos',
+                          buttonTitle: 'Adicionar',
+                          onTap: () =>
+                              Navigator.pushNamed(context, '/add-food'),
+                        ),
+                        const SizedBox(height: 16),
+                        const MealCard(),
+                        const SizedBox(height: 24),
+                        // Seção de Água
+                        CustomTitle(
+                          title: 'Controle de Água',
+                          icon: Icons.water_drop_rounded,
+                        ),
+                        const SizedBox(height: 16),
+                        WaterIntakeCard(
+                          weight: userProfile.weight,
+                        ),
+                        const SizedBox(height: 24),                    
+                        // Sugestões de Alimentos
+                        const CustomTitle(
+                          title: 'Sugestão de Alimentos',
+                          buttonTitle: '',
+                          icon: Icons.format_list_numbered_rtl_sharp,
+                        ),
+                        const SizedBox(height: 16),
+                        IdealValuesCard(userProfile: userProfile,),
+                        const SizedBox(height: 24),
+
+                        // Seção de Hábitos
+                        CustomTitle(
+                          title: 'Hábitos',
+                          onTap: () => Navigator.pushNamed(context, '/habits'),
+                        ),
+                        const SizedBox(height: 16),
+                        const DailyHabitsSection(),
+                        const SizedBox(height: 24),
+
+                        // Seção de Emoções
+                        CustomTitle(
+                          buttonTitle: 'Mais...',
+                          title: 'Emoções',
+                          onTap: _navigateToEmotionReportScreen,
+                        ),
+                        const SizedBox(height: 16),
+                        const EmotionBarChart(),
+                        const SizedBox(height: 32),
+                      ],
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
-        bottomNavigationBar: const BeShapeNavigatorBar(
-          index: 0,
-        ),
+            ),
+            bottomNavigationBar: const BeShapeNavigatorBar(index: 0),
+             floatingActionButton: SpeedDial(
+            icon: Icons.chat_bubble_outline,
+            activeIcon: Icons.close,
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            activeBackgroundColor: Colors.red,
+            activeForegroundColor: Colors.white,
+            buttonSize: const Size(56.0, 56.0),
+            visible: true,
+            closeManually: false,
+            curve: Curves.bounceIn,
+            overlayColor: Colors.black,
+            overlayOpacity: 0.5,
+            elevation: 8.0,
+            shape: const CircleBorder(),
+            children: [
+              SpeedDialChild(
+                child: const Icon(Icons.psychology),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                label: 'AI Coach',
+                labelStyle: const TextStyle(fontSize: 16.0),
+                onTap: () => _showAIChat(context, userProfile),
+              ),
+              SpeedDialChild(
+                child: const Icon(Icons.fitness_center),
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                label: 'Treino',
+                labelStyle: const TextStyle(fontSize: 16.0),
+                onTap: () => _showWorkoutSuggestions(context, userProfile),
+              ),
+              SpeedDialChild(
+                child: const Icon(Icons.restaurant_menu),
+                backgroundColor: BeShapeColors.primary,
+                foregroundColor: Colors.white,
+                label: 'Nutrição',
+                labelStyle: const TextStyle(fontSize: 16.0),
+                onTap: () => _showNutritionSuggestions(context, userProfile),
+              ),
+            ],
+          ),
+          );
+        },
       ),
     );
   }
 
-  /// 📌 **Navegar para a Tela de Relatórios Emocionais**
   void _navigateToEmotionReportScreen() {
     final state = context.read<HabitBloc>().state;
     if (state is HabitsLoaded) {
-      final List<Habit> habits =
-          state.habits.cast<Habit>(); // 🔹 Converte para List<Habit>
-
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => EmotionReportScreen(habits: habits),
+          builder: (context) => EmotionReportScreen(habits: state.habits),
         ),
       );
     }
+  }
+    void _showAIChat(BuildContext context, UserProfile userProfile) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AIChatScreen(userProfile: userProfile),
+      ),
+    );
+  }
+
+  void _showWorkoutSuggestions(BuildContext context, UserProfile userProfile) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AIWorkoutScreen(userProfile: userProfile),
+      ),
+    );
+  }
+
+  void _showNutritionSuggestions(BuildContext context, UserProfile userProfile) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AINutritionScreen(userProfile: userProfile),
+      ),
+    );
   }
 }

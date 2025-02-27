@@ -13,149 +13,182 @@ class BeShapeDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.black,
-      child: FutureBuilder<UserProfile?>(
-        future: context.read<UserRepository>().getUserProfile(userId),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
-          }
+      child: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          children: [
+            // Header
 
-          final userProfile = snapshot.data!;
+            const SizedBox(height: 32),
 
-          return SafeArea(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              children: [
-                // Header
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      BeShapeImages.beShape,
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      height: 30,
-                    ),
-                  ],
-                ),
+            // Profile Section
+            _buildDrawerSection(
+              title: 'Profile',
+              items: [
+                FutureBuilder(
+                    future:
+                        context.read<UserRepository>().getUserProfile(userId),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                            child: SpinKitWaveSpinner(
+                          color: BeShapeColors.primary,
+                        ));
+                      }
 
-                const SizedBox(height: 32),
+                      final userProfile = snapshot.data!;
+                      return DrawerItems(
+                        icon: Icons.person,
+                        title: userProfile.name,
+                        subtitle: 'View Profile',
+                        iconColor: BeShapeColors.link,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/profile');
+                        },
+                      );
+                    }),
+              ],
+            ),
+            _buildDrawerSection(
+              title: 'Nutrition',
+              items: [
+                FutureBuilder(
+                    future:
+                        context.read<UserRepository>().getUserProfile(userId),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                            child: SpinKitWaveSpinner(
+                          color: BeShapeColors.primary,
+                        ));
+                      }
 
-                // Profile Section
-                _buildDrawerSection(
-                  title: 'Profile',
-                  items: [
-                    DrawerItems(
-                      icon: Icons.person,
-                      title: userProfile.name,
-                      subtitle: 'View Profile',
-                      iconColor: Colors.blue,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/profile');
-                      },
-                    ),
-                  ],
-                ),
-                _buildDrawerSection(
-                  title: 'Nutrition',
-                  items: [
-                    DrawerEditItensCard(
-                      protein: '${userProfile.macroTargets.proteins.round()}',
-                      proteinDialogOnTap: () => _showMacroTargetDialog(
-                        context,
-                        'Protein',
-                        userProfile.macroTargets.proteins,
-                        userProfile,
-                      ),
-                      carbs: '${userProfile.macroTargets.carbs.round()}',
-                      carbsDialogOnTap: () => _showMacroTargetDialog(
-                        context,
-                        'Carbs',
-                        userProfile.macroTargets.carbs,
-                        userProfile,
-                      ),
-                      fat: '${userProfile.macroTargets.fats.round()}',
-                      fatDialogOnTap: () => _showMacroTargetDialog(
-                        context,
-                        'Fat',
-                        userProfile.macroTargets.fats,
-                        userProfile,
-                      ),
-                      tdee: '${userProfile.tdee.round()}',
-                      tdeeRecalculateOnTap: () =>
-                          () => _recalculateMacros(context, userProfile),
-                    ),
-                  ],
-                ),
-                // Tracking Section
-                _buildDrawerSection(
-                  title: 'Tracking',
-                  items: [
-                    DrawerItems(
-                      icon: Icons.photo_library,
-                      title: 'Progress Photos',
-                      iconColor: Colors.purple,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, '/progress-photos');
-                      },
-                    ),
-                    DrawerItems(
-                      icon: Icons.history,
-                      title: 'Reports History',
-                      iconColor: Colors.orange,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, '/reports');
-                      },
-                    ),
-                    DrawerItems(
-                      icon: Icons.restaurant_menu,
-                      title: 'Daily Food Tracking',
-                      iconColor: Colors.green,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, '/daily-tracking');
-                      },
-                    ),
-                  ],
-                ),
-
-                // Nutrition Section
-
-                const SizedBox(height: 24),
-                const Divider(color: Colors.grey),
-                const SizedBox(height: 24),
-
-                // Danger Zone
-                _buildDrawerSection(
-                  title: 'Danger Zone',
-                  titleColor: Colors.red,
-                  items: [
-                    DrawerItems(
-                      icon: Icons.logout,
-                      title: 'Sign Out',
-                      iconColor: Colors.red,
-                      onTap: () async {
-                        try {
-                          await context.read<AuthRepository>().signOut();
-                          if (context.mounted) {
-                            Navigator.pushReplacementNamed(context, '/login');
-                          }
-                        } catch (e) {
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Error logging out: $e')),
-                            );
-                          }
-                        }
-                      },
-                    ),
-                  ],
+                      final userProfile = snapshot.data!;
+                      return DrawerEditItensCard(
+                        protein: '${userProfile.macroTargets.proteins.round()}',
+                        proteinDialogOnTap: () => _showMacroTargetDialog(
+                          context,
+                          'Protein',
+                          userProfile.macroTargets.proteins,
+                          userProfile,
+                        ),
+                        carbs: '${userProfile.macroTargets.carbs.round()}',
+                        carbsDialogOnTap: () => _showMacroTargetDialog(
+                          context,
+                          'Carbs',
+                          userProfile.macroTargets.carbs,
+                          userProfile,
+                        ),
+                        fat: '${userProfile.macroTargets.fats.round()}',
+                        fatDialogOnTap: () => _showMacroTargetDialog(
+                          context,
+                          'Fat',
+                          userProfile.macroTargets.fats,
+                          userProfile,
+                        ),
+                        tdee: '${userProfile.tdee.round()}',
+                        tdeeRecalculateOnTap: () =>
+                            () => _recalculateMacros(context, userProfile),
+                      );
+                    }),
+              ],
+            ),
+            _buildDrawerSection(
+              title: 'Progresso',
+              items: [
+                DrawerItems(
+                  icon: Icons.medication,
+                  title: 'Histórico de Progressos',
+                  iconColor: Colors.green,
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/body-progress');
+                  },
                 ),
               ],
             ),
-          );
-        },
+            // Tracking Section
+            _buildDrawerSection(
+              title: 'Tracking',
+              items: [
+                DrawerItems(
+                  icon: Icons.photo_library,
+                  title: 'Progress Photos',
+                  iconColor: BeShapeColors.link,
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/progress-photos');
+                  },
+                ),
+                DrawerItems(
+                  icon: Icons.history,
+                  title: 'Reports History',
+                  iconColor: BeShapeColors.primary,
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/reports');
+                  },
+                ),
+                DrawerItems(
+                  icon: Icons.restaurant_menu,
+                  title: 'Daily Food Tracking',
+                  iconColor: BeShapeColors.accent,
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/daily-tracking');
+                  },
+                ),
+              ],
+            ),
+
+            // Nutrition Section
+            _buildDrawerSection(
+              title: 'Fitness',
+              items: [
+                DrawerItems(
+                  icon: Icons.medication,
+                  title: 'Suplementos',
+                  iconColor: Colors.purple,
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/suplement');
+                  },
+                ),
+               
+              ],
+            ),
+            const SizedBox(height: 24),
+            const Divider(color: Colors.grey),
+            const SizedBox(height: 24),
+
+            // Danger Zone
+            _buildDrawerSection(
+              title: 'Danger Zone',
+              titleColor: Colors.red,
+              items: [
+                DrawerItems(
+                  icon: Icons.logout,
+                  title: 'Sign Out',
+                  iconColor: Colors.red,
+                  onTap: () async {
+                    try {
+                      await context.read<AuthRepository>().signOut();
+                      if (context.mounted) {
+                        Navigator.pushReplacementNamed(context, '/login');
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error logging out: $e')),
+                        );
+                      }
+                    }
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -171,11 +204,10 @@ class BeShapeDrawer extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: titleColor,
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            overflow: TextOverflow.ellipsis
-          ),
+              color: titleColor,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              overflow: TextOverflow.ellipsis),
         ),
         const SizedBox(height: 12),
         ...items,

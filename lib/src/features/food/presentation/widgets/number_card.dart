@@ -31,6 +31,7 @@ class NumberCard extends StatelessWidget {
                     size: 12,
                     color: color,
                   ),
+                  SizedBox(width: 4,),
                   Text(
                     number,
                     style: TextStyle(

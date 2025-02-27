@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
 class DailyReportDetailScreen extends StatelessWidget {
@@ -98,7 +99,7 @@ class DailyReportDetailScreen extends StatelessWidget {
               _buildCalorieInfo(
                 'Consumed',
                 report.totalCalories,
-                Colors.orange,
+                BeShapeColors.primary,
               ),
               Container(
                 height: 50,
@@ -108,7 +109,7 @@ class DailyReportDetailScreen extends StatelessWidget {
               _buildCalorieInfo(
                 'Target',
                 report.targetCalories,
-                Colors.blue,
+                BeShapeColors.link,
               ),
             ],
           ),
@@ -142,14 +143,14 @@ class DailyReportDetailScreen extends StatelessWidget {
             'Protein',
             report.totalProteins,
             report.targetProteins,
-            Colors.blue,
+            BeShapeColors.link,
           ),
           const SizedBox(height: 16),
           _buildMacroProgress(
             'Carbs',
             report.totalCarbs,
             report.targetCarbs,
-            Colors.green,
+            BeShapeColors.accent,
           ),
           const SizedBox(height: 16),
           _buildMacroProgress(
@@ -306,8 +307,8 @@ class DailyReportDetailScreen extends StatelessWidget {
 
   Color _getStatusColor(int percentage) {
     if (percentage < 80) return Colors.red;
-    if (percentage < 95) return Colors.orange;
-    if (percentage <= 105) return Colors.green;
+    if (percentage < 95) return BeShapeColors.primary;
+    if (percentage <= 105) return BeShapeColors.accent;
     return Colors.red;
   }
 

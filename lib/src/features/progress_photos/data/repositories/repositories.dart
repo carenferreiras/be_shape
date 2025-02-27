@@ -1,1 +1,1 @@
-export './firebase_progress_photo_repository.dart';
+export 'firebase_progress_photo_repository.dart';

@@ -1,7 +1,7 @@
-import 'package:be_shape_app/src/core/core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/core.dart';
 import '../../../auth/auth.dart';
 
 class FoodSuggestionsScreen extends StatefulWidget {
@@ -171,19 +171,19 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
                     number: calories,
                     measure: 'kcal',
                     name: 'Calorias',
-                    color: Colors.orange),
+                    color: BeShapeColors.primary),
                 _numberCard(
                     icon: proteinIcon,
                     number: carbo,
                     measure: 'g',
                     name: 'Carboidratos',
-                    color: Colors.blue),
+                    color: BeShapeColors.link),
                 _numberCard(
                     icon: fibersIcon,
                     number: fibers,
                     measure: 'g',
                     name: 'Fibras',
-                    color: Colors.green),
+                    color: BeShapeColors.accent),
               ],
             ),
             Row(

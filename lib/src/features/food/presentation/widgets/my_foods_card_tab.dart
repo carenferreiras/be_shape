@@ -1,7 +1,7 @@
-import 'package:be_shape_app/src/features/features.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/core.dart';
+import '../../../features.dart';
 
 class MyFoodsCardTab extends StatelessWidget {
   final Key dimissibleKey;

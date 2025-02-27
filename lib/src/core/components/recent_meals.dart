@@ -36,7 +36,7 @@ class RecentMeals extends StatelessWidget {
         BlocBuilder<MealBloc, MealState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return const Center(child: SpinKitThreeBounce(color: BeShapeColors.primary,));
+              return const Center(child: SpinKitWaveSpinner(color: BeShapeColors.primary,));
             }
 
             if (state.meals.isEmpty) {

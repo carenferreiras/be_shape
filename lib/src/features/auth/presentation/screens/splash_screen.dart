@@ -1,6 +1,7 @@
-import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+
+import '../../../../core/core.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -40,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -59,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen>
                 Container(
                   height: 500,
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(BeShapeImages.logo2),fit: BoxFit.contain)
+                    image: DecorationImage(image: AssetImage( BeShapeImages.beShapeImage,),fit: BoxFit.contain)
                   ),
                  
                                 

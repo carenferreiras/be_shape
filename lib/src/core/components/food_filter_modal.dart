@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../core.dart';
+
 class FoodFilterModal extends StatefulWidget {
   final Function(
     String name,
@@ -160,7 +162,7 @@ class _FoodFilterModalState extends State<FoodFilterModal> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Colors.orange),
+            borderSide: const BorderSide(color: BeShapeColors.primary),
           ),
         ),
       ),
@@ -184,15 +186,15 @@ class _FoodFilterModalState extends State<FoodFilterModal> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("${minValue.toStringAsFixed(0)}", style: const TextStyle(color: Colors.orange, fontSize: 14)),
-            Text("${maxValue.toStringAsFixed(0)}", style: const TextStyle(color: Colors.orange, fontSize: 14)),
+            Text("${minValue.toStringAsFixed(0)}", style: const TextStyle(color: BeShapeColors.primary, fontSize: 14)),
+            Text("${maxValue.toStringAsFixed(0)}", style: const TextStyle(color: BeShapeColors.primary, fontSize: 14)),
           ],
         ),
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
             trackHeight: 3,
-            thumbColor: Colors.orange,
-            activeTrackColor: Colors.orangeAccent,
+            thumbColor: BeShapeColors.primary,
+            activeTrackColor: BeShapeColors.primary,
             inactiveTrackColor: Colors.grey[700],
           ),
           child: RangeSlider(
@@ -212,7 +214,7 @@ class _FoodFilterModalState extends State<FoodFilterModal> {
       children: [
         Expanded(child: _buildButton("❌ Limpar", Colors.grey[800]!, _clearFilters)),
         const SizedBox(width: 12),
-        Expanded(child: _buildButton("✅ Aplicar", Colors.orange, _saveFilters)),
+        Expanded(child: _buildButton("✅ Aplicar", BeShapeColors.primary, _saveFilters)),
       ],
     );
   }
@@ -221,7 +223,7 @@ class _FoodFilterModalState extends State<FoodFilterModal> {
   Widget _buildButton(String text, Color color, Function() onTap) {
     return ElevatedButton(
   style: ElevatedButton.styleFrom(
-    backgroundColor: Colors.orange,
+    backgroundColor: BeShapeColors.primary,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   ),
   onPressed: () async {

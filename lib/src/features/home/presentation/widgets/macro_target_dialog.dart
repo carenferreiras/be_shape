@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
 class MacroTargetDialog extends StatelessWidget {
@@ -30,7 +31,7 @@ class MacroTargetDialog extends StatelessWidget {
               borderSide: BorderSide(color: Colors.grey[700]!),
             ),
             focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.orange),
+              borderSide: BorderSide(color: BeShapeColors.primary),
             ),
           ),
         ),
@@ -75,7 +76,7 @@ class MacroTargetDialog extends StatelessWidget {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange,
+              backgroundColor: BeShapeColors.primary,
             ),
             child: const Text('Save'),
           ),

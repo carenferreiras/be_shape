@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/core.dart';
+
 class MealDetailScreen extends StatelessWidget {
   final String mealName;
   final String category;
@@ -60,7 +62,7 @@ class MealDetailScreen extends StatelessWidget {
                   Text(
                     category,
                     style: const TextStyle(
-                      color: Colors.orange,
+                      color: BeShapeColors.primary,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -195,7 +197,7 @@ class MealDetailScreen extends StatelessWidget {
                   // Adicione a lógica para adicionar a refeição
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
+                  backgroundColor: BeShapeColors.primary,
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
@@ -218,7 +220,7 @@ class MealDetailScreen extends StatelessWidget {
   Widget _buildTabButton(String title, bool isActive) {
     return Container(
       decoration: BoxDecoration(
-        color: isActive ? Colors.orange : Colors.grey[800],
+        color: isActive ? BeShapeColors.primary : Colors.grey[800],
         borderRadius: BorderRadius.circular(24),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -238,7 +240,7 @@ class MealDetailScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          const Icon(Icons.check_circle, color: Colors.orange, size: 16),
+          const Icon(Icons.check_circle, color: BeShapeColors.primary, size: 16),
           const SizedBox(width: 8),
           Text(
             text,
@@ -256,7 +258,7 @@ class MealDetailScreen extends StatelessWidget {
         children: [
           const CircleAvatar(
             radius: 12,
-            backgroundColor: Colors.orange,
+            backgroundColor: BeShapeColors.primary,
             child: Text(
               "•",
               style: TextStyle(color: Colors.white),

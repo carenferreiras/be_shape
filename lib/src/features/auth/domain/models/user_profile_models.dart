@@ -1,4 +1,6 @@
-import '../../auth.dart';
+import 'dart:math' show pow;
+
+import '../../../features.dart';
 
 class UserProfile {
   final String id;
@@ -14,7 +16,9 @@ class UserProfile {
   final double tdee;
   final double activityLevel;
   final MacroTargets macroTargets;
-  final String? profileImageUrl; 
+  final String? profileImageUrl; // New field
+  final List<Map<String, dynamic>> weightHistory; // ✅ Histórico de peso
+
 
   UserProfile({
     required this.id,
@@ -29,9 +33,39 @@ class UserProfile {
     this.bmr = 0.0,
     this.tdee = 0.0,
     this.activityLevel = 1.2,
-    this.profileImageUrl,
     MacroTargets? macroTargets,
+    this.weightHistory = const [], 
+    this.profileImageUrl, // New parameter
   }) : macroTargets = macroTargets ?? MacroTargets.fromTDEE(tdee, weight);
+
+  double get bmi => weight / (pow((height / 100), 2));
+
+  String get bmiClassification {
+    final bmi = this.bmi;
+    if (bmi < 16) return 'Magreza grave';
+    if (bmi < 17) return 'Magreza moderada';
+    if (bmi < 18.5) return 'Magreza leve';
+    if (bmi < 25) return 'Peso normal';
+    if (bmi < 30) return 'Sobrepeso';
+    if (bmi < 35) return 'Obesidade Grau I';
+    if (bmi < 40) return 'Obesidade Grau II';
+    return 'Obesidade Grau III';
+  }
+
+  String get bmiColor {
+    final bmi = this.bmi;
+    if (bmi < 18.5) return '#FFA726';
+    if (bmi < 25) return '#66BB6A';
+    if (bmi < 30) return '#FFA726';
+    return '#EF5350';
+  }
+
+  double get idealWeight {
+    final heightInMeters = height / 100;
+    final minIdealWeight = 18.5 * (heightInMeters * heightInMeters);
+    final maxIdealWeight = 24.9 * (heightInMeters * heightInMeters);
+    return (minIdealWeight + maxIdealWeight) / 2;
+  }
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
@@ -52,7 +86,11 @@ class UserProfile {
       macroTargets: json['macroTargets'] != null
           ? MacroTargets.fromJson(json['macroTargets'] as Map<String, dynamic>)
           : null,
-      profileImageUrl: json['profileImageUrl'] as String?,
+      profileImageUrl: json['profileImageUrl'] as String?, // Added to fromJson
+       weightHistory: (json['weightHistory'] as List<dynamic>?)
+              ?.map((e) => e as Map<String, dynamic>)
+              .toList() ??
+          [],
     );
   }
 
@@ -71,42 +109,46 @@ class UserProfile {
       'tdee': tdee,
       'activityLevel': activityLevel,
       'macroTargets': macroTargets.toJson(),
-      'profileImageUrl': profileImageUrl,
+      'profileImageUrl': profileImageUrl, // Added to toJson
+      'weightHistory': weightHistory,
     };
   }
 
-  UserProfile copyWith({
-    String? id,
-    String? name,
-    int? age,
-    String? gender,
-    double? height,
-    double? weight,
-    double? targetWeight,
-    String? goal,
-    Map<String, double>? measurements,
-    double? bmr,
-    double? tdee,
-    double? activityLevel,
-    MacroTargets? macroTargets,
-    String? profileImageUrl,
-  }) {
-    return UserProfile(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      age: age ?? this.age,
-      gender: gender ?? this.gender,
-      height: height ?? this.height,
-      weight: weight ?? this.weight,
-      targetWeight: targetWeight ?? this.targetWeight,
-      goal: goal ?? this.goal,
-      measurements: measurements ?? this.measurements,
-      bmr: bmr ?? this.bmr,
-      tdee: tdee ?? this.tdee,
-      activityLevel: activityLevel ?? this.activityLevel,
-      macroTargets: macroTargets ?? this.macroTargets,
-      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
-    );
-  }
-}
+ UserProfile copyWith({
+  String? id,
+  String? name,
+  int? age,
+  String? gender,
+  double? height,
+  double? weight,
+  double? targetWeight,
+  String? goal,
+  Map<String, double>? measurements,
+  double? bmr,
+  double? tdee,
+  double? activityLevel,
+  MacroTargets? macroTargets,
+  String? profileImageUrl,
+  double? bmi, // ✅ Adicionado para permitir a atualização
+   List<Map<String, dynamic>>? weightHistory,
+}) {
+  return UserProfile(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    age: age ?? this.age,
+    gender: gender ?? this.gender,
+    height: height ?? this.height,
+    weight: weight ?? this.weight,
+    targetWeight: targetWeight ?? this.targetWeight,
+    goal: goal ?? this.goal,
+    measurements: measurements ?? this.measurements,
+    bmr: bmr ?? this.bmr,
+    tdee: tdee ?? this.tdee,
+    activityLevel: activityLevel ?? this.activityLevel,
+    macroTargets: macroTargets ?? this.macroTargets,
+    profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+          weightHistory: weightHistory ?? this.weightHistory, // ✅ Mantém histórico
 
+  );
+}
+}

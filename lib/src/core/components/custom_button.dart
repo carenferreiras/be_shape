@@ -30,13 +30,11 @@ class BeShapeCustomButton extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: isTransparent == false
-              ? buttonColor ?? BeShapeColors.primary
+              ? buttonColor ?? BeShapeColors.background
               : BeShapeColors.transparent,
           shape: RoundedRectangleBorder(
             side: BorderSide(
-                color: isTransparent == false
-                    ? BeShapeColors.transparent
-                    : BeShapeColors.primary),
+                color:  buttonTitleColor ??BeShapeColors.primary),
             borderRadius:
                 BorderRadius.circular(BeShapeSizes.borderRadiusMedium),
           ),
@@ -44,7 +42,7 @@ class BeShapeCustomButton extends StatelessWidget {
               const EdgeInsets.symmetric(vertical: BeShapeSizes.paddingMedium),
         ),
         child: isLoading
-            ? const SpinKitThreeBounce(
+            ? const SpinKitWaveSpinner(
                 color: BeShapeColors.background,
               )
             : Row(
@@ -52,11 +50,12 @@ class BeShapeCustomButton extends StatelessWidget {
                 children: [
                   if (icon != null)
                     Icon(icon ?? Icons.arrow_forward_ios,
-                        color: buttonTitleColor ??BeShapeColors.background),
+                        color: buttonTitleColor ??BeShapeColors.primary),
+                  SizedBox(width: 4,),
                   Text(
                     label,
                     style:  TextStyle(
-                      color: buttonTitleColor?? BeShapeColors.background,
+                      color: buttonTitleColor?? BeShapeColors.primary,
                       fontSize: BeShapeSizes.paddingMedium,
                       fontWeight: FontWeight.bold,
                     ),
@@ -64,7 +63,7 @@ class BeShapeCustomButton extends StatelessWidget {
                   const SizedBox(width: BeShapeSizes.paddingSmall),
                   if (icon == null)
                     const Icon(Icons.arrow_forward_ios,
-                        color: BeShapeColors.background)
+                        color: BeShapeColors.primary)
                 ],
               ),
       ),

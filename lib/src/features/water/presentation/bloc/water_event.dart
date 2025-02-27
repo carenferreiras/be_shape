@@ -1,16 +1,21 @@
-import '../../water.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class WaterEvent {}
+abstract class WaterEvent extends Equatable {
+  const WaterEvent();
 
-class AddWaterIntake extends WaterEvent {
-  final int amount;
+  @override
+  List<Object?> get props => [];
+}
 
-  AddWaterIntake(this.amount);
+class AddWater extends WaterEvent {
+  final double amount;
+
+  const AddWater(this.amount);
+
+  @override
+  List<Object?> get props => [amount];
 }
 
 class LoadWaterIntake extends WaterEvent {}
-class DeleteWaterIntake extends WaterEvent {
-  final WaterEntry entry;
 
-  DeleteWaterIntake(this.entry);
-}
+class ResetWaterIntake extends WaterEvent {}

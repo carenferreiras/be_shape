@@ -1,7 +1,7 @@
-import 'package:be_shape_app/src/features/features.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/core.dart';
+import '../../../auth/auth.dart';
 
 class ProfileHeader extends StatelessWidget {
   final void Function()? onTap;

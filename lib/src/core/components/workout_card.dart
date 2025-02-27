@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../features/features.dart';
+import '../core.dart';
 
 class WorkoutCard extends StatelessWidget {
   final UserProfile userProfile;
@@ -103,7 +104,7 @@ class WorkoutCard extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Colors.orange,
+                  color: BeShapeColors.primary,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(

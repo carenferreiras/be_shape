@@ -72,61 +72,62 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   }
 
   Future<void> _onSaveUserProfile(SaveUserProfile event, Emitter<OnboardingState> emit) async {
-    try {
-      // Validate user authentication
-      final userId = _authRepository.currentUser?.uid;
-      if (userId == null) {
-        emit(state.copyWith(error: 'User not authenticated'));
-        return;
-      }
-
-      // Validate required fields
-      final validationError = _validateFields();
-      if (validationError != null) {
-        emit(state.copyWith(error: validationError));
-        return;
-      }
-
-      // Convert weight to kg if needed
-      final weight = state.weightUnit == 'kg' ? state.weight : state.weight / 2.20462;
-      final targetWeight = state.targetWeight ?? weight;
-
-      // Calculate BMR using Harris-Benedict equation
-      double bmr;
-      if (state.selectedGender?.toLowerCase() == 'male') {
-        bmr = 88.362 + (13.397 * weight) + (4.799 * state.height!) - (5.677 * state.age!);
-      } else {
-        bmr = 447.593 + (9.247 * weight) + (3.098 * state.height!) - (4.330 * state.age!);
-      }
-
-      // Calculate TDEE using activity level
-      final activityLevel = state.activityLevel ?? 1.2; // Default to sedentary if not set
-      final tdee = bmr * activityLevel;
-
-      // Create user profile
-      final userProfile = UserProfile(
-        id: userId,
-        name: state.name ?? _authRepository.currentUser?.displayName ?? 'User', // 🔥 Usa o nome do Auth se não houver outro
-        age: state.age!,
-        gender: state.selectedGender!,
-        height: state.height!,
-        weight: weight,
-        targetWeight: targetWeight,
-        goal: state.selectedGoal!,
-        measurements: {}, // Initial empty measurements
-        bmr: bmr,
-        tdee: tdee,
-        activityLevel: activityLevel,
-      );
-
-      // Save to Firebase
-      await _userRepository.saveUserProfile(userProfile);
-      
-      emit(state.copyWith(isProfileSaved: true, error: null));
-    } catch (e) {
-      emit(state.copyWith(error: e.toString()));
+  try {
+    // Validate user authentication
+    final userId = _authRepository.currentUser?.uid;
+    if (userId == null) {
+      emit(state.copyWith(error: 'User not authenticated'));
+      return;
     }
+
+    // Validate required fields
+    final validationError = _validateFields();
+    if (validationError != null) {
+      emit(state.copyWith(error: validationError));
+      return;
+    }
+
+    // Convert weight to kg if needed
+    final weight = state.weightUnit == 'kg' ? state.weight : state.weight / 2.20462;
+    final targetWeight = state.targetWeight ?? weight;
+    final height = state.height! / 100; // Convert height to meters
+
+    // Calculate BMR using Harris-Benedict equation
+    double bmr;
+    if (state.selectedGender?.toLowerCase() == 'male') {
+      bmr = 88.362 + (13.397 * weight) + (4.799 * state.height!) - (5.677 * state.age!);
+    } else {
+      bmr = 447.593 + (9.247 * weight) + (3.098 * state.height!) - (4.330 * state.age!);
+    }
+
+    // Calculate TDEE using activity level
+    final activityLevel = state.activityLevel ?? 1.2;
+    final tdee = bmr * activityLevel;
+
+    // Create user profile
+    final userProfile = UserProfile(
+      id: userId,
+      name: state.name ?? 'User',
+      age: state.age!,
+      gender: state.selectedGender!,
+      height: state.height!,
+      weight: weight,
+      targetWeight: targetWeight,
+      goal: state.selectedGoal!,
+      measurements: {},
+      bmr: bmr,
+      tdee: tdee,
+      activityLevel: activityLevel,
+    );
+
+    // Save to Firebase
+    await _userRepository.saveUserProfile(userProfile);
+    
+    emit(state.copyWith(isProfileSaved: true, error: null));
+  } catch (e) {
+    emit(state.copyWith(error: e.toString()));
   }
+}
 
   String? _validateFields() {
     if (state.selectedGoal == null) {
