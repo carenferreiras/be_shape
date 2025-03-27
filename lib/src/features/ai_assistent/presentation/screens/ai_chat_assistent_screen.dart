@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../features.dart';
 
-
 class AIChatScreen extends StatefulWidget {
   final UserProfile userProfile;
 
@@ -115,7 +114,8 @@ class _AIChatScreenState extends State<AIChatScreen> {
                                 height: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
                                 ),
                               ),
                               SizedBox(width: 12),
@@ -146,7 +146,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.2),
+              color: Colors.blue.withValues(alpha: (0.2)),
               shape: BoxShape.circle,
             ),
             child: const Icon(

@@ -18,7 +18,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
         super(const AuthState()) {
-          // No AuthBloc
 on<UpdateUserProfile>((event, emit) {
   emit(state.copyWith(userProfile: event.userProfile));
 });
@@ -28,10 +27,8 @@ on<UpdateUserProfile>((event, emit) {
     on<AuthCheckRequested>(_onAuthCheckRequested);
     on<AuthStateChanged>(_onAuthStateChanged);
 
-    // Verifica o estado inicial de autenticação
     _checkInitialAuthState();
 
-      // Subscribe to auth state changes
     _authStateSubscription = _authRepository.authStateChanges.listen(
       (user) async {
         if (user != null) {
@@ -56,17 +53,11 @@ on<UpdateUserProfile>((event, emit) {
     try {
       emit(state.copyWith(isLoading: true));
       
-      // Registrar o usuário
-      final userCredential = await _authRepository.signUp(
-        event.email,
-        event.password,
-      );
 
-      // O usuário estará autenticado, mas sem perfil ainda
       emit(state.copyWith(
         isLoading: false,
         isAuthenticated: true,
-        userProfile: null, // Perfil será criado no onboarding
+        userProfile: null, 
       ));
     } catch (e) {
       emit(state.copyWith(

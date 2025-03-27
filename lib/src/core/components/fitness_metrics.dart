@@ -37,7 +37,8 @@ class FitnessMetrics extends StatelessWidget {
               0,
               (sum, exercise) => sum + exercise.caloriesBurned,
             );
-            final remainingCalories = targetCalories + burnedCalories - consumedCalories;
+            final remainingCalories =
+                targetCalories + burnedCalories - consumedCalories;
 
             // Calculate total exercise duration
             final totalDuration = exerciseState.exercises.fold<int>(
@@ -50,7 +51,7 @@ class FitnessMetrics extends StatelessWidget {
                 color: BeShapeColors.background,
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: BeShapeColors.primary.withOpacity(0.3),
+                  color: BeShapeColors.primary.withValues(alpha: (0.3)),
                   width: 1,
                 ),
               ),
@@ -64,9 +65,8 @@ class FitnessMetrics extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          BeShapeColors.primary.withOpacity(0.2),
-                         
-                          BeShapeColors.background.withOpacity(0.4),
+                          BeShapeColors.primary.withValues(alpha: (0.2)),
+                          BeShapeColors.background.withValues(alpha: (0.4)),
                         ],
                       ),
                       borderRadius: const BorderRadius.vertical(
@@ -94,7 +94,9 @@ class FitnessMetrics extends StatelessWidget {
                                 Text(
                                   '${remainingCalories.round()}',
                                   style: TextStyle(
-                                    color: remainingCalories < 0 ? Colors.red : Colors.green,
+                                    color: remainingCalories < 0
+                                        ? Colors.red
+                                        : Colors.green,
                                     fontSize: 32,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -105,7 +107,9 @@ class FitnessMetrics extends StatelessWidget {
                                   child: Text(
                                     'kcal',
                                     style: TextStyle(
-                                      color: remainingCalories < 0 ? Colors.red : Colors.green,
+                                      color: remainingCalories < 0
+                                          ? Colors.red
+                                          : Colors.green,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -157,7 +161,7 @@ class FitnessMetrics extends StatelessWidget {
                                   vertical: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.orange.withOpacity(0.2),
+                                  color: Colors.orange.withValues(alpha: (0.2)),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
@@ -171,69 +175,76 @@ class FitnessMetrics extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 12),
-                          ...exerciseState.exercises.map((exercise) => Container(
-                            margin: const EdgeInsets.only(bottom: 8),
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[850],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: const Icon(
-                                    Icons.fitness_center,
-                                    color: Colors.orange,
-                                    size: 20,
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        exercise.name,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${exercise.duration} min',
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Text(
-                                    '${exercise.caloriesBurned.round()} kcal',
-                                    style: const TextStyle(
-                                      color: Colors.orange,
-                                      fontWeight: FontWeight.bold,
+                          ...exerciseState.exercises
+                              .map((exercise) => Container(
+                                    margin: const EdgeInsets.only(bottom: 8),
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[850],
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )).toList(),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.orange
+                                                .withValues(alpha: (0.2)),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: const Icon(
+                                            Icons.fitness_center,
+                                            color: Colors.orange,
+                                            size: 20,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                exercise.name,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              Text(
+                                                '${exercise.duration} min',
+                                                style: const TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 6,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.orange
+                                                .withValues(alpha: (0.2)),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: Text(
+                                            '${exercise.caloriesBurned.round()} kcal',
+                                            style: const TextStyle(
+                                              color: Colors.orange,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ))
+                              .toList(),
                           TextButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/add-exercise');

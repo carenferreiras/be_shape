@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/core.dart';
 import '../../../features.dart';
 
-import 'package:flutter/material.dart';
-
 class WeightCard extends StatelessWidget {
   final String tdee;
   final String tbm;
@@ -20,8 +18,8 @@ class WeightCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            BeShapeColors.primary.withOpacity(0.2),
-            BeShapeColors.background.withOpacity(0.05),
+            BeShapeColors.primary.withValues(alpha: (0.2)),
+            BeShapeColors.background.withValues(alpha: (0.05)),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
@@ -37,7 +35,6 @@ class WeightCard extends StatelessWidget {
             // Header com nome e foto do usuário
             Row(
               children: [
-                
                 CircleAvatar(
                   radius: 24,
                   backgroundImage: NetworkImage(
@@ -98,7 +95,7 @@ class WeightCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            
+
             // Footer com estatísticas
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

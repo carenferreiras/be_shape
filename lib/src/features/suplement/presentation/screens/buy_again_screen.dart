@@ -49,7 +49,8 @@ class _BuyAgainScreenState extends State<BuyAgainScreen> {
 
     try {
       final baseUrl = _storeUrls[_selectedStore]!;
-      final query = '${widget.supplement.brand} ${widget.supplement.name}'.replaceAll(' ', '+');
+      final query = '${widget.supplement.brand} ${widget.supplement.name}'
+          .replaceAll(' ', '+');
       final url = Uri.parse('$baseUrl$query');
 
       if (await canLaunchUrl(url)) {
@@ -108,7 +109,7 @@ class _BuyAgainScreenState extends State<BuyAgainScreen> {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+        border: Border.all(color: Colors.orange..withValues(alpha: (0.3))),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +119,7 @@ class _BuyAgainScreenState extends State<BuyAgainScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(0.2),
+                  color: Colors.orange.withValues(alpha: (0.2)),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -249,7 +250,7 @@ class _BuyAgainScreenState extends State<BuyAgainScreen> {
 
   Widget _buildStoreOption(String value, String label, String logo) {
     final isSelected = _selectedStore == value;
-    
+
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -260,7 +261,9 @@ class _BuyAgainScreenState extends State<BuyAgainScreen> {
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: isSelected ? Colors.orange.withOpacity(0.2) : Colors.grey[900],
+            color: isSelected
+                ? Colors.orange.withValues(alpha: (0.2))
+                : Colors.grey[900],
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: isSelected ? Colors.orange : Colors.grey[800]!,

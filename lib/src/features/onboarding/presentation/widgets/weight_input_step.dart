@@ -106,7 +106,7 @@ class WeightInputStep extends StatelessWidget {
             activeTrackColor: BeShapeColors.primary,
             inactiveTrackColor: Colors.grey[800],
             thumbColor: Colors.white,
-            overlayColor: BeShapeColors.primary.withOpacity(0.2),
+            overlayColor: BeShapeColors.primary.withValues(alpha: (0.2)),
             valueIndicatorColor: BeShapeColors.primary,
             valueIndicatorTextStyle: const TextStyle(color: Colors.white),
             showValueIndicator: ShowValueIndicator.always,

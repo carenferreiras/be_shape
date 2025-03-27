@@ -20,7 +20,7 @@ class IdealValuesCard extends StatelessWidget {
     double waterIntake = userProfile.weight * 35; // 35ml por kg de peso
 
     return Card(
-      color: BeShapeColors.primary.withOpacity(0.1),
+      color: BeShapeColors.primary.withValues(alpha: (0.1)),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -96,7 +96,7 @@ class IdealValuesCard extends StatelessWidget {
             Row(
               children: [
                 Card(
-                  color: background.withOpacity(0.2),
+                  color: background.withValues(alpha: (0.2)),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   child: Padding(

@@ -5,8 +5,13 @@ import '../../../../core/core.dart';
 class SearchMyFoodTab extends StatelessWidget {
   final TextEditingController searchController;
   final void Function(String)? onChanged;
+  final void Function()? onPressed;
 
-  const SearchMyFoodTab({super.key, required this.searchController, this.onChanged});
+  const SearchMyFoodTab(
+      {super.key,
+      required this.searchController,
+      this.onChanged,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +24,14 @@ class SearchMyFoodTab extends StatelessWidget {
               controller: searchController,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                hintText: 'Search foods...',
+                suffixIcon: IconButton(
+                    onPressed: onPressed,
+                    icon: Icon(
+                      Icons.search,
+                      color: BeShapeColors.primary,
+                    )),
+                hintText: 'Pesquisar...',
                 hintStyle: const TextStyle(color: Colors.grey),
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -31,8 +41,7 @@ class SearchMyFoodTab extends StatelessWidget {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide:
-                      const BorderSide(color: BeShapeColors.primary),
+                  borderSide: const BorderSide(color: BeShapeColors.primary),
                 ),
                 filled: true,
                 fillColor: Colors.grey[900],

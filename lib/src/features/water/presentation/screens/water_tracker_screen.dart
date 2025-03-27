@@ -1,4 +1,3 @@
-
 import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,12 +40,13 @@ class WaterIntakeCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.grey[900],
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: BeShapeColors.link.withOpacity(0.3)),
+            border:
+                Border.all(color: BeShapeColors.link..withValues(alpha: (0.3))),
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                BeShapeColors.link.withOpacity(0.2),
+                BeShapeColors.link.withValues(alpha: (0.2)),
                 BeShapeColors.background,
               ],
             ),
@@ -151,7 +151,7 @@ class WaterIntakeCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 boxShadow: [
                   BoxShadow(
-                    color: BeShapeColors.link.withOpacity(0.5),
+                    color: BeShapeColors.link.withValues(alpha: (0.5)),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -171,7 +171,7 @@ class WaterIntakeCard extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
+            color: color.withValues(alpha: (0.2)),
             shape: BoxShape.circle,
           ),
           child: Icon(
@@ -205,13 +205,13 @@ class WaterIntakeCard extends StatelessWidget {
       width: 60,
       height: 120,
       decoration: BoxDecoration(
-        color: BeShapeColors.link.withOpacity(0.1),
+        color: BeShapeColors.link.withValues(alpha: (0.1)),
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(30),
           bottom: Radius.circular(30),
         ),
         border: Border.all(
-          color: BeShapeColors.link.withOpacity(0.3),
+          color: BeShapeColors.link.withValues(alpha: (0.3)),
           width: 2,
         ),
       ),
@@ -231,9 +231,9 @@ class WaterIntakeCard extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    BeShapeColors.link.withOpacity(0.2),
-                    BeShapeColors.link.withOpacity(0.4),
-                    BeShapeColors.link.withOpacity(0.6),
+                    BeShapeColors.link.withValues(alpha: (0.2)),
+                    BeShapeColors.link.withValues(alpha: (0.4)),
+                    BeShapeColors.link.withValues(alpha: (0.6)),
                   ],
                 ),
                 borderRadius: BorderRadius.vertical(
@@ -246,13 +246,11 @@ class WaterIntakeCard extends StatelessWidget {
               child: CustomPaint(
                 size: Size.infinite,
                 painter: WaterWavePainter(
-                  color: BeShapeColors.link.withOpacity(0.3),
+                  color: BeShapeColors.link.withValues(alpha: (0.3)),
                 ),
               ),
             ),
           ),
-
-         
         ],
       ),
     );
@@ -270,7 +268,7 @@ class WaterIntakeCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.amber.withOpacity(0.2),
+              color: Colors.amber.withValues(alpha: (0.2)),
               shape: BoxShape.circle,
             ),
             child: const Icon(

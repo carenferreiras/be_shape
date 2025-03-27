@@ -58,8 +58,7 @@ class _DailyFoodTrackingScreenState extends State<DailyFoodTrackingScreen> {
               onPrimary: Colors.white,
               surface: Color(0xFF303030),
               onSurface: Colors.white,
-            ),
-            dialogBackgroundColor: const Color(0xFF303030),
+            ), dialogTheme: DialogThemeData(backgroundColor: const Color(0xFF303030)),
           ),
           child: child!,
         );

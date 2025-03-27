@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/features.dart';
 
@@ -24,28 +23,28 @@ class AppRouter {
   static const String healthPage = '/health-page';
   static const String chatScreen = '/chat-screen';
   static const String habit = '/habits';
-  static const String waterTracker ='/water-tracker'; 
+  static const String waterTracker = '/water-tracker';
   static const String profile = '/profile';
   static const String suplement = '/suplement';
   static const String training = '/training';
   static const String bodyProgress = '/body-progress';
+
   // Equipment routes
   static const String equipment = '/equipment';
   static const String addEquipment = '/add-equipment';
   static const String editEquipment = '/edit-equipment';
-  
+
   // Workout routes
   static const String createWorkout = '/create-workout';
   static const String workoutTemplates = '/workout-templates';
   static const String workoutHistory = '/workout-history';
   static const String executeWorkout = '/execute-workout';
-  
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case initial:
         return MaterialPageRoute(
-          builder: (_) =>  SplashScreen(),
+          builder: (_) => SplashScreen(),
         );
       case login:
         return MaterialPageRoute(
@@ -114,19 +113,19 @@ class AppRouter {
         );
       case training:
         return MaterialPageRoute(
-          builder: (_) =>  TrainingSelectionScreen(),
+          builder: (_) => TrainingSelectionScreen(),
         );
-    case workoutHistory: 
-      return MaterialPageRoute(builder: (_)=> WorkoutHistoryScreen());
+      case workoutHistory:
+        return MaterialPageRoute(builder: (_) => WorkoutHistoryScreen());
       case profile:
-        return MaterialPageRoute(builder: (_)=>  UserMetricsScreen());
+        return MaterialPageRoute(builder: (_) => UserMetricsScreen());
       case healthPage:
         return MaterialPageRoute(builder: (_) => const HealthPage());
       case habit:
         return MaterialPageRoute(builder: (_) => const HabitsScreen());
       case suplement:
         return MaterialPageRoute(builder: (_) => const SupplementsScreen());
-       // Equipment routes
+      // Equipment routes
       case equipment:
         return MaterialPageRoute(
           builder: (_) => const EquipmentScreen(),
@@ -162,10 +161,10 @@ class AppRouter {
         );
       case bodyProgress:
         return MaterialPageRoute(
-          builder: (_) => BodyProgressScreen(),
+            builder: (_)=> FoodCalorieScreen()
+          // builder: (_) => BodyProgressScreen(),
         );
-
-
+     
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

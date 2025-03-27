@@ -57,12 +57,14 @@ class RecentHistory extends StatelessWidget {
           const SizedBox(height: 16),
           FutureBuilder(
             future: context.read<DailyReportRepository>().getUserReports(
-              context.read<AuthRepository>().currentUser!.uid,
-            ),
+                  context.read<AuthRepository>().currentUser!.uid,
+                ),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  child: SpinKitWaveSpinner(color: BeShapeColors.primary,),
+                  child: SpinKitWaveSpinner(
+                    color: BeShapeColors.primary,
+                  ),
                 );
               }
 
@@ -110,10 +112,16 @@ class RecentHistory extends StatelessWidget {
 
               return Column(
                 children: recentReports.map((report) {
-                  final caloriePercentage = (report.totalCalories / report.targetCalories * 100).round();
-                  final proteinPercentage = (report.totalProteins / report.targetProteins * 100).round();
-                  final carbsPercentage = (report.totalCarbs / report.targetCarbs * 100).round();
-                  final fatsPercentage = (report.totalFats / report.targetFats * 100).round();
+                  final caloriePercentage =
+                      (report.totalCalories / report.targetCalories * 100)
+                          .round();
+                  final proteinPercentage =
+                      (report.totalProteins / report.targetProteins * 100)
+                          .round();
+                  final carbsPercentage =
+                      (report.totalCarbs / report.targetCarbs * 100).round();
+                  final fatsPercentage =
+                      (report.totalFats / report.targetFats * 100).round();
 
                   return Container(
                     margin: const EdgeInsets.only(bottom: 12),
@@ -141,7 +149,8 @@ class RecentHistory extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: _getCalorieColor(caloriePercentage).withOpacity(0.2),
+                                color: _getCalorieColor(caloriePercentage)
+                                    .withValues(alpha: (0.2)),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(

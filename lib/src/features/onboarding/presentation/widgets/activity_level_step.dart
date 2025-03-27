@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -92,7 +90,9 @@ class ActivityLevelStep extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: isSelected ? BeShapeColors.primary.withOpacity(0.1) : Colors.grey[900],
+          color: isSelected
+              ? BeShapeColors.primary.withValues(alpha: (0.1))
+              : Colors.grey[900],
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected ? BeShapeColors.primary : Colors.transparent,
@@ -114,7 +114,9 @@ class ActivityLevelStep extends StatelessWidget {
           subtitle: Text(
             subtitle,
             style: TextStyle(
-              color: isSelected ? BeShapeColors.primary.withOpacity(0.7) : Colors.grey,
+              color: isSelected
+                  ? BeShapeColors.primary.withValues(alpha: (0.7))
+                  : Colors.grey,
             ),
           ),
           trailing: isSelected

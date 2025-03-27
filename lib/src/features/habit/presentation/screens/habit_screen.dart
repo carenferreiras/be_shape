@@ -52,7 +52,10 @@ class _HabitsScreenState extends State<HabitsScreen> {
             child: BlocBuilder<HabitBloc, HabitState>(
               builder: (context, state) {
                 if (state is HabitsLoading) {
-                  return const Center(child: SpinKitWaveSpinner(color: BeShapeColors.primary,));
+                  return const Center(
+                      child: SpinKitWaveSpinner(
+                    color: BeShapeColors.primary,
+                  ));
                 } else if (state is HabitsLoaded) {
                   final habits = state.habits;
                   return Padding(
@@ -67,7 +70,9 @@ class _HabitsScreenState extends State<HabitsScreen> {
                       itemCount: habits.length,
                       itemBuilder: (context, index) {
                         final habit = habits[index];
-                        return HabitCard(habit: habit,);
+                        return HabitCard(
+                          habit: habit,
+                        );
                       },
                     ),
                   );
@@ -82,8 +87,11 @@ class _HabitsScreenState extends State<HabitsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _navigateToAddHabit(context),
-        backgroundColor: BeShapeColors.primary.withOpacity(0.2),
-        child: const Icon(Icons.add,color: BeShapeColors.primary,),
+        backgroundColor: BeShapeColors.primary.withValues(alpha: (0.2)),
+        child: const Icon(
+          Icons.add,
+          color: BeShapeColors.primary,
+        ),
       ),
     );
   }
@@ -102,7 +110,10 @@ class _HabitsScreenState extends State<HabitsScreen> {
           ),
           Text(
             DateFormat('EEEE, MMM dd, yyyy').format(_selectedDate),
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: BeShapeColors.backgroundLight),
+            style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: BeShapeColors.backgroundLight),
           ),
           IconButton(
             icon: const Icon(Icons.arrow_forward),
@@ -113,8 +124,6 @@ class _HabitsScreenState extends State<HabitsScreen> {
       ),
     );
   }
-
-
 
   /// 📌 **Navegar para a Tela de Adicionar Hábito**
   Future<void> _navigateToAddHabit(BuildContext context) async {

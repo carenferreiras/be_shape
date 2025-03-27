@@ -5,13 +5,13 @@ class BuildCard extends StatelessWidget {
   final String boldTitle;
   final String title;
   final Color color;
-  const BuildCard(
-      {super.key,
-      required this.icon,
-      required this.boldTitle,
-      required this.title, 
-      required this.color, 
-     });
+  const BuildCard({
+    super.key,
+    required this.icon,
+    required this.boldTitle,
+    required this.title,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class BuildCard extends StatelessWidget {
         width: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: (0.2)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),

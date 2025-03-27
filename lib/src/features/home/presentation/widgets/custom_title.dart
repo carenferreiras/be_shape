@@ -8,7 +8,12 @@ class CustomTitle extends StatelessWidget {
   final void Function()? onTap;
   final IconData? icon;
 
-  const CustomTitle({super.key, required this.title, this.onTap, this.buttonTitle, this.icon});
+  const CustomTitle(
+      {super.key,
+      required this.title,
+      this.onTap,
+      this.buttonTitle,
+      this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +39,13 @@ class CustomTitle extends StatelessWidget {
                 vertical: 8,
               ),
               decoration: BoxDecoration(
-                color: BeShapeColors.primary.withOpacity(0.2),
+                color: BeShapeColors.primary.withValues(alpha: (0.2)),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child:  Row(
+              child: Row(
                 children: [
-                   Icon(
-                   icon?? Icons.add_circle_outline,
+                  Icon(
+                    icon ?? Icons.add_circle_outline,
                     color: BeShapeColors.primary,
                     size: 18,
                   ),

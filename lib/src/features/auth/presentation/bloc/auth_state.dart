@@ -5,7 +5,7 @@ class AuthState {
   final bool isLoading;
   final String? error;
   final UserProfile? userProfile;
-  final bool isInitialized; // Novo campo para controlar inicialização
+  final bool isInitialized; 
 
   const AuthState({
     this.isAuthenticated = false,

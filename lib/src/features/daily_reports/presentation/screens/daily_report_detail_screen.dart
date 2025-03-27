@@ -37,8 +37,9 @@ class DailyReportDetailScreen extends StatelessWidget {
   }
 
   Widget _buildSummaryCard() {
-    final caloriePercentage = (report.totalCalories / report.targetCalories * 100).round();
-    
+    final caloriePercentage =
+        (report.totalCalories / report.targetCalories * 100).round();
+
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
@@ -67,7 +68,8 @@ class DailyReportDetailScreen extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: _getStatusColor(caloriePercentage).withOpacity(0.2),
+                  color: _getStatusColor(caloriePercentage)
+                      .withValues(alpha: (0.2)),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(

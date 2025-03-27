@@ -135,22 +135,22 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
 
   int _calculateEstimatedDuration() {
     int totalDuration = 0;
-    
+
     // Tempo dos exercícios
     for (final exercise in _exercises) {
       final setsCount = exercise.sets.length;
       final restTime = exercise.restTime;
-      
+
       // Tempo para cada série (estimado em 45 segundos) + descanso
       totalDuration += setsCount * (45 + restTime);
     }
-    
+
     // Tempo de descanso entre exercícios
     totalDuration += (_exercises.length - 1) * _restBetweenSets;
-    
+
     // Adiciona 5 minutos para aquecimento
     totalDuration += 300;
-    
+
     return totalDuration;
   }
 
@@ -394,7 +394,8 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
               value: _selectedDifficulty,
               dropdownColor: Colors.grey[900],
               style: const TextStyle(color: Colors.white),
-              items: ['Iniciante', 'Intermediário', 'Avançado'].map((difficulty) {
+              items:
+                  ['Iniciante', 'Intermediário', 'Avançado'].map((difficulty) {
                 return DropdownMenuItem<String>(
                   value: difficulty,
                   child: Text(difficulty),
@@ -450,7 +451,7 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
                 vertical: 6,
               ),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.2),
+                color: Colors.blue.withValues(alpha: (0.2)),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
@@ -514,7 +515,7 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(16), 
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -670,7 +671,7 @@ class _ExerciseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue.withOpacity(0.3)),
+        border: Border.all(color: Colors.blue..withValues(alpha: (0.3))),
       ),
       child: Column(
         children: [
@@ -737,24 +738,24 @@ class _ExerciseCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     ...exercise.tips!.map((tip) => Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.check_circle,
-                            color: Colors.green,
-                            size: 16,
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.check_circle,
+                                color: Colors.green,
+                                size: 16,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  tip,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              tip,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
+                        )),
                   ],
                 ],
               ),

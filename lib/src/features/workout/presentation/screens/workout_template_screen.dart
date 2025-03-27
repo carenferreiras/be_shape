@@ -32,8 +32,8 @@ class _WorkoutTemplatesScreenState extends State<WorkoutTemplatesScreen> {
   void _filterWorkouts() {
     if (_selectedEquipment.isNotEmpty) {
       context.read<WorkoutBloc>().add(
-        LoadWorkoutsByEquipment(_selectedEquipment.toList()),
-      );
+            LoadWorkoutsByEquipment(_selectedEquipment.toList()),
+          );
     } else {
       context.read<WorkoutBloc>().add(const LoadWorkoutTemplates());
     }
@@ -61,7 +61,7 @@ class _WorkoutTemplatesScreenState extends State<WorkoutTemplatesScreen> {
                   if (_selectedType != null && template.type != _selectedType) {
                     return false;
                   }
-                  if (_selectedDifficulty != 'Todos' && 
+                  if (_selectedDifficulty != 'Todos' &&
                       template.difficulty != _selectedDifficulty) {
                     return false;
                   }
@@ -80,7 +80,7 @@ class _WorkoutTemplatesScreenState extends State<WorkoutTemplatesScreen> {
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.2),
+                            color: Colors.blue.withValues(alpha: (0.2)),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
@@ -378,7 +378,7 @@ class _WorkoutTemplateCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.blue.withOpacity(0.3)),
+        border: Border.all(color: Colors.blue..withValues(alpha: (0.3))),
       ),
       child: Column(
         children: [
@@ -387,7 +387,7 @@ class _WorkoutTemplateCard extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.blue.withOpacity(0.2),
+                  Colors.blue.withValues(alpha: (0.2)),
                   Colors.transparent,
                 ],
               ),
@@ -400,7 +400,7 @@ class _WorkoutTemplateCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: Colors.blue.withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -438,7 +438,8 @@ class _WorkoutTemplateCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: _getDifficultyColor(workout.difficulty).withOpacity(0.2),
+                    color: _getDifficultyColor(workout.difficulty)
+                        .withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -516,7 +517,7 @@ class _WorkoutTemplateCard extends StatelessWidget {
                 vertical: 6,
               ),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.2),
+                color: Colors.green.withValues(alpha: (0.2)),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
@@ -556,7 +557,7 @@ class _WorkoutTemplateCard extends StatelessWidget {
                 vertical: 6,
               ),
               decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.2),
+                color: Colors.orange.withValues(alpha: (0.2)),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(

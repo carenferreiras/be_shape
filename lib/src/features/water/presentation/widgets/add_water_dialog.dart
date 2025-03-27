@@ -40,7 +40,7 @@ class _AddWaterDialogState extends State<AddWaterDialog> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: Colors.blue.withValues(alpha: (0.2)),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -123,7 +123,7 @@ class _AddWaterDialogState extends State<AddWaterDialog> {
 
   Widget _buildPresetAmount(double amount) {
     final isSelected = !_isCustomAmount && _selectedAmount == amount;
-    
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -138,7 +138,9 @@ class _AddWaterDialogState extends State<AddWaterDialog> {
           vertical: 12,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.blue.withOpacity(0.2) : Colors.grey[850],
+          color: isSelected
+              ? Colors.blue.withValues(alpha: (0.2))
+              : Colors.grey[850],
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? Colors.blue : Colors.transparent,
@@ -159,7 +161,9 @@ class _AddWaterDialogState extends State<AddWaterDialog> {
             Text(
               'ml',
               style: TextStyle(
-                color: isSelected ? Colors.blue.withOpacity(0.7) : Colors.grey,
+                color: isSelected
+                    ? Colors.blue.withValues(alpha: (0.7))
+                    : Colors.grey,
                 fontSize: 12,
               ),
             ),
@@ -173,7 +177,9 @@ class _AddWaterDialogState extends State<AddWaterDialog> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: _isCustomAmount ? Colors.blue.withOpacity(0.1) : Colors.grey[850],
+        color: _isCustomAmount
+            ? Colors.blue.withValues(alpha: (0.1))
+            : Colors.grey[850],
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: _isCustomAmount ? Colors.blue : Colors.transparent,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'src/core/core.dart';
 import 'src/features/features.dart';
@@ -7,7 +8,9 @@ import 'src/features/features.dart';
 
 
 class BeShapeApp extends StatelessWidget {
-  const BeShapeApp({super.key});
+    final ValueNotifier<GraphQLClient> graphQLClient;
+
+  const BeShapeApp({super.key, required this.graphQLClient});
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +28,21 @@ class BeShapeApp extends StatelessWidget {
           ),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Health Tracker',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          useMaterial3: true,
-          scaffoldBackgroundColor: Colors.white,
+      child: GraphQLProvider(
+         client: graphQLClient,
+        child: CacheProvider(
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Health Tracker',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              useMaterial3: true,
+              scaffoldBackgroundColor: Colors.white,
+            ),
+            initialRoute: AppRouter.initial,
+            onGenerateRoute: AppRouter.onGenerateRoute,
+          ),
         ),
-        initialRoute: AppRouter.initial,
-        onGenerateRoute: AppRouter.onGenerateRoute,
       ),
     );
   }

@@ -7,12 +7,22 @@ class NutritionCard extends StatelessWidget {
   final TextEditingController proteinsController;
   final TextEditingController carbsController;
   final TextEditingController fatsController;
+  final TextEditingController fibersController;
+  final TextEditingController sodiumController;
+  final TextEditingController waterController;
+  final TextEditingController ironController;
+  final TextEditingController calciumController;
 
   const NutritionCard({
     required this.caloriesController,
     required this.proteinsController,
     required this.carbsController,
     required this.fatsController,
+    required this.fibersController,
+    required this.sodiumController,
+    required this.waterController,
+    required this.ironController,
+    required this.calciumController,
   });
 
   @override
@@ -34,33 +44,60 @@ class NutritionCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           _buildNutritionInput(
-            'Calories',
+            'Caloria',
             caloriesController,
             BeShapeColors.primary,
             'kcal',
           ),
-          const SizedBox(height: 12),
           _buildNutritionInput(
-            'Protein',
+            'Proteina',
             proteinsController,
             BeShapeColors.link,
             'g',
           ),
-          const SizedBox(height: 12),
           _buildNutritionInput(
-            'Carbs',
+            'Caboidrato',
             carbsController,
             BeShapeColors.accent,
             'g',
           ),
-          const SizedBox(height: 12),
           _buildNutritionInput(
-            'Fat',
+            'Gordura',
             fatsController,
-            Colors.red,
+            BeShapeColors.error,
             'g',
+          ),
+          _buildNutritionInput(
+            'Fibras',
+            fibersController,
+            BeShapeColors.purble,
+            'g',
+          ),
+          _buildNutritionInput(
+            'Sódio',
+            sodiumController,
+            BeShapeColors.warning,
+            'mg',
+          ),
+          _buildNutritionInput(
+            'Cálcio',
+            calciumController,
+            BeShapeColors.brown,
+            'mg',
+          ),
+          _buildNutritionInput(
+            'Água',
+            waterController,
+            BeShapeColors.blue,
+            '%',
+          ),
+          _buildNutritionInput(
+            'Ferro',
+            ironController,
+            BeShapeColors.grey,
+            'mg',
           ),
         ],
       ),
@@ -73,59 +110,60 @@ class NutritionCard extends StatelessWidget {
     Color color,
     String unit,
   ) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 100,
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 100,
+            child: Text(
+              label,
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: TextFormField(
-            controller: controller,
-            style: TextStyle(color: color),
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              suffix: Text(
-                unit,
-                style: const TextStyle(color: Colors.grey),
+          Expanded(
+            child: TextFormField(
+              controller: controller,
+              style: TextStyle(color: color),
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                suffix: Text(
+                  unit,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide:
+                      BorderSide(color: color..withValues(alpha: (0.3))),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: color),
+                ),
+                filled: true,
+                fillColor: color.withValues(alpha: (0.1)),
               ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 8,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: color.withOpacity(0.3)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: color),
-              ),
-              filled: true,
-              fillColor: color.withOpacity(0.1),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Required';
+                }
+                return null;
+              },
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Required';
-              }
-              return null;
-            },
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
-  
-  
-
 }

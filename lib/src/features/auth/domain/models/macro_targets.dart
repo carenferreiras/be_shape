@@ -10,10 +10,10 @@ class MacroTargets {
   });
 
   factory MacroTargets.fromTDEE(double tdee, double weight) {
-    // Calculate macro targets based on TDEE and weight
-    final proteins = weight * 2.2; // 2.2g per kg of body weight
-    final fats = (tdee * 0.25) / 9; // 25% of calories from fats
-    final carbs = (tdee * 0.45) / 4; // 45% of calories from carbs
+  
+    final proteins = weight * 2.2;
+    final fats = (tdee * 0.25) / 9; 
+    final carbs = (tdee * 0.45) / 4;
 
     return MacroTargets(
       proteins: proteins,

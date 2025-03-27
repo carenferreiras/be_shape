@@ -59,7 +59,7 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
 
   void _completeSet() {
     final currentExercise = widget.workout.exercises[_currentExerciseIndex];
-    
+
     if (_currentSetIndex < currentExercise.sets.length - 1) {
       setState(() {
         _currentSetIndex++;
@@ -82,13 +82,14 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
 
   void _addNote(String note) {
     setState(() {
-      _notes.add('${widget.workout.exercises[_currentExerciseIndex].name}: $note');
+      _notes.add(
+          '${widget.workout.exercises[_currentExerciseIndex].name}: $note');
     });
   }
 
   void _showAddNoteDialog() {
     final controller = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -110,7 +111,7 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.grey[800]!),
             ),
-            focusedBorder:  OutlineInputBorder(
+            focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.blue),
             ),
@@ -168,24 +169,24 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
               ),
               const SizedBox(height: 8),
               ..._notes.map((note) => Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.notes,
-                      color: Colors.blue,
-                      size: 16,
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.notes,
+                          color: Colors.blue,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            note,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        note,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+                  )),
             ],
           ],
         ),
@@ -239,7 +240,9 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
         children: [
           // Progress Bar
           LinearProgressIndicator(
-            value: (_currentExerciseIndex * currentExercise.sets.length + _currentSetIndex + 1) /
+            value: (_currentExerciseIndex * currentExercise.sets.length +
+                    _currentSetIndex +
+                    1) /
                 (widget.workout.exercises.length * currentExercise.sets.length),
             backgroundColor: Colors.grey[900],
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
@@ -278,7 +281,7 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.blue.withOpacity(0.3)),
+        border: Border.all(color: Colors.blue..withValues(alpha: (0.3))),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -288,7 +291,7 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.2),
+                  color: Colors.blue.withValues(alpha: (0.2)),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -415,7 +418,7 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
+            color: color.withValues(alpha: (0.2)),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, color: color),
@@ -467,7 +470,8 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
                 child: CircularProgressIndicator(
                   value: _restTimeRemaining / widget.workout.restBetweenSets,
                   backgroundColor: Colors.grey[800],
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.orange),
+                  valueColor:
+                      const AlwaysStoppedAnimation<Color>(Colors.orange),
                   strokeWidth: 8,
                 ),
               ),
@@ -514,27 +518,27 @@ class _ExecuteWorkoutScreenState extends State<ExecuteWorkoutScreen> {
             ),
             const SizedBox(height: 12),
             ...exercise.tips!.map((tip) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
-                    size: 16,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      tip,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 16,
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          tip,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )),
+                )),
           ],
         ],
       ),

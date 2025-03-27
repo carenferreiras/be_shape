@@ -47,7 +47,7 @@ class UserHeader extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: BeShapeColors.primary.withOpacity(0.2),
+                        color: BeShapeColors.primary.withValues(alpha: (0.2)),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Row(
@@ -75,7 +75,7 @@ class UserHeader extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: BeShapeColors.link.withOpacity(0.2),
+                        color: BeShapeColors.link.withValues(alpha: (0.2)),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -100,6 +100,12 @@ class UserHeader extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          CustomTitle(
+            icon: Icons.account_circle,
+            title: '',
+            buttonTitle: 'Perfil',
+            onTap: () => Navigator.pushNamed(context, '/profile'),
           ),
         ],
       ),

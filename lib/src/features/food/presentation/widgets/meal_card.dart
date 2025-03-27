@@ -5,7 +5,7 @@ import '../../../../core/core.dart';
 import '../../../features.dart';
 
 class MealCardWidget extends StatelessWidget {
-    final Meal meal;
+  final Meal meal;
   final VoidCallback onDelete;
   const MealCardWidget({super.key, required this.meal, required this.onDelete});
 
@@ -25,7 +25,13 @@ class MealCardWidget extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            // Show meal details
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (_) =>
+            //             FoodDetailScreen(
+            //               foodImage: meal.photoUrl ?? "",
+            //               foodName: meal.name,)));
           },
           borderRadius: BorderRadius.circular(20),
           child: Padding(
@@ -44,7 +50,8 @@ class MealCardWidget extends StatelessWidget {
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: BeShapeColors.primary.withOpacity(0.2),
+                            color:
+                                BeShapeColors.primary.withValues(alpha: (0.2)),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -60,7 +67,8 @@ class MealCardWidget extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: BeShapeColors.accent.withOpacity(0.2),
+                              color:
+                                  BeShapeColors.accent.withValues(alpha: (0.2)),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(

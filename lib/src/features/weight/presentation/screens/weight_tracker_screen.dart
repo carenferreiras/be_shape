@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../features.dart';
-import '../widgets/weight_card.dart';
 
 class WeightAnimationScreen extends StatelessWidget {
   const WeightAnimationScreen({Key? key}) : super(key: key);

@@ -13,6 +13,11 @@ class CreateNewTabWidget extends StatelessWidget {
   final TextEditingController proteinsController;
   final TextEditingController carbsController;
   final TextEditingController fatsController;
+  final TextEditingController fibersController;
+  final TextEditingController sodiumController;
+  final TextEditingController waterController;
+  final TextEditingController ironController;
+  final TextEditingController calciumController;
   final void Function(bool)? isPubliconChanged;
   final void Function()? submitFoodPressed;
   final void Function(String)? updateNutritionValues;
@@ -22,6 +27,9 @@ class CreateNewTabWidget extends StatelessWidget {
   final bool isPublic;
   final bool isCreatingNew;
   final DateTime selecteDate;
+  final double fat;
+  final double protein;
+  final double carbs;
 
   const CreateNewTabWidget(
       {required this.nameController,
@@ -40,7 +48,15 @@ class CreateNewTabWidget extends StatelessWidget {
       required this.isFavorite,
       required this.isPublic,
       required this.isCreatingNew,
-      required this.selecteDate});
+      required this.selecteDate,
+      required this.fibersController,
+      required this.sodiumController,
+      required this.waterController,
+      required this.ironController,
+      required this.calciumController,
+      required this.fat,
+      required this.protein,
+      required this.carbs});
 
   @override
   Widget build(BuildContext context) {
@@ -150,6 +166,11 @@ class CreateNewTabWidget extends StatelessWidget {
               proteinsController: proteinsController,
               carbsController: carbsController,
               fatsController: fatsController,
+              fibersController: fibersController,
+              sodiumController: sodiumController,
+              waterController: waterController,
+              ironController: ironController,
+              calciumController: calciumController,
             ),
             if (isFavorite) ...[
               const SizedBox(height: BeShapeSizes.paddingMedium),
@@ -167,12 +188,15 @@ class CreateNewTabWidget extends StatelessWidget {
                 activeColor: BeShapeColors.primary,
               ),
             ],
+            MacronutrientPieChart(proteins: protein, carbs: carbs, fats: fat),
             const SizedBox(height: 24),
             BeShapeCustomButton(
-              buttonColor: BeShapeColors.background.withOpacity(0.3),
+              buttonColor: BeShapeColors.background.withValues(alpha: (0.3)),
               icon: Icons.add_box_outlined,
-              label:  isCreatingNew ? 'Add Food' : 'Add to Today', 
-              isLoading: false, onPressed: submitFoodPressed,)
+              label: isCreatingNew ? 'Add Food' : 'Add to Today',
+              isLoading: false,
+              onPressed: submitFoodPressed,
+            )
           ],
         ),
       ),

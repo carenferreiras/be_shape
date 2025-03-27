@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
@@ -32,7 +33,9 @@ class BodyMeasurement {
     return BodyMeasurement(
       id: json['id'] as String,
       userId: json['userId'] as String,
-      date: DateTime.parse(json['date'] as String),
+      date: (json['date'] is Timestamp) 
+        ? (json['date'] as Timestamp).toDate()  // Converte Timestamp para DateTime
+        : DateTime.parse(json['date'] as String), 
       weight: (json['weight'] as num).toDouble(),
       measurements: Map<String, double>.from(json['measurements'] as Map),
       skinfolds: json['skinfolds'] != null 

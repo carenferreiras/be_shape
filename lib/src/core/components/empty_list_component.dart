@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/core.dart';
+import '../core.dart';
 
-class AddFoodButtonTab extends StatelessWidget {
-  const AddFoodButtonTab({super.key});
+class EmptyListComponent extends StatelessWidget {
+  final String title;
+  final String subTitle;
+  final IconData? icon;
+  final String? buttonText;
+  const EmptyListComponent({super.key, required this.title, this.icon, required this.subTitle, this.buttonText});
 
   @override
   Widget build(BuildContext context) {
@@ -12,31 +16,36 @@ class AddFoodButtonTab extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.no_food,
+            icon ?? Icons.no_food,
             size: 64,
             color: Colors.grey[700],
           ),
           const SizedBox(height: BeShapeSizes.paddingMedium),
           Text(
-            'No saved foods yet',
+            title,
             style: TextStyle(
               color: Colors.grey[500],
               fontSize: 18,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            'Save foods by marking them as favorites',
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 14,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              subTitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14,
+              ),
             ),
           ),
           const SizedBox(height: BeShapeSizes.paddingMedium),
+          buttonText != null?
           ElevatedButton.icon(
             onPressed: () => Navigator.pushNamed(context, '/saved-food'),
             icon: const Icon(Icons.add),
-            label: const Text('Add New Food'),
+            label:  Text(buttonText ?? ''),
             style: ElevatedButton.styleFrom(
               backgroundColor: BeShapeColors.primary,
               foregroundColor: Colors.white,
@@ -45,7 +54,7 @@ class AddFoodButtonTab extends StatelessWidget {
                 vertical: 12,
               ),
             ),
-          ),
+          ): SizedBox.shrink()
         ],
       ),
     );

@@ -40,12 +40,15 @@ class _EquipmentScreenState extends State<EquipmentScreen>
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Equipamentos',style: TextStyle(color: BeShapeColors.textPrimary),),
-        leading:  Card(
+        title: const Text(
+          'Equipamentos',
+          style: TextStyle(color: BeShapeColors.textPrimary),
+        ),
+        leading: Card(
           margin: const EdgeInsets.all(6),
-          color: BeShapeColors.primary.withOpacity(0.3),
+          color: BeShapeColors.primary.withValues(alpha: (0.3)),
           child: IconButton(
-            onPressed: ()=> Navigator.pop(context),
+            onPressed: () => Navigator.pop(context),
             icon: Icon(
               Icons.arrow_back_ios,
               color: BeShapeColors.primary,
@@ -76,7 +79,10 @@ class _EquipmentScreenState extends State<EquipmentScreen>
           Navigator.pushNamed(context, '/add-equipment');
         },
         backgroundColor: BeShapeColors.primary,
-        child: const Icon(Icons.add,color: BeShapeColors.textPrimary,),
+        child: const Icon(
+          Icons.add,
+          color: BeShapeColors.textPrimary,
+        ),
       ),
     );
   }
@@ -99,7 +105,7 @@ class _UserEquipmentTab extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: Colors.blue.withValues(alpha: (0.2)),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -169,7 +175,8 @@ class _UserEquipmentTab extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: _getCategoryColor(category).withOpacity(0.2),
+                        color: _getCategoryColor(category)
+                            .withValues(alpha: (0.2)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
@@ -191,7 +198,7 @@ class _UserEquipmentTab extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 ...equipments.map((equipment) => _EquipmentCard(
-                    color: _getCategoryColor(category),
+                      color: _getCategoryColor(category),
                       equipment: equipment,
                     )),
                 const SizedBox(height: 24),
@@ -366,7 +373,7 @@ class _SuggestedEquipmentTab extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.2),
+                color: color.withValues(alpha: (0.2)),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
@@ -457,7 +464,7 @@ class _SuggestedEquipmentCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.grey[900],
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color..withValues(alpha: (0.3))),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -467,7 +474,7 @@ class _SuggestedEquipmentCard extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    color.withOpacity(0.2),
+                    color.withValues(alpha: (0.2)),
                     Colors.transparent,
                   ],
                 ),
@@ -480,7 +487,7 @@ class _SuggestedEquipmentCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.2),
+                      color: color.withValues(alpha: (0.2)),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -580,9 +587,8 @@ class _EquipmentCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color..withValues(alpha: (0.3))),
       ),
       child: Column(
         children: [
@@ -603,7 +609,7 @@ class _EquipmentCard extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                   color.withOpacity(0.2),
+                  color.withValues(alpha: (0.2)),
                   Colors.transparent,
                 ],
               ),
@@ -622,10 +628,10 @@ class _EquipmentCard extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: color.withOpacity(0.2),
+                        color: color.withValues(alpha: (0.2)),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child:  Icon(
+                      child: Icon(
                         Icons.fitness_center,
                         color: color,
                         size: 20,
@@ -689,7 +695,7 @@ class _EquipmentCard extends StatelessWidget {
                         },
                         style: OutlinedButton.styleFrom(
                           foregroundColor: color,
-                          side:  BorderSide(color: color),
+                          side: BorderSide(color: color),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: const Text('Editar'),
@@ -709,7 +715,10 @@ class _EquipmentCard extends StatelessWidget {
                           backgroundColor: color,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        child: const Text('Adicionar Exercício',style: TextStyle(color: BeShapeColors.textPrimary),),
+                        child: const Text(
+                          'Adicionar Exercício',
+                          style: TextStyle(color: BeShapeColors.textPrimary),
+                        ),
                       ),
                     ),
                   ],
@@ -756,7 +765,7 @@ class _EquipmentCard extends StatelessWidget {
                 vertical: 6,
               ),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.2),
+                color: color.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
@@ -774,4 +783,3 @@ class _EquipmentCard extends StatelessWidget {
     );
   }
 }
-

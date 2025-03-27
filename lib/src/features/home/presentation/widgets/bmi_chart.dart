@@ -111,8 +111,8 @@ class _BMIChartPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          BeShapeColors.primary.withOpacity(0.3),
-          BeShapeColors.primary.withOpacity(0.1),
+          BeShapeColors.primary.withValues(alpha: (0.3)),
+          BeShapeColors.primary.withValues(alpha: (0.1)),
         ],
       ).createShader(Rect.fromLTWH(0, 0, width, height));
 

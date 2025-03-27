@@ -37,7 +37,7 @@ class Habit {
       'progress': progress,
       'category': {
         'name': category.name,
-        'color': category.color.value,
+        'color': category.color,
         'icon': category.icon.codePoint,
       },
       'checkIns': checkIns.map((e) => e.toJson()).toList(),

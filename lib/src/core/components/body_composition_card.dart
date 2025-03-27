@@ -12,8 +12,9 @@ class BodyCompositionCard extends StatelessWidget {
   });
 
   String _getAvatarType() {
-    final bmi = userProfile.weight / ((userProfile.height / 100) * (userProfile.height / 100));
-    
+    final bmi = userProfile.weight /
+        ((userProfile.height / 100) * (userProfile.height / 100));
+
     if (bmi < 18.5) {
       return 'Abaixo';
     } else if (bmi >= 18.5 && bmi < 25) {
@@ -36,7 +37,8 @@ class BodyCompositionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final avatarType = _getAvatarType();
-    final bmi = userProfile.weight / ((userProfile.height / 100) * (userProfile.height / 100));
+    final bmi = userProfile.weight /
+        ((userProfile.height / 100) * (userProfile.height / 100));
 
     return Container(
       decoration: BoxDecoration(
@@ -64,8 +66,8 @@ class BodyCompositionCard extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.purple.withOpacity(0.2),
-                  Colors.purple.withOpacity(0.05),
+                  Colors.purple.withValues(alpha: (0.2)),
+                  Colors.purple.withValues(alpha: (0.05)),
                 ],
               ),
               borderRadius: const BorderRadius.vertical(
@@ -77,7 +79,7 @@ class BodyCompositionCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.purple.withOpacity(0.2),
+                    color: Colors.purple.withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -184,7 +186,9 @@ class BodyCompositionCard extends StatelessWidget {
           width: 60,
           height: 100,
           decoration: BoxDecoration(
-            color: isSelected ? Colors.purple.withOpacity(0.2) : Colors.grey[850],
+            color: isSelected
+                ? Colors.purple.withValues(alpha: (0.2))
+                : Colors.grey[850],
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: isSelected ? Colors.purple : Colors.transparent,
@@ -209,13 +213,14 @@ class BodyCompositionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildMetricRow(String label, String value, IconData icon, Color color) {
+  Widget _buildMetricRow(
+      String label, String value, IconData icon, Color color) {
     return Row(
       children: [
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: (0.15)),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(

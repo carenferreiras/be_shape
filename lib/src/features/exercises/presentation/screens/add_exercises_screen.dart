@@ -147,8 +147,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
                             onPrimary: Colors.white,
                             surface: Color(0xFF303030),
                             onSurface: Colors.white,
-                          ),
-                          dialogBackgroundColor: const Color(0xFF303030),
+                          ), dialogTheme: DialogThemeData(backgroundColor: const Color(0xFF303030)),
                         ),
                         child: child!,
                       );
@@ -175,7 +174,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.2),
+                              color: Colors.blue.withValues(alpha: (0.2)),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: const Icon(
@@ -237,7 +236,10 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
                               child: IconButton(
                                 onPressed: () =>
                                     Navigator.pushNamed(context, '/equipment'),
-                                icon: Icon(Icons.add,color: BeShapeColors.textPrimary,),
+                                icon: Icon(
+                                  Icons.add,
+                                  color: BeShapeColors.textPrimary,
+                                ),
                               ),
                             )
                           ],
@@ -321,7 +323,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
                               ),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? Colors.blue.withOpacity(0.2)
+                                    ? Colors.blue.withValues(alpha: (0.2))
                                     : Colors.grey[800],
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
@@ -487,7 +489,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.5)),
+        border: Border.all(color: color.withValues(alpha: (0.5))),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -520,7 +522,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: color.withOpacity(0.2),
+                        color: color.withValues(alpha: (0.2)),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(

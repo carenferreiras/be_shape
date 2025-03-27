@@ -25,7 +25,6 @@ class UserMetricsScreen extends StatelessWidget {
           appBar: BeShapeAppBar(
             title: 'Perfil',
             hasLeading: false,
-            
           ),
           body: Container(
             decoration: BoxDecoration(
@@ -76,12 +75,11 @@ class _UserHeader extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            BeShapeColors.background.withOpacity(0.04),
-            BeShapeColors.background.withOpacity(0.2),
+            BeShapeColors.background.withValues(alpha: (0.04)),
+            BeShapeColors.background.withValues(alpha: (0.2)),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        // border: Border.all(color: BeShapeColors.primary.withOpacity(0.3)),
       ),
       child: Row(
         children: [
@@ -125,7 +123,7 @@ class _UserHeader extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: Colors.blue.withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -162,7 +160,7 @@ class _MetricsOverview extends StatelessWidget {
         color: BeShapeColors.background,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: BeShapeColors.border.withOpacity(0.2),
+          color: BeShapeColors.border.withValues(alpha: (0.2)),
         ),
       ),
       child: Column(
@@ -226,7 +224,7 @@ class _MetricsOverview extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
+            color: color.withValues(alpha: (0.2)),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, color: color),
@@ -263,12 +261,15 @@ class _WeightSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final history = userProfile.weightHistory;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
           color: BeShapeColors.background,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: BeShapeColors.border.withOpacity(0.3))),
+          border: Border.all(
+              color: BeShapeColors.border..withValues(alpha: (0.3)))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -282,9 +283,7 @@ class _WeightSection extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           WeightProgressChart(
-            currentWeight: userProfile.weight,
-            targetWeight: userProfile.targetWeight,
-            initialWeight: userProfile.weight + 2,
+            history: history,
           ),
           const SizedBox(height: 16),
           Row(
@@ -352,7 +351,8 @@ class _MacrosCard extends StatelessWidget {
       decoration: BoxDecoration(
           color: BeShapeColors.background,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: BeShapeColors.border.withOpacity(0.3))),
+          border: Border.all(
+              color: BeShapeColors.border..withValues(alpha: (0.3)))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -366,7 +366,7 @@ class _MacrosCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           SizedBox(
-            height: 200,
+            height: 400,
             child: MacroDistributionChart(
               proteins: userProfile.macroTargets.proteins,
               carbs: userProfile.macroTargets.carbs,
@@ -513,14 +513,14 @@ class _CalorieBreakdown extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[850],
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color..withValues(alpha: (0.3))),
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            color.withOpacity(0.3),
-            color.withOpacity(0.3),
-            BeShapeColors.background.withOpacity(0.2),
+            color.withValues(alpha: (0.3)),
+            color.withValues(alpha: (0.3)),
+            BeShapeColors.background.withValues(alpha: (0.2)),
           ],
         ),
       ),
@@ -529,7 +529,7 @@ class _CalorieBreakdown extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
+              color: color.withValues(alpha: (0.2)),
               shape: BoxShape.circle,
             ),
             child: Icon(Icons.local_fire_department, color: color),
@@ -604,7 +604,6 @@ class _HealthSuggestions extends StatelessWidget {
   List<Widget> _buildSuggestions() {
     final suggestions = <Widget>[];
 
-    // Verifica IMC
     if (userProfile.bmi < 18.5) {
       suggestions.add(_buildSuggestion(
         'Aumente a ingestão calórica',
@@ -621,7 +620,6 @@ class _HealthSuggestions extends StatelessWidget {
       ));
     }
 
-    // Verifica nível de atividade
     if (userProfile.activityLevel <= 1.2) {
       suggestions.add(_buildSuggestion(
         'Aumente seu nível de atividade',
@@ -631,7 +629,6 @@ class _HealthSuggestions extends StatelessWidget {
       ));
     }
 
-    // Verifica proteína
     final proteinPerKg = userProfile.macroTargets.proteins / userProfile.weight;
     if (proteinPerKg < 1.6) {
       suggestions.add(_buildSuggestion(
@@ -642,7 +639,6 @@ class _HealthSuggestions extends StatelessWidget {
       ));
     }
 
-    // Se não houver sugestões
     if (suggestions.isEmpty) {
       suggestions.add(_buildSuggestion(
         'Continue assim!',
@@ -668,20 +664,20 @@ class _HealthSuggestions extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              color.withOpacity(0.3),
-              color.withOpacity(0.3),
-              color.withOpacity(0.3),
-              BeShapeColors.background.withOpacity(0.2),
+              color.withValues(alpha: (0.3)),
+              color.withValues(alpha: (0.3)),
+              color.withValues(alpha: (0.3)),
+              BeShapeColors.background.withValues(alpha: (0.2)),
             ],
           ),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color..withValues(alpha: (0.3))),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.2),
+                color: color.withValues(alpha: (0.2)),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color),

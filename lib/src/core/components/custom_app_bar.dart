@@ -26,7 +26,7 @@ class BeShapeAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         Card(
           margin: const EdgeInsets.all(6),
-          color: BeShapeColors.primary.withOpacity(0.3),
+          color: BeShapeColors.primary.withValues(alpha: (0.3)),
           child: IconButton(
             onPressed: actionIconPressed,
             icon: Icon(
@@ -36,20 +36,20 @@ class BeShapeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ],
-      leading: 
-      hasLeading?
-      Card(
-        margin: const EdgeInsets.all(6),
-        color: BeShapeColors.primary.withOpacity(0.3),
-        child: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: BeShapeColors.primary,
-          ),
-        ),
-      ): const SizedBox.shrink(),
-      backgroundColor: appBarColor?? Colors.black,
+      leading: hasLeading
+          ? Card(
+              margin: const EdgeInsets.all(6),
+              color: BeShapeColors.primary.withValues(alpha: (0.3)),
+              child: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: BeShapeColors.primary,
+                ),
+              ),
+            )
+          : const SizedBox.shrink(),
+      backgroundColor: appBarColor ?? Colors.black,
       elevation: 0,
     );
   }

@@ -61,7 +61,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
                 if (state.isLoading) {
                   return const Center(
                     child: SpinKitWaveSpinner(
-                     color: BeShapeColors.primary,
+                      color: BeShapeColors.primary,
                     ),
                   );
                 }
@@ -111,7 +111,8 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
                                 bottomRight: Radius.circular(16)),
                             border: Border.all(
                                 width: 0.5,
-                                color: BeShapeColors.primary.withOpacity(0.2)),
+                                color: BeShapeColors.primary
+                                    .withValues(alpha: (0.2))),
                           ),
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.only(right: 20),
@@ -147,7 +148,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
         onPressed: () {
           Navigator.pushNamed(context, '/add-exercise');
         },
-        backgroundColor: BeShapeColors.primary.withOpacity(0.2),
+        backgroundColor: BeShapeColors.primary.withValues(alpha: (0.2)),
         child: const Icon(
           Icons.add,
           color: BeShapeColors.primary,
@@ -185,7 +186,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
           shape: BoxShape.circle,
         ),
         todayDecoration: BoxDecoration(
-          color: BeShapeColors.primary.withOpacity(0.5),
+          color: BeShapeColors.primary.withValues(alpha: (0.5)),
           shape: BoxShape.circle,
         ),
         defaultTextStyle: const TextStyle(color: Colors.white),
@@ -233,10 +234,10 @@ class _ExerciseCard extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withValues(alpha: (0.6)),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: BeShapeColors.primary.withOpacity(0.4),
+                  color: BeShapeColors.primary.withValues(alpha: (0.4)),
                   width: 0.5,
                 ),
               ),
@@ -252,7 +253,7 @@ class _ExerciseCard extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: BeShapeColors.primary.withOpacity(0.2),
+                      color: BeShapeColors.primary.withValues(alpha: (0.2)),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(

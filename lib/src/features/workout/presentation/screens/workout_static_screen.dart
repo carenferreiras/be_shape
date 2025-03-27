@@ -8,7 +8,8 @@ class WorkoutStatisticsScreen extends StatefulWidget {
   const WorkoutStatisticsScreen({super.key});
 
   @override
-  State<WorkoutStatisticsScreen> createState() => _WorkoutStatisticsScreenState();
+  State<WorkoutStatisticsScreen> createState() =>
+      _WorkoutStatisticsScreenState();
 }
 
 class _WorkoutStatisticsScreenState extends State<WorkoutStatisticsScreen> {
@@ -47,7 +48,7 @@ class _WorkoutStatisticsScreenState extends State<WorkoutStatisticsScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.2),
+                      color: Colors.blue.withValues(alpha: (0.2)),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -103,26 +104,27 @@ class _WorkoutStatisticsScreenState extends State<WorkoutStatisticsScreen> {
 
   Map<String, dynamic> _calculateStatistics(List<Workout> workouts) {
     final stats = <String, dynamic>{};
-    
+
     // Total workouts
     stats['totalWorkouts'] = workouts.length;
-    
+
     // Total duration
     stats['totalDuration'] = workouts.fold<int>(
       0,
       (sum, workout) => sum + workout.estimatedDuration,
     );
-    
+
     // Average duration
     stats['averageDuration'] = stats['totalDuration'] ~/ workouts.length;
-    
+
     // Workout type distribution
     final typeDistribution = <WorkoutType, int>{};
     for (final workout in workouts) {
-      typeDistribution[workout.type] = (typeDistribution[workout.type] ?? 0) + 1;
+      typeDistribution[workout.type] =
+          (typeDistribution[workout.type] ?? 0) + 1;
     }
     stats['typeDistribution'] = typeDistribution;
-    
+
     // Muscle group distribution
     final muscleDistribution = <String, int>{};
     for (final workout in workouts) {
@@ -131,7 +133,7 @@ class _WorkoutStatisticsScreenState extends State<WorkoutStatisticsScreen> {
       }
     }
     stats['muscleDistribution'] = muscleDistribution;
-    
+
     // Monthly progress
     final monthlyProgress = <String, int>{};
     for (final workout in workouts) {
@@ -139,7 +141,7 @@ class _WorkoutStatisticsScreenState extends State<WorkoutStatisticsScreen> {
       monthlyProgress[month] = (monthlyProgress[month] ?? 0) + 1;
     }
     stats['monthlyProgress'] = monthlyProgress;
-    
+
     return stats;
   }
 
@@ -149,7 +151,7 @@ class _WorkoutStatisticsScreenState extends State<WorkoutStatisticsScreen> {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.blue.withOpacity(0.3)),
+        border: Border.all(color: Colors.blue..withValues(alpha: (0.3))),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,7 +204,7 @@ class _WorkoutStatisticsScreenState extends State<WorkoutStatisticsScreen> {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
+            color: color.withValues(alpha: (0.2)),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, color: color, size: 24),
@@ -343,7 +345,7 @@ class _WorkoutStatisticsScreenState extends State<WorkoutStatisticsScreen> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.2),
+                      color: Colors.green.withValues(alpha: (0.2)),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -368,7 +370,7 @@ class _WorkoutStatisticsScreenState extends State<WorkoutStatisticsScreen> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.2),
+                      color: Colors.green.withValues(alpha: (0.2)),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -515,7 +517,7 @@ class _ChartPainter extends CustomPainter {
 
     // Draw line chart
     path.moveTo(0, size.height - data.first.value * scale);
-    
+
     for (var i = 1; i < data.length; i++) {
       path.lineTo(
         i * width,
@@ -546,8 +548,7 @@ class _ChartPainter extends CustomPainter {
       color: Colors.grey[400],
       fontSize: 10,
     );
-    final textPainter = TextPainter(
-    );
+    final textPainter = TextPainter();
 
     for (var i = 0; i < data.length; i++) {
       textPainter.text = TextSpan(

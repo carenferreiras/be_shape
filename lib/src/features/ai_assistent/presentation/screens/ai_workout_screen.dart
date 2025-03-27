@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../features.dart';
 
-
 class AIWorkoutScreen extends StatefulWidget {
   final UserProfile userProfile;
 
@@ -25,14 +24,14 @@ class _AIWorkoutScreenState extends State<AIWorkoutScreen> {
 
   void _loadWorkoutSuggestions() {
     context.read<AIAssistantBloc>().add(GetSuggestions(
-      userProfile: widget.userProfile,
-      currentCalories: 0,
-      currentProtein: 0,
-      currentCarbs: 0,
-      currentFat: 0,
-      waterIntake: 0,
-      exerciseMinutes: 0,
-    ));
+          userProfile: widget.userProfile,
+          currentCalories: 0,
+          currentProtein: 0,
+          currentCarbs: 0,
+          currentFat: 0,
+          waterIntake: 0,
+          exerciseMinutes: 0,
+        ));
   }
 
   @override
@@ -67,7 +66,7 @@ class _AIWorkoutScreenState extends State<AIWorkoutScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.2),
+                      color: Colors.blue.withValues(alpha: (0.2)),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -125,7 +124,7 @@ class _WorkoutCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.blue.withOpacity(0.3)),
+        border: Border.all(color: Colors.blue..withValues(alpha: (0.3))),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +134,7 @@ class _WorkoutCard extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.blue.withOpacity(0.2),
+                  Colors.blue.withValues(alpha: (0.2)),
                   Colors.transparent,
                 ],
               ),
@@ -148,7 +147,7 @@ class _WorkoutCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: Colors.blue.withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -218,7 +217,7 @@ class _WorkoutCard extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.2),
+                              color: Colors.blue.withValues(alpha: (0.2)),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -254,27 +253,27 @@ class _WorkoutCard extends StatelessWidget {
                       if (exercise.tips.isNotEmpty) ...[
                         const SizedBox(height: 8),
                         ...exercise.tips.map((tip) => Padding(
-                          padding: const EdgeInsets.only(left: 36, top: 4),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.check_circle,
-                                color: Colors.blue,
-                                size: 14,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  tip,
-                                  style: TextStyle(
-                                    color: Colors.grey[400],
-                                    fontSize: 12,
+                              padding: const EdgeInsets.only(left: 36, top: 4),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.check_circle,
+                                    color: Colors.blue,
+                                    size: 14,
                                   ),
-                                ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      tip,
+                                      style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        )),
+                            )),
                       ],
                     ],
                   ),

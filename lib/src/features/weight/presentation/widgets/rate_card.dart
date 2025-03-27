@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/core.dart';
-
 class RateCard extends StatelessWidget {
-  
   final String heartRate;
   final Color color;
   final IconData icon;
@@ -12,7 +9,16 @@ class RateCard extends StatelessWidget {
   final double? height;
   final double? weight;
 
-  const RateCard({Key? key, required this.heartRate, required this.color, required this.icon, required this.title, this.meause, this.height, this.weight}) : super(key: key);
+  const RateCard(
+      {Key? key,
+      required this.heartRate,
+      required this.color,
+      required this.icon,
+      required this.title,
+      this.meause,
+      this.height,
+      this.weight})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +28,11 @@ class RateCard extends StatelessWidget {
         height: height,
         width: weight,
         decoration: BoxDecoration(
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: (0.2)),
           borderRadius: BorderRadius.circular(16.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: (0.1)),
               blurRadius: 8,
               offset: const Offset(2, 4),
             ),
@@ -35,7 +41,7 @@ class RateCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             Icon(
+            Icon(
               icon,
               color: color,
               size: 24,
@@ -46,16 +52,15 @@ class RateCard extends StatelessWidget {
               children: [
                 Text(
                   "$heartRate",
-                  style:  TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: color,
                   ),
                 ),
-
                 Text(
                   meause ?? ' kcal',
-                  style:  TextStyle(
+                  style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: color,
@@ -64,7 +69,7 @@ class RateCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 4),
-             Text(
+            Text(
               title,
               style: TextStyle(
                 fontSize: 14,
@@ -77,4 +82,3 @@ class RateCard extends StatelessWidget {
     );
   }
 }
-

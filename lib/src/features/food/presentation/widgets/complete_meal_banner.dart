@@ -6,8 +6,7 @@ import '../../../features.dart';
 
 class CompleteMealBanner extends StatelessWidget {
   final List<Meal> mealsForDate;
-  const CompleteMealBanner(
-      {super.key, required this.mealsForDate});
+  const CompleteMealBanner({super.key, required this.mealsForDate});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +19,10 @@ class CompleteMealBanner extends StatelessWidget {
           vertical: 8,
         ),
         decoration: BoxDecoration(
-          color: BeShapeColors.accent.withOpacity(0.2),
+          color: BeShapeColors.accent.withValues(alpha: (0.2)),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: BeShapeColors.accent.withOpacity(0.3),
+            color: BeShapeColors.accent.withValues(alpha: (0.3)),
           ),
         ),
         child: Row(
@@ -50,7 +49,7 @@ class CompleteMealBanner extends StatelessWidget {
                 mealsForDate.first.completedAt ?? DateTime.now(),
               ),
               style: TextStyle(
-                color: BeShapeColors.accent.withOpacity(0.7),
+                color: BeShapeColors.accent.withValues(alpha: (0.7)),
                 fontSize: 12,
               ),
             ),

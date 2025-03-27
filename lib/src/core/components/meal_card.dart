@@ -22,12 +22,14 @@ class MealCard extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
-                  child: CircularProgressIndicator(color: BeShapeColors.primary));
+                  child:
+                      CircularProgressIndicator(color: BeShapeColors.primary));
             }
 
             final userProfile = snapshot.data;
             if (userProfile == null) {
-              return const Center(child: Text("Perfil do usuário não encontrado"));
+              return const Center(
+                  child: Text("Perfil do usuário não encontrado"));
             }
 
             return BlocBuilder<MealBloc, MealState>(
@@ -52,13 +54,13 @@ class MealCard extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        BeShapeColors.primary.withOpacity(0.1),
-                        BeShapeColors.primary.withOpacity(0.05),
+                        BeShapeColors.primary.withValues(alpha: (0.1)),
+                        BeShapeColors.primary.withValues(alpha: (0.05)),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: BeShapeColors.primary.withOpacity(0.2),
+                      color: BeShapeColors.primary.withValues(alpha: (0.2)),
                     ),
                   ),
                   child: Column(
@@ -70,7 +72,8 @@ class MealCard extends StatelessWidget {
                             _buildMacroProgress(
                               'Proteína',
                               consumedProtein,
-                              macroTargets.proteins, // 🔹 Agora pegamos os dados reais
+                              macroTargets
+                                  .proteins, // 🔹 Agora pegamos os dados reais
                               BeShapeColors.link,
                               Icons.fitness_center,
                             ),
@@ -78,7 +81,8 @@ class MealCard extends StatelessWidget {
                             _buildMacroProgress(
                               'Carboidrato',
                               consumedCarbs,
-                              macroTargets.carbs, // 🔹 Agora pegamos os dados reais
+                              macroTargets
+                                  .carbs, // 🔹 Agora pegamos os dados reais
                               BeShapeColors.accent,
                               Icons.grain,
                             ),
@@ -86,14 +90,14 @@ class MealCard extends StatelessWidget {
                             _buildMacroProgress(
                               'Gordura',
                               consumedFat,
-                              macroTargets.fats, // 🔹 Agora pegamos os dados reais
+                              macroTargets
+                                  .fats, // 🔹 Agora pegamos os dados reais
                               BeShapeColors.primary,
                               Icons.opacity,
                             ),
                           ],
                         ),
                       ),
-                      
                     ],
                   ),
                 );
@@ -123,7 +127,7 @@ class MealCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.15),
+                color: color.withValues(alpha: (0.15)),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -154,7 +158,7 @@ class MealCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.15),
+                          color: color.withValues(alpha: (0.15)),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -195,7 +199,7 @@ class MealCard extends StatelessWidget {
                       Container(
                         height: 8,
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.15),
+                          color: color.withValues(alpha: (0.15)),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -209,13 +213,13 @@ class MealCard extends StatelessWidget {
                               end: Alignment.centerRight,
                               colors: [
                                 color,
-                                color.withOpacity(0.8),
+                                color.withValues(alpha: (0.8)),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(4),
                             boxShadow: [
                               BoxShadow(
-                                color: color.withOpacity(0.3),
+                                color: color.withValues(alpha: (0.3)),
                                 blurRadius: 8,
                                 offset: const Offset(0, 2),
                               ),

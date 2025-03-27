@@ -11,7 +11,7 @@ class BeShapeNavigatorBar extends StatelessWidget {
     return NavigationBarTheme(
       data: NavigationBarThemeData(
         backgroundColor: Colors.grey[900],
-        indicatorColor: BeShapeColors.primary.withOpacity(0.2),
+        indicatorColor: BeShapeColors.primary.withValues(alpha: (0.2)),
         labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
           (Set<WidgetState> states) {
             if (states.contains(WidgetState.selected)) {

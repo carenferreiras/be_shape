@@ -126,7 +126,7 @@ class BeShapeDrawer extends StatelessWidget {
                   iconColor: BeShapeColors.primary,
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/reports');
+                    Navigator.pushNamed(context, '/report-details');
                   },
                 ),
                 DrawerItems(

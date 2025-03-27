@@ -18,7 +18,7 @@ class UserProfile {
   final MacroTargets macroTargets;
   final String? profileImageUrl; // New field
   final List<Map<String, dynamic>> weightHistory; // ✅ Histórico de peso
-
+  final List<FoodProduct> favoriteFoods;
 
   UserProfile({
     required this.id,
@@ -30,11 +30,12 @@ class UserProfile {
     required this.targetWeight,
     required this.goal,
     required this.measurements,
+    this.favoriteFoods = const [], // ✅ Inicializa vazia
     this.bmr = 0.0,
     this.tdee = 0.0,
     this.activityLevel = 1.2,
     MacroTargets? macroTargets,
-    this.weightHistory = const [], 
+    this.weightHistory = const [],
     this.profileImageUrl, // New parameter
   }) : macroTargets = macroTargets ?? MacroTargets.fromTDEE(tdee, weight);
 
@@ -87,8 +88,13 @@ class UserProfile {
           ? MacroTargets.fromJson(json['macroTargets'] as Map<String, dynamic>)
           : null,
       profileImageUrl: json['profileImageUrl'] as String?, // Added to fromJson
-       weightHistory: (json['weightHistory'] as List<dynamic>?)
+      weightHistory: (json['weightHistory'] as List<dynamic>?)
               ?.map((e) => e as Map<String, dynamic>)
+              .toList() ??
+          [],
+      favoriteFoods: (json['favoriteFoods'] as List<dynamic>?)
+              ?.map(
+                  (food) => FoodProduct.fromJson(food as Map<String, dynamic>))
               .toList() ??
           [],
     );
@@ -109,46 +115,58 @@ class UserProfile {
       'tdee': tdee,
       'activityLevel': activityLevel,
       'macroTargets': macroTargets.toJson(),
-      'profileImageUrl': profileImageUrl, // Added to toJson
+      'profileImageUrl': profileImageUrl,
       'weightHistory': weightHistory,
+      'favoriteFoods': favoriteFoods.map((food) => food.toJson()).toList()
     };
   }
 
- UserProfile copyWith({
-  String? id,
-  String? name,
-  int? age,
-  String? gender,
-  double? height,
-  double? weight,
-  double? targetWeight,
-  String? goal,
-  Map<String, double>? measurements,
-  double? bmr,
-  double? tdee,
-  double? activityLevel,
-  MacroTargets? macroTargets,
-  String? profileImageUrl,
-  double? bmi, // ✅ Adicionado para permitir a atualização
-   List<Map<String, dynamic>>? weightHistory,
-}) {
-  return UserProfile(
-    id: id ?? this.id,
-    name: name ?? this.name,
-    age: age ?? this.age,
-    gender: gender ?? this.gender,
-    height: height ?? this.height,
-    weight: weight ?? this.weight,
-    targetWeight: targetWeight ?? this.targetWeight,
-    goal: goal ?? this.goal,
-    measurements: measurements ?? this.measurements,
-    bmr: bmr ?? this.bmr,
-    tdee: tdee ?? this.tdee,
-    activityLevel: activityLevel ?? this.activityLevel,
-    macroTargets: macroTargets ?? this.macroTargets,
-    profileImageUrl: profileImageUrl ?? this.profileImageUrl,
-          weightHistory: weightHistory ?? this.weightHistory, // ✅ Mantém histórico
+  UserProfile addFavorite(FoodProduct food) {
+    return copyWith(favoriteFoods: [...favoriteFoods, food]);
+  }
 
-  );
-}
+  UserProfile removeFavorite(FoodProduct food) {
+    return copyWith(
+      favoriteFoods: favoriteFoods.where((f) => f.name != food.name).toList(),
+    );
+  }
+
+  UserProfile copyWith({
+    String? id,
+    String? name,
+    int? age,
+    String? gender,
+    double? height,
+    double? weight,
+    double? targetWeight,
+    String? goal,
+    Map<String, double>? measurements,
+    double? bmr,
+    double? tdee,
+    double? activityLevel,
+    MacroTargets? macroTargets,
+    String? profileImageUrl,
+    double? bmi,
+    List<Map<String, dynamic>>? weightHistory,
+    List<FoodProduct>? favoriteFoods,
+  }) {
+    return UserProfile(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      age: age ?? this.age,
+      gender: gender ?? this.gender,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      targetWeight: targetWeight ?? this.targetWeight,
+      goal: goal ?? this.goal,
+      measurements: measurements ?? this.measurements,
+      bmr: bmr ?? this.bmr,
+      tdee: tdee ?? this.tdee,
+      activityLevel: activityLevel ?? this.activityLevel,
+      macroTargets: macroTargets ?? this.macroTargets,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+      weightHistory: weightHistory ?? this.weightHistory,
+      favoriteFoods: favoriteFoods ?? this.favoriteFoods,
+    );
+  }
 }

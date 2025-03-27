@@ -35,7 +35,8 @@ class _EditEquipmentScreenState extends State<EditEquipmentScreen> {
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.equipment.name);
-    _descriptionController = TextEditingController(text: widget.equipment.description);
+    _descriptionController =
+        TextEditingController(text: widget.equipment.description);
     _muscleGroupController = TextEditingController();
     _exerciseController = TextEditingController();
     _selectedCategory = widget.equipment.category;
@@ -314,7 +315,8 @@ class _EditEquipmentScreenState extends State<EditEquipmentScreen> {
                           width: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
                       : const Text(
@@ -403,7 +405,7 @@ class _EditEquipmentScreenState extends State<EditEquipmentScreen> {
           runSpacing: 8,
           children: _muscleGroups.map((group) {
             return Chip(
-              backgroundColor: Colors.green.withOpacity(0.2),
+              backgroundColor: Colors.green.withValues(alpha: (0.2)),
               label: Text(
                 group,
                 style: const TextStyle(color: Colors.green),
@@ -460,7 +462,7 @@ class _EditEquipmentScreenState extends State<EditEquipmentScreen> {
           runSpacing: 8,
           children: _exercises.map((exercise) {
             return Chip(
-              backgroundColor: Colors.orange.withOpacity(0.2),
+              backgroundColor: Colors.orange.withValues(alpha: (0.2)),
               label: Text(
                 exercise,
                 style: const TextStyle(color: Colors.orange),
@@ -515,7 +517,7 @@ class _EditEquipmentScreenState extends State<EditEquipmentScreen> {
         return 'Recuperação';
       case EquipmentCategory.explosive:
         return 'Explosão';
-         case EquipmentCategory.cable:
+      case EquipmentCategory.cable:
         return 'Cabos';
       case EquipmentCategory.bodyweight:
         return 'Peso';

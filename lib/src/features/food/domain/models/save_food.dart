@@ -9,13 +9,17 @@ class SavedFood {
   final double proteins;
   final double carbs;
   final double fats;
+  final double water;
+  final double calsium;
+  final double sodium;
+  final double fiber;
+  final double iron;
   final String? brand;
   final String? servingSize;
   final String? servingUnit;
   final bool isPublic;
   final String? photoUrl;
   final DateTime createdAt;
-  final String? fibers;
   final String? classification;
 
 
@@ -27,7 +31,11 @@ class SavedFood {
     required this.proteins,
     required this.carbs,
     required this.fats,
-    this.fibers,
+    required this.water,
+    required this.calsium, 
+    required this.sodium, 
+    required this.fiber, 
+    required this.iron, 
     this.classification,
     this.brand,
     this.servingSize,
@@ -47,14 +55,17 @@ class SavedFood {
       carbs: (json['carbs'] as num).toDouble(),
       fats: (json['fats'] as num).toDouble(),
       brand: json['brand'] as String?,
-      fibers: json['fibers'] as String?,
       classification: json['classification'] as String?,
       servingSize: json['servingSize'] as String?,
       servingUnit: json['servingUnit'] as String?,
       isPublic: json['isPublic'] as bool? ?? false,
       photoUrl: json['photoUrl'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
-
+      calsium: (json['calsium'] as num).toDouble(),
+      fiber: (json['fiber'] as num).toDouble(),
+      iron: (json['iron'] as num).toDouble(),
+      sodium: (json['sodium'] as num).toDouble(),
+      water: (json['water'] as num).toDouble(),
     );
   }
 
@@ -73,7 +84,6 @@ class SavedFood {
       'isPublic': isPublic,
       'photoUrl': photoUrl,
       'createdAt': createdAt.toIso8601String(),
-      'fibers': fibers,
       'classification':classification,
     };
   }
@@ -86,6 +96,11 @@ class SavedFood {
     double? proteins,
     double? carbs,
     double? fats,
+    double? calcium,
+    double? water,
+    double? fiber,
+    double? sodium,
+    double? iron,
     String? brand,
     String? servingSize,
     String? servingUnit,
@@ -107,6 +122,12 @@ class SavedFood {
       isPublic: isPublic ?? this.isPublic,
       photoUrl: photoUrl ?? this.photoUrl,
       createdAt: createdAt ?? this.createdAt,
+      water: water ?? this.water ,
+      sodium: sodium ?? this.sodium,
+      calsium:calsium,
+      fiber: fiber ?? this.fiber,
+      iron: iron ?? this.iron,
+      classification: classification,
     );
   }
 }

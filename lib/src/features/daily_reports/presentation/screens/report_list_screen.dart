@@ -25,7 +25,8 @@ class _ReportsListScreenState extends State<ReportsListScreen> {
     final userId = context.read<AuthRepository>().currentUser?.uid;
     if (userId != null) {
       setState(() {
-        _reportsFuture = context.read<DailyReportRepository>().getUserReports(userId);
+        _reportsFuture =
+            context.read<DailyReportRepository>().getUserReports(userId);
       });
     }
   }
@@ -43,13 +44,16 @@ class _ReportsListScreenState extends State<ReportsListScreen> {
         future: _reportsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: SpinKitWaveSpinner(color: BeShapeColors.primary,));
+            return const Center(
+                child: SpinKitWaveSpinner(
+              color: BeShapeColors.primary,
+            ));
           }
 
           if (snapshot.hasError) {
             debugPrint('Error loading reports: ${snapshot.error}');
             debugPrint('Error stack trace: ${snapshot.stackTrace}');
-            
+
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -169,9 +173,12 @@ class _ReportCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final caloriePercentage = (report.totalCalories / report.targetCalories * 100).round();
-    final proteinPercentage = (report.totalProteins / report.targetProteins * 100).round();
-    final carbsPercentage = (report.totalCarbs / report.targetCarbs * 100).round();
+    final caloriePercentage =
+        (report.totalCalories / report.targetCalories * 100).round();
+    final proteinPercentage =
+        (report.totalProteins / report.targetProteins * 100).round();
+    final carbsPercentage =
+        (report.totalCarbs / report.targetCarbs * 100).round();
     final fatsPercentage = (report.totalFats / report.targetFats * 100).round();
 
     return Container(
@@ -213,7 +220,8 @@ class _ReportCard extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: _getCalorieColor(caloriePercentage).withOpacity(0.2),
+                        color: _getCalorieColor(caloriePercentage)
+                            .withValues(alpha: (0.2)),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(

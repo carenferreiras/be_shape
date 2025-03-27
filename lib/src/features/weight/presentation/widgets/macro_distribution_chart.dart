@@ -1,7 +1,7 @@
-import 'dart:math';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class MacroDistributionChart extends StatelessWidget {
+class MacroDistributionChart extends StatefulWidget {
   final double proteins;
   final double carbs;
   final double fats;
@@ -14,160 +14,114 @@ class MacroDistributionChart extends StatelessWidget {
   });
 
   @override
+  State<MacroDistributionChart> createState() => _MacroDistributionChartState();
+}
+
+class _MacroDistributionChartState extends State<MacroDistributionChart> {
+  int _touchedIndex = -1;
+
+  @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _MacroDistributionPainter(
-        proteins: proteins,
-        carbs: carbs,
-        fats: fats,
-      ),
-      child: Container(),
+    final total = widget.proteins + widget.carbs + widget.fats;
+
+    return Column(
+      children: [
+        SizedBox(
+          height: 250,
+          child: PieChart(
+            PieChartData(
+              sectionsSpace: 4, // Espaço entre os setores
+              centerSpaceRadius: 50, // Espaço central do gráfico
+              borderData: FlBorderData(show: false),
+              pieTouchData: PieTouchData(
+                touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                  setState(() {
+                    _touchedIndex =
+                        pieTouchResponse?.touchedSection?.touchedSectionIndex ??
+                            -1;
+                  });
+                },
+              ),
+              sections: _chartSections(total),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        // _buildLegend(),
+      ],
     );
+  }
+
+  List<PieChartSectionData> _chartSections(double total) {
+    return [
+      _buildSection(0, "Proteínas", widget.proteins, total, Colors.blue,Icons.abc),
+      _buildSection(1, "Carboidratos", widget.carbs, total, Colors.green, Icons.wallet),
+      _buildSection(2, "Gorduras", widget.fats, total, Colors.red, Icons.offline_bolt),
+    ];
+  }
+
+  PieChartSectionData _buildSection(
+    int index,
+    String title,
+    double value,
+    double total,
+    Color color,
+    IconData icon,
+  ) {
+    final isTouched = _touchedIndex == index;
+    final fontSize = isTouched ? 18.0 : 14.0;
+    final radius = isTouched ? 70.0 : 60.0;
+    final percentage = ((value / total) * 100).round();
+
+    return PieChartSectionData(
+        color: color,
+        value: value,
+        title: isTouched ? '$percentage%' : '',
+        radius: radius,
+        titleStyle: TextStyle(
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+        // badgeWidget: _Badge(icon, size: radius, borderColor: color),
+        );
   }
 }
 
-class _MacroDistributionPainter extends CustomPainter {
-  final double proteins;
-  final double carbs;
-  final double fats;
-
-  _MacroDistributionPainter({
-    required this.proteins,
-    required this.carbs,
-    required this.fats,
+// ignore: unused_element
+class _Badge extends StatelessWidget {
+  const _Badge(
+    this.icon, {
+    required this.size,
+    required this.borderColor,
   });
+  final IconData icon;
+  final double size;
+  final Color borderColor;
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final total = proteins + carbs + fats;
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = min(size.width, size.height) * 0.4;
-    
-    var startAngle = -pi / 2;
-
-    // Draw proteins segment
-    _drawSegment(
-      canvas,
-      center,
-      radius,
-      startAngle,
-      startAngle + (2 * pi * proteins / total),
-      Colors.blue,
-    );
-    startAngle += 2 * pi * proteins / total;
-
-    // Draw carbs segment
-    _drawSegment(
-      canvas,
-      center,
-      radius,
-      startAngle,
-      startAngle + (2 * pi * carbs / total),
-      Colors.green,
-    );
-    startAngle += 2 * pi * carbs / total;
-
-    // Draw fats segment
-    _drawSegment(
-      canvas,
-      center,
-      radius,
-      startAngle,
-      startAngle + (2 * pi * fats / total),
-      Colors.red,
-    );
-
-    // Draw center circle
-    final centerPaint = Paint()
-      ..color = Colors.grey[900]!
-      ..style = PaintingStyle.fill;
-    
-    canvas.drawCircle(center, radius * 0.6, centerPaint);
-
-    // Draw percentages
-    _drawPercentages(canvas, center, radius, total);
-  }
-
-  void _drawSegment(
-    Canvas canvas,
-    Offset center,
-    double radius,
-    double startAngle,
-    double endAngle,
-    Color color,
-  ) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
-      startAngle,
-      endAngle - startAngle,
-      true,
-      paint,
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: PieChart.defaultDuration,
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: borderColor,
+          width: 2,
+        ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withAlpha(5),
+            offset: const Offset(3, 3),
+            blurRadius: 3,
+          ),
+        ],
+      ),
+      padding: EdgeInsets.all(size * .15),
+      child: Center(child: Icon(icon)),
     );
   }
-
-  void _drawPercentages(Canvas canvas, Offset center, double radius, double total) {
-    final textStyle = TextStyle(
-      color: Colors.grey[400],
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-    );
-
-    final proteinPercent = (proteins / total * 100).round();
-    final carbsPercent = (carbs / total * 100).round();
-    final fatsPercent = (fats / total * 100).round();
-
-    final textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-      textAlign: TextAlign.center,
-    );
-
-    // Proteins percentage
-    textPainter.text = TextSpan(
-      text: '$proteinPercent%',
-      style: textStyle,
-    );
-    textPainter.layout();
-    textPainter.paint(
-      canvas,
-      Offset(
-        center.dx - textPainter.width / 2,
-        center.dy - radius * 0.2,
-      ),
-    );
-
-    // Carbs percentage
-    textPainter.text = TextSpan(
-      text: '$carbsPercent%',
-      style: textStyle,
-    );
-    textPainter.layout();
-    textPainter.paint(
-      canvas,
-      Offset(
-        center.dx - textPainter.width / 2,
-        center.dy,
-      ),
-    );
-
-    // Fats percentage
-    textPainter.text = TextSpan(
-      text: '$fatsPercent%',
-      style: textStyle,
-    );
-    textPainter.layout();
-    textPainter.paint(
-      canvas,
-      Offset(
-        center.dx - textPainter.width / 2,
-        center.dy + radius * 0.2,
-      ),
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

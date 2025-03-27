@@ -20,7 +20,7 @@ class LoadingOverlay {
         children: [
           // Fundo escuro semitransparente
           Container(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withValues(alpha: (0.5)),
           ),
           // Indicador de loading centralizado
           Center(

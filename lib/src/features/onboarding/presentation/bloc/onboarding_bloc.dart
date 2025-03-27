@@ -90,7 +90,6 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     // Convert weight to kg if needed
     final weight = state.weightUnit == 'kg' ? state.weight : state.weight / 2.20462;
     final targetWeight = state.targetWeight ?? weight;
-    final height = state.height! / 100; // Convert height to meters
 
     // Calculate BMR using Harris-Benedict equation
     double bmr;

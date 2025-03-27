@@ -52,7 +52,7 @@ class DrawerEditItensCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: BeShapeColors.link.withOpacity(0.15),
+                  color: BeShapeColors.link.withValues(alpha: (0.15)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -107,7 +107,7 @@ class DrawerEditItensCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: BeShapeColors.accent.withOpacity(0.15),
+                  color: BeShapeColors.accent.withValues(alpha: (0.15)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -162,7 +162,7 @@ class DrawerEditItensCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.15),
+                  color: Colors.red.withValues(alpha: (0.15)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -223,7 +223,7 @@ class DrawerEditItensCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: BeShapeColors.primary.withOpacity(0.15),
+                    color: BeShapeColors.primary.withValues(alpha: (0.15)),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -263,7 +263,7 @@ class DrawerEditItensCard extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: BeShapeColors.primary.withOpacity(0.2),
+                        color: BeShapeColors.primary.withValues(alpha: (0.2)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Row(

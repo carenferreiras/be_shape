@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/core.dart';
 import '../../../features.dart';
 
-
 class AIAssistantCard extends StatelessWidget {
   const AIAssistantCard({super.key});
 
@@ -73,7 +72,8 @@ class _SuggestionCard extends StatelessWidget {
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: _getPriorityColor(suggestion.priority).withOpacity(0.3),
+          color:
+              _getPriorityColor(suggestion.priority).withValues(alpha: (0.3)),
         ),
       ),
       child: Material(
@@ -91,7 +91,8 @@ class _SuggestionCard extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: _getTypeColor(suggestion.type).withOpacity(0.2),
+                        color: _getTypeColor(suggestion.type)
+                            .withValues(alpha: (0.2)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -128,7 +129,8 @@ class _SuggestionCard extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: _getPriorityColor(suggestion.priority).withOpacity(0.2),
+                        color: _getPriorityColor(suggestion.priority)
+                            .withValues(alpha: (0.2)),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -219,7 +221,7 @@ class _SuggestionCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: BeShapeColors.link.withOpacity(0.2),
+                  color: BeShapeColors.link.withValues(alpha: (0.2)),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
@@ -372,7 +374,8 @@ class _SuggestionDetails extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: _getTypeColor(suggestion.type).withOpacity(0.2),
+                  color:
+                      _getTypeColor(suggestion.type).withValues(alpha: (0.2)),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -463,7 +466,7 @@ class _SuggestionDetails extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.2),
+                      color: Colors.green.withValues(alpha: (0.2)),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -525,7 +528,7 @@ class _SuggestionDetails extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: BeShapeColors.link.withOpacity(0.2),
+                          color: BeShapeColors.link.withValues(alpha: (0.2)),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
@@ -613,7 +616,9 @@ class _SuggestionDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          suggestion.type == SuggestionType.hydration ? 'Dicas de Hidratação' : 'Dicas de Recuperação',
+          suggestion.type == SuggestionType.hydration
+              ? 'Dicas de Hidratação'
+              : 'Dicas de Recuperação',
           style: const TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -635,7 +640,8 @@ class _SuggestionDetails extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: _getTypeColor(suggestion.type).withOpacity(0.2),
+                      color: _getTypeColor(suggestion.type)
+                          .withValues(alpha: (0.2)),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(

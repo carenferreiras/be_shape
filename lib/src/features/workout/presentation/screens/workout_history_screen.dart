@@ -64,7 +64,7 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.2),
+                      color: Colors.blue.withValues(alpha: (0.2)),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -123,9 +123,9 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
                   ),
                   const SizedBox(height: 16),
                   ...monthWorkouts.map((workout) => _WorkoutHistoryCard(
-                    workout: workout,
-                    onShare: () => _shareWorkout(workout),
-                  )),
+                        workout: workout,
+                        onShare: () => _shareWorkout(workout),
+                      )),
                   const SizedBox(height: 16),
                 ],
               );
@@ -153,7 +153,7 @@ class _WorkoutHistoryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.blue.withOpacity(0.3)),
+        border: Border.all(color: Colors.blue..withValues(alpha: (0.3))),
       ),
       child: Column(
         children: [
@@ -162,7 +162,7 @@ class _WorkoutHistoryCard extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.blue.withOpacity(0.2),
+                  Colors.blue.withValues(alpha: (0.2)),
                   Colors.transparent,
                 ],
               ),
@@ -175,7 +175,7 @@ class _WorkoutHistoryCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: Colors.blue.withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -198,7 +198,8 @@ class _WorkoutHistoryCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        DateFormat('dd/MM/yyyy HH:mm').format(workout.createdAt),
+                        DateFormat('dd/MM/yyyy HH:mm')
+                            .format(workout.createdAt),
                         style: TextStyle(
                           color: Colors.grey[400],
                           fontSize: 14,
@@ -213,7 +214,7 @@ class _WorkoutHistoryCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: _getTypeColor(workout.type).withOpacity(0.2),
+                    color: _getTypeColor(workout.type).withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -315,7 +316,7 @@ class _WorkoutHistoryCard extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
+            color: color.withValues(alpha: (0.2)),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, color: color, size: 20),

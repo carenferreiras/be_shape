@@ -31,13 +31,13 @@ class NutritionSummaryCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            BeShapeColors.primary.withOpacity(0.2),
-            BeShapeColors.primary.withOpacity(0.05),
+            BeShapeColors.primary.withValues(alpha: (0.2)),
+            BeShapeColors.primary.withValues(alpha: (0.05)),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: BeShapeColors.primary.withOpacity(0.2),
+          color: BeShapeColors.primary.withValues(alpha: (0.2)),
         ),
       ),
       child: Column(
@@ -185,7 +185,7 @@ class NutritionSummaryCard extends StatelessWidget {
             Container(
               height: 8,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.2),
+                color: color.withValues(alpha: (0.2)),
                 borderRadius: BorderRadius.circular(4),
               ),
             ),

@@ -17,7 +17,7 @@ class WaterReminderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: BeShapeColors.link.withOpacity(0.2),
+      color: BeShapeColors.link.withValues(alpha: (0.2)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -40,8 +40,9 @@ class WaterReminderCard extends StatelessWidget {
             LinearProgressIndicator(
               borderRadius: BorderRadius.circular(8),
               value: progress.clamp(0.0, 1.0),
-              backgroundColor: BeShapeColors.link.withOpacity(0.3),
-              valueColor: const AlwaysStoppedAnimation<Color>(BeShapeColors.link),
+              backgroundColor: BeShapeColors.link.withValues(alpha: (0.3)),
+              valueColor:
+                  const AlwaysStoppedAnimation<Color>(BeShapeColors.link),
             ),
             const SizedBox(height: 12),
             Column(
@@ -68,7 +69,7 @@ class WaterReminderCard extends StatelessWidget {
                   height: 20,
                 ),
                 BeShapeCustomButton(
-                  buttonColor: BeShapeColors.link.withOpacity(0.5),
+                  buttonColor: BeShapeColors.link.withValues(alpha: (0.5)),
                   buttonTitleColor: BeShapeColors.link,
                   label: '+ Água',
                   icon: Icons.water_drop_outlined,

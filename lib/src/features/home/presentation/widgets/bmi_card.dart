@@ -165,13 +165,13 @@ class BMICard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            BeShapeColors.primary.withOpacity(0.2),
-            BeShapeColors.background.withOpacity(0.05),
+            BeShapeColors.primary.withValues(alpha: (0.2)),
+            BeShapeColors.background.withValues(alpha: (0.05)),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: BeShapeColors.primary.withOpacity(0.3),
+          color: BeShapeColors.primary.withValues(alpha: (0.3)),
           width: 1,
         ),
       ),
@@ -183,7 +183,7 @@ class BMICard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: bmiColor.withOpacity(0.2),
+                  color: bmiColor.withValues(alpha: (0.2)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -236,7 +236,7 @@ class BMICard extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: bmiColor.withOpacity(0.2),
+                  color: bmiColor.withValues(alpha: (0.2)),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(

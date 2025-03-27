@@ -9,7 +9,7 @@ Widget dateWidet = Container(
     vertical: 8,
   ),
   decoration: BoxDecoration(
-    color: BeShapeColors.primary.withOpacity(0.2),
+    color: BeShapeColors.primary.withValues(alpha: (0.2)),
     borderRadius: BorderRadius.circular(12),
   ),
   child: Row(

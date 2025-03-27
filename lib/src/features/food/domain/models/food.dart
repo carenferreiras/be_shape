@@ -1,17 +1,17 @@
 class Food {
   final String nome_alimento;
-  final double energia_kcal;
-  final double carboidrato;
+  final double calorias;
+  final double carboidratos;
   final double proteinas;
-  final double fibras;
+  final double fibra;
   final String classificacao;
 
   Food({
     required this.nome_alimento,
-    required this.energia_kcal,
-    required this.carboidrato,
+    required this.calorias,
+    required this.carboidratos,
     required this.proteinas,
-    required this.fibras,
+    required this.fibra,
     required this.classificacao,
   });
 }

@@ -129,7 +129,7 @@ class _ChartPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     final fillPaint = Paint()
-      ..color = BeShapeColors.primary.withOpacity(0.1)
+      ..color = BeShapeColors.primary.withValues(alpha: (0.1))
       ..style = PaintingStyle.fill;
 
     final path = Path();
@@ -158,7 +158,7 @@ class _ChartPainter extends CustomPainter {
         data[i - 1].hour * xScale,
         size.height - (data[i - 1].calories * yScale),
       );
-      
+
       final controlPoint1 = Offset(
         previous.dx + (current.dx - previous.dx) / 2,
         previous.dy,
@@ -167,16 +167,22 @@ class _ChartPainter extends CustomPainter {
         previous.dx + (current.dx - previous.dx) / 2,
         current.dy,
       );
-      
+
       path.cubicTo(
-        controlPoint1.dx, controlPoint1.dy,
-        controlPoint2.dx, controlPoint2.dy,
-        current.dx, current.dy,
+        controlPoint1.dx,
+        controlPoint1.dy,
+        controlPoint2.dx,
+        controlPoint2.dy,
+        current.dx,
+        current.dy,
       );
       fillPath.cubicTo(
-        controlPoint1.dx, controlPoint1.dy,
-        controlPoint2.dx, controlPoint2.dy,
-        current.dx, current.dy,
+        controlPoint1.dx,
+        controlPoint1.dy,
+        controlPoint2.dx,
+        controlPoint2.dy,
+        current.dx,
+        current.dy,
       );
     }
 

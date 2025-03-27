@@ -98,13 +98,13 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
                         return _customCard(
                           caloriesIcon: Icons.water_drop_outlined,
                           calories:
-                              '${safeParseDouble(data['energia_kcal']).toStringAsFixed(2)}',
+                              '${safeParseDouble(data['calorias']).toStringAsFixed(2)}',
                           carbo:
-                              '${safeParseDouble(data['carboidrato']).toStringAsFixed(2)}',
+                              '${safeParseDouble(data['carboidratos']).toStringAsFixed(2)}',
                           proteinIcon: Icons.fitness_center,
                           fibersIcon: Icons.fiber_smart_record,
                           fibers:
-                              '${safeParseDouble(data['fibras']).toStringAsFixed(2)}',
+                              '${safeParseDouble(data['fibra']).toStringAsFixed(2)}',
                           foodName: data['nome_alimento'] ?? 'Sem nome',
                           classification: data['classificacao'] ?? 'Sem nome',
                           foodData: data, // Aqui passamos os dados corretos
@@ -145,15 +145,15 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
           begin: Alignment.topLeft,
           end: Alignment.centerRight,
           colors: [
-            BeShapeColors.background.withOpacity(0.7),
-            BeShapeColors.background.withOpacity(0.7),
-            BeShapeColors.background.withOpacity(0.6),
-            BeShapeColors.background.withOpacity(0.7),
+            BeShapeColors.background.withValues(alpha: (0.7)),
+            BeShapeColors.background.withValues(alpha: (0.7)),
+            BeShapeColors.background.withValues(alpha: (0.6)),
+            BeShapeColors.background.withValues(alpha: (0.7)),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: BeShapeColors.primary.withOpacity(0.3),
+          color: BeShapeColors.primary.withValues(alpha: (0.3)),
         ),
       ),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -202,7 +202,7 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
                           overflow: TextOverflow.ellipsis),
                     ),
                     Card(
-                      color: BeShapeColors.primary.withOpacity(0.2),
+                      color: BeShapeColors.primary.withValues(alpha: (0.2)),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 4, horizontal: 8),
@@ -279,11 +279,11 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
 
     // Ajusta os valores nutricionais com base na quantidade informada
     double fator = quantidade / 100;
-    double calorias = safeParseDouble(foodData['energia_kcal']) * fator;
-    double carboidratos = safeParseDouble(foodData['carboidrato']) * fator;
-    double proteinas = safeParseDouble(foodData['proteina']) * fator;
+    double calorias = safeParseDouble(foodData['calorias']) * fator;
+    double carboidratos = safeParseDouble(foodData['carboidratos']) * fator;
+    double proteinas = safeParseDouble(foodData['proteinas']) * fator;
     double gorduras = safeParseDouble(foodData['gordura']) * fator;
-    double fibras = safeParseDouble(foodData['fibras']) * fator;
+    double fibra = safeParseDouble(foodData['fibra']) * fator;
 
     final alimentoConsumido = {
       'nome_alimento': foodData['nome_alimento'],
@@ -292,7 +292,7 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
       'carboidratos': carboidratos,
       'proteinas': proteinas,
       'gorduras': gorduras,
-      'fibras': fibras,
+      'fibra': fibra,
       'data': DateTime.now(),
     };
 
@@ -317,7 +317,7 @@ class _FoodSuggestionsScreenState extends State<FoodSuggestionsScreen> {
     return SizedBox(
       width: 100,
       child: Card(
-        color: color.withOpacity(0.2),
+        color: color.withValues(alpha: (0.2)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

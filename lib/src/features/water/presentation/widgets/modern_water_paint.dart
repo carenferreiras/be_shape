@@ -10,12 +10,15 @@ class ModernWaterPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint circlePaint = Paint()
-      ..color = BeShapeColors.link.withOpacity(0.2)
+      ..color = BeShapeColors.link.withValues(alpha: (0.2))
       ..style = PaintingStyle.fill;
 
     final Paint waterPaint = Paint()
       ..shader = LinearGradient(
-        colors: [BeShapeColors.link.withOpacity(0.7), BeShapeColors.link],
+        colors: [
+          BeShapeColors.link.withValues(alpha: (0.7)),
+          BeShapeColors.link
+        ],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ).createShader(Rect.fromCircle(

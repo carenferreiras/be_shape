@@ -305,7 +305,8 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                           width: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
                       : const Text(
@@ -394,7 +395,7 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
           runSpacing: 8,
           children: _muscleGroups.map((group) {
             return Chip(
-              backgroundColor: Colors.green.withOpacity(0.2),
+              backgroundColor: Colors.green.withValues(alpha: (0.2)),
               label: Text(
                 group,
                 style: const TextStyle(color: Colors.green),
@@ -451,7 +452,7 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
           runSpacing: 8,
           children: _exercises.map((exercise) {
             return Chip(
-              backgroundColor: Colors.orange.withOpacity(0.2),
+              backgroundColor: Colors.orange.withValues(alpha: (0.2)),
               label: Text(
                 exercise,
                 style: const TextStyle(color: Colors.orange),

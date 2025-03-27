@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../features.dart';
 
-
 class AINutritionScreen extends StatefulWidget {
   final UserProfile userProfile;
 
@@ -25,14 +24,14 @@ class _AINutritionScreenState extends State<AINutritionScreen> {
 
   void _loadNutritionSuggestions() {
     context.read<AIAssistantBloc>().add(GetSuggestions(
-      userProfile: widget.userProfile,
-      currentCalories: 0,
-      currentProtein: 0,
-      currentCarbs: 0,
-      currentFat: 0,
-      waterIntake: 0,
-      exerciseMinutes: 0,
-    ));
+          userProfile: widget.userProfile,
+          currentCalories: 0,
+          currentProtein: 0,
+          currentCarbs: 0,
+          currentFat: 0,
+          waterIntake: 0,
+          exerciseMinutes: 0,
+        ));
   }
 
   @override
@@ -67,7 +66,7 @@ class _AINutritionScreenState extends State<AINutritionScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.2),
+                      color: Colors.green.withValues(alpha: (0.2)),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -125,7 +124,7 @@ class _NutritionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.green.withOpacity(0.3)),
+        border: Border.all(color: Colors.green..withValues(alpha: (0.3))),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +134,7 @@ class _NutritionCard extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.green.withOpacity(0.2),
+                  Colors.green.withValues(alpha: (0.2)),
                   Colors.transparent,
                 ],
               ),
@@ -148,7 +147,7 @@ class _NutritionCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.2),
+                    color: Colors.green.withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -211,7 +210,7 @@ class _NutritionCard extends StatelessWidget {
                       color: Colors.grey[850],
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: Colors.green.withOpacity(0.3),
+                        color: Colors.green.withValues(alpha: (0.3)),
                       ),
                     ),
                     child: Row(
@@ -265,7 +264,7 @@ class _NutritionCard extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.green.withOpacity(0.2),
+                            color: Colors.green.withValues(alpha: (0.2)),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(

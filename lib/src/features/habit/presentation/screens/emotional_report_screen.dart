@@ -65,7 +65,7 @@ class EmotionReportScreen extends StatelessWidget {
                 return _buildEmotionBar(
                   percentage: percentage,
                   color: _getEmotionColor(data.emotion),
-                  icon: _getEmotionIcon(data.emotion), 
+                  icon: _getEmotionIcon(data.emotion),
                   emotion: data.emotion,
                 );
               }).toList(),
@@ -113,7 +113,8 @@ class EmotionReportScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               children: [
                 Container(
-                  height: (percentage / 100) * 150, // Altura proporcional ao percentual
+                  height: (percentage / 100) *
+                      150, // Altura proporcional ao percentual
                   width: 70,
                   decoration: BoxDecoration(
                     color: color,
@@ -206,21 +207,21 @@ class EmotionReportScreen extends StatelessWidget {
     }
   }
 
-   /// 🔹 **Cores para Emoções**
+  /// 🔹 **Cores para Emoções**
   Color _getEmotionColorBar(String emotion) {
     switch (emotion) {
       case 'Feliz':
-        return BeShapeColors.accent.withOpacity(0.2);
+        return BeShapeColors.accent.withValues(alpha: (0.2));
       case 'Triste':
-        return BeShapeColors.link.withOpacity(0.2);
+        return BeShapeColors.link.withValues(alpha: (0.2));
       case 'Ansioso':
-        return Colors.yellow.withOpacity(0.2);
+        return Colors.yellow.withValues(alpha: (0.2));
       case 'Relaxado':
-        return Colors.purple.withOpacity(0.2);
+        return Colors.purple.withValues(alpha: (0.2));
       case 'Cansado':
-        return BeShapeColors.primary.withOpacity(0.2);
+        return BeShapeColors.primary.withValues(alpha: (0.2));
       default:
-        return Colors.grey.withOpacity(0.2);
+        return Colors.grey.withValues(alpha: (0.2));
     }
   }
 
@@ -230,7 +231,8 @@ class EmotionReportScreen extends StatelessWidget {
 
     for (final habit in habits) {
       for (final checkIn in habit.checkIns) {
-        emotionCounts[checkIn.emotion] = (emotionCounts[checkIn.emotion] ?? 0) + 1;
+        emotionCounts[checkIn.emotion] =
+            (emotionCounts[checkIn.emotion] ?? 0) + 1;
       }
     }
 

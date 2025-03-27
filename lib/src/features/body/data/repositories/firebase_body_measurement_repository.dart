@@ -31,15 +31,31 @@ class FirebaseBodyMeasurementRepository implements BodyMeasurementRepository {
 
   @override
   Future<List<BodyMeasurement>> getUserMeasurements(String userId) async {
-    final snapshot = await _firestore
-        .collection('body_measurements')
-        .where('userId', isEqualTo: userId)
-        .orderBy('date', descending: true)
-        .get();
+    print("Buscando medições para userId: $userId");
 
-    return snapshot.docs
-        .map((doc) => BodyMeasurement.fromJson(doc.data()))
-        .toList();
+    try {
+      final snapshot = await _firestore
+          .collection('body_measurements')
+          .where('userId', isEqualTo: userId)
+          .orderBy('date', descending: true) // Pode precisar de um índice
+          .get();
+
+      print("Documentos encontrados: ${snapshot.docs.length}");
+
+      return snapshot.docs.map((doc) {
+        print("Documento encontrado: ${doc.data()}");
+        return BodyMeasurement.fromJson(doc.data());
+      }).toList();
+    } catch (e) {
+      print("Erro ao buscar medições: $e");
+
+      if (e is FirebaseException && e.code == 'failed-precondition') {
+        print("🔥 Índice ausente! Crie o índice acessando o link abaixo:");
+        print("👉 ${e.message}");
+      }
+
+      return [];
+    }
   }
 
   @override
@@ -51,9 +67,9 @@ class FirebaseBodyMeasurementRepository implements BodyMeasurementRepository {
     final snapshot = await _firestore
         .collection('body_measurements')
         .where('userId', isEqualTo: userId)
-        .where('date', isGreaterThanOrEqualTo: start.toIso8601String())
-        .where('date', isLessThan: end.toIso8601String())
-        .orderBy('date', descending: true)
+        .where('date', isGreaterThanOrEqualTo: Timestamp.fromDate(start))
+        .where('date', isLessThan: Timestamp.fromDate(end))
+        .orderBy('date', descending: true) // Certifique-se de ordenar no final
         .get();
 
     return snapshot.docs

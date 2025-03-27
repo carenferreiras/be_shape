@@ -34,4 +34,9 @@ class BeShapeColors{
 
 
    static const Color transparent = Colors.transparent;
+
+  static const Color purble = Colors.purple; 
+  static const Color blue = Color.fromARGB(255, 0, 154, 250); 
+  static const Color brown = Colors.brown; 
+  static const Color  grey = Color.fromARGB(255, 155, 154, 154); 
 }

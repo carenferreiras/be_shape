@@ -58,13 +58,13 @@
 //                   begin: Alignment.topLeft,
 //                   end: Alignment.bottomRight,
 //                   colors: [
-//                     BeShapeColors.primary.withOpacity(0.2),
-//                     BeShapeColors.background.withOpacity(0.05),
+//                     BeShapeColors.primary.withValues(alpha:(0.2)),
+//                     BeShapeColors.background.withValues(alpha:(0.05)),
 //                   ],
 //                 ),
 //                 borderRadius: BorderRadius.circular(24),
 //                 border: Border.all(
-//                   color: BeShapeColors.primary.withOpacity(0.2),
+//                   color: BeShapeColors.primary.withValues(alpha:(0.2)),
 //                 ),
 //               ),
 //               child: Center(
@@ -251,7 +251,7 @@
 //                         //           Color.lerp(BeShapeColors.error,
 //                         //               BeShapeColors.success, progress)!,
 //                         //         ),
-//                         //         backgroundColor: indicatorColor.withOpacity(0.3),
+//                         //         backgroundColor: indicatorColor.withValues(alpha:(0.3)),
 //                         //       ),
 //                         //     ),
 //                         //     const SizedBox(height: 8),
@@ -349,7 +349,7 @@
 //                                               style: ElevatedButton.styleFrom(
 //                                                   backgroundColor: BeShapeColors
 //                                                       .primary
-//                                                       .withOpacity(0.2)),
+//                                                       .withValues(alpha:(0.2))),
 //                                               child: const Text(
 //                                                 'Atualizar',
 //                                                 style: TextStyle(
@@ -378,7 +378,7 @@
 //                                     .add(WeightUpdated(newWeight));
 //                               },
 //                               activeColor: indicatorColor,
-//                               inactiveColor: indicatorColor.withOpacity(0.2),
+//                               inactiveColor: indicatorColor.withValues(alpha:(0.2)),
 //                             ),
 //                             Text(
 //                               weightStatus,

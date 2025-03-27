@@ -20,7 +20,7 @@ class _AddSupplementScreenState extends State<AddSupplementScreen> {
   final _notesController = TextEditingController();
   final _daysSupplyController = TextEditingController();
   final _warningsController = TextEditingController();
-  
+
   SupplementType _selectedType = SupplementType.protein;
   DosageUnit _selectedUnit = DosageUnit.grams;
   DateTime _startDate = DateTime.now();
@@ -60,8 +60,7 @@ class _AddSupplementScreenState extends State<AddSupplementScreen> {
               onPrimary: Colors.white,
               surface: Color(0xFF303030),
               onSurface: Colors.white,
-            ),
-            dialogBackgroundColor: const Color(0xFF303030),
+            ), dialogTheme: DialogThemeData(backgroundColor: const Color(0xFF303030)),
           ),
           child: child!,
         );
@@ -99,8 +98,7 @@ class _AddSupplementScreenState extends State<AddSupplementScreen> {
               onPrimary: Colors.white,
               surface: Color(0xFF303030),
               onSurface: Colors.white,
-            ),
-            dialogBackgroundColor: const Color(0xFF303030),
+            ), dialogTheme: DialogThemeData(backgroundColor: const Color(0xFF303030)),
           ),
           child: child!,
         );
@@ -130,8 +128,7 @@ class _AddSupplementScreenState extends State<AddSupplementScreen> {
               onPrimary: Colors.white,
               surface: Color(0xFF303030),
               onSurface: Colors.white,
-            ),
-            dialogBackgroundColor: const Color(0xFF303030),
+            ), dialogTheme: DialogThemeData(backgroundColor: const Color(0xFF303030)),
           ),
           child: child!,
         );
@@ -169,16 +166,16 @@ class _AddSupplementScreenState extends State<AddSupplementScreen> {
         brand: _brandController.text,
         dosage: double.parse(_dosageController.text),
         unit: _selectedUnit,
-        servingSize: _servingSizeController.text.isEmpty 
-            ? null 
+        servingSize: _servingSizeController.text.isEmpty
+            ? null
             : _servingSizeController.text,
         scheduledTimes: _scheduledTimes,
         notes: _notesController.text.isEmpty ? null : _notesController.text,
         startDate: _startDate,
         endDate: _endDate,
         daysSupply: int.parse(_daysSupplyController.text),
-        warnings: _warningsController.text.isEmpty 
-            ? null 
+        warnings: _warningsController.text.isEmpty
+            ? null
             : _warningsController.text.split('\n'),
         daysOfWeek: _daysOfWeek,
       );
@@ -367,7 +364,7 @@ class _AddSupplementScreenState extends State<AddSupplementScreen> {
                               vertical: 8,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.purple.withOpacity(0.2),
+                              color: Colors.purple.withValues(alpha: (0.2)),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Row(
@@ -527,7 +524,8 @@ class _AddSupplementScreenState extends State<AddSupplementScreen> {
                                   const SizedBox(height: 4),
                                   Text(
                                     _endDate != null
-                                        ? DateFormat('dd/MM/yyyy').format(_endDate!)
+                                        ? DateFormat('dd/MM/yyyy')
+                                            .format(_endDate!)
                                         : 'Não definido',
                                     style: const TextStyle(
                                       color: Colors.white,

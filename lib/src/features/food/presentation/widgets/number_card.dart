@@ -3,19 +3,25 @@ import 'package:flutter/material.dart';
 import '../../../../core/core.dart';
 
 class NumberCard extends StatelessWidget {
-   final IconData icon;
-    final String number;
-    final String measure;
-    final String name;
-    final Color color;
-  const NumberCard({super.key, required this.icon, required this.number, required this.measure, required this.name, required this.color});
+  final IconData icon;
+  final String number;
+  final String measure;
+  final String name;
+  final Color color;
+  const NumberCard(
+      {super.key,
+      required this.icon,
+      required this.number,
+      required this.measure,
+      required this.name,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 120,
       child: Card(
-        color: color.withOpacity(0.2),
+        color: color.withValues(alpha: (0.2)),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(BeShapeSizes.paddingMedium)),
         child: Padding(
@@ -31,7 +37,9 @@ class NumberCard extends StatelessWidget {
                     size: 12,
                     color: color,
                   ),
-                  SizedBox(width: 4,),
+                  SizedBox(
+                    width: 4,
+                  ),
                   Text(
                     number,
                     style: TextStyle(

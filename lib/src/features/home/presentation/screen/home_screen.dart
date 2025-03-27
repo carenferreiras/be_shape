@@ -1,4 +1,3 @@
-import 'package:be_shape_app/src/features/home/presentation/widgets/bmi_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -14,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+   
+
   @override
   void initState() {
     super.initState();
@@ -52,6 +53,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           context
               .read<AuthBloc>()
               .add(AuthStateChanged(true, userProfile: profile));
+                      context.read<FoodSuggestionBloc>().add(LoadFoodSuggestions(userProfile: profile)); // 🔥 Carregar sugestões de alimentos
+
 
           // Atualiza o WeightBloc
           context.read<WeightBloc>().add(WeightUpdated(profile.weight));
@@ -146,6 +149,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Header com Menu e Perfil
+
                         Row(
                           children: [
                             Builder(
@@ -161,20 +165,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             ),
                           ],
                         ),
+
                         const SizedBox(height: 24),
 
                         // Data Atual
                         dateWidet,
                         const SizedBox(height: 24),
-
                         // Seção de Progresso
-                        CustomTitle(
-                          icon: Icons.account_circle,
-                          title: '',
-                          buttonTitle: 'Perfil',
-                          onTap: () => Navigator.pushNamed(context, '/profile'),
-                        ),
-                        const SizedBox(height: 16),
+                       
                         BMICard(
                           userProfile: userProfile,
                           onWeightUpdated: _loadInitialData,
@@ -213,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         WaterIntakeCard(
                           weight: userProfile.weight,
                         ),
-                        const SizedBox(height: 24),                    
+                        const SizedBox(height: 24),
                         // Sugestões de Alimentos
                         const CustomTitle(
                           title: 'Sugestão de Alimentos',
@@ -221,7 +219,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           icon: Icons.format_list_numbered_rtl_sharp,
                         ),
                         const SizedBox(height: 16),
-                        IdealValuesCard(userProfile: userProfile,),
+                        FoodSuggestionCard(
+                          userProfile: userProfile,
+                        ),
                         const SizedBox(height: 24),
 
                         // Seção de Hábitos
@@ -230,7 +230,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           onTap: () => Navigator.pushNamed(context, '/habits'),
                         ),
                         const SizedBox(height: 16),
-                        const DailyHabitsSection(),
+                        // const DailyHabitsSection(),
+                        
                         const SizedBox(height: 24),
 
                         // Seção de Emoções
@@ -249,48 +250,48 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
             ),
             bottomNavigationBar: const BeShapeNavigatorBar(index: 0),
-             floatingActionButton: SpeedDial(
-            icon: Icons.chat_bubble_outline,
-            activeIcon: Icons.close,
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            activeBackgroundColor: Colors.red,
-            activeForegroundColor: Colors.white,
-            buttonSize: const Size(56.0, 56.0),
-            visible: true,
-            closeManually: false,
-            curve: Curves.bounceIn,
-            overlayColor: Colors.black,
-            overlayOpacity: 0.5,
-            elevation: 8.0,
-            shape: const CircleBorder(),
-            children: [
-              SpeedDialChild(
-                child: const Icon(Icons.psychology),
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                label: 'AI Coach',
-                labelStyle: const TextStyle(fontSize: 16.0),
-                onTap: () => _showAIChat(context, userProfile),
-              ),
-              SpeedDialChild(
-                child: const Icon(Icons.fitness_center),
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                label: 'Treino',
-                labelStyle: const TextStyle(fontSize: 16.0),
-                onTap: () => _showWorkoutSuggestions(context, userProfile),
-              ),
-              SpeedDialChild(
-                child: const Icon(Icons.restaurant_menu),
-                backgroundColor: BeShapeColors.primary,
-                foregroundColor: Colors.white,
-                label: 'Nutrição',
-                labelStyle: const TextStyle(fontSize: 16.0),
-                onTap: () => _showNutritionSuggestions(context, userProfile),
-              ),
-            ],
-          ),
+            floatingActionButton: SpeedDial(
+              icon: Icons.chat_bubble_outline,
+              activeIcon: Icons.close,
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+              activeBackgroundColor: Colors.red,
+              activeForegroundColor: Colors.white,
+              buttonSize: const Size(56.0, 56.0),
+              visible: true,
+              closeManually: false,
+              curve: Curves.bounceIn,
+              overlayColor: Colors.black,
+              overlayOpacity: 0.5,
+              elevation: 8.0,
+              shape: const CircleBorder(),
+              children: [
+                SpeedDialChild(
+                  child: const Icon(Icons.psychology),
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  label: 'AI Coach',
+                  labelStyle: const TextStyle(fontSize: 16.0),
+                  onTap: () => _showAIChat(context, userProfile),
+                ),
+                SpeedDialChild(
+                  child: const Icon(Icons.fitness_center),
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  label: 'Treino',
+                  labelStyle: const TextStyle(fontSize: 16.0),
+                  onTap: () => _showWorkoutSuggestions(context, userProfile),
+                ),
+                SpeedDialChild(
+                  child: const Icon(Icons.restaurant_menu),
+                  backgroundColor: BeShapeColors.primary,
+                  foregroundColor: Colors.white,
+                  label: 'Nutrição',
+                  labelStyle: const TextStyle(fontSize: 16.0),
+                  onTap: () => _showNutritionSuggestions(context, userProfile),
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -308,7 +309,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
     }
   }
-    void _showAIChat(BuildContext context, UserProfile userProfile) {
+
+  void _showAIChat(BuildContext context, UserProfile userProfile) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -326,7 +328,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  void _showNutritionSuggestions(BuildContext context, UserProfile userProfile) {
+  void _showNutritionSuggestions(
+      BuildContext context, UserProfile userProfile) {
     Navigator.push(
       context,
       MaterialPageRoute(

@@ -189,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                  color: Colors.grey.withOpacity(0.3),
+                                  color: Colors.grey.withValues(alpha: (0.3)),
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(20))),
                               child: const Icon(Icons.image,
@@ -250,7 +250,6 @@ class _LoginScreenState extends State<LoginScreen> {
               _emailController.text,
               _passwordController.text,
               _nameController.text,
-              
             ),
           );
     }

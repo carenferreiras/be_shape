@@ -4,12 +4,10 @@ import '../../../features.dart';
 
 class FirebaseUserRepository implements UserRepository {
   final FirebaseFirestore _firestore;
-  final FirebaseAuth _firebaseAuth;
 
   FirebaseUserRepository(
       {FirebaseFirestore? firestore, FirebaseAuth? firebaseAuth})
-      : _firestore = firestore ?? FirebaseFirestore.instance,
-        _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+      : _firestore = firestore ?? FirebaseFirestore.instance;
 
   @override
   Future<void> saveUserProfile(UserProfile profile) async {
@@ -26,7 +24,7 @@ Future<UserProfile?> getUserProfile(String userId) async {
     }
   } catch (e) {
     print("Erro ao buscar perfil do usuário: $e");
-    rethrow; // Propagar o erro para tratamento adequado
+    rethrow; 
   }
   return null;
 }

@@ -9,7 +9,9 @@ import '../../../../core/core.dart';
 import '../../../features.dart';
 
 class AddFoodScreen extends StatefulWidget {
-  const AddFoodScreen({super.key});
+  final Map<String, dynamic>? initialFoodData;
+
+  const AddFoodScreen({super.key, this.initialFoodData});
 
   @override
   State<AddFoodScreen> createState() => _AddFoodScreenState();
@@ -28,19 +30,31 @@ class _AddFoodScreenState extends State<AddFoodScreen>
   final _searchController = TextEditingController();
   final _fibersController = TextEditingController();
   final _classificationController = TextEditingController();
+  final _sodiumController = TextEditingController();
+  final _waterController = TextEditingController();
+  final _ironController = TextEditingController();
+  final _calciumController = TextEditingController();
   final _quantityController = TextEditingController(text: '1');
   double baseCalories = 0.0;
   double baseProteins = 0.0;
   double baseCarbs = 0.0;
   double baseFibers = 0.0;
+  double baseFat = 0.0;
+  double baseSodium = 0.0;
+  double baseCalcium = 0.0;
+  double baseIron = 0.0;
+  double baseWater = 0.0;
+
   late TabController _tabController;
   String _selectedUnit = 'g';
   bool _isFavorite = false;
   bool _isPublic = false;
   bool _isCreatingNew = true;
+
   DateTime _selectedDate = DateTime.now();
   List<Map<String, dynamic>> allAlimentos = [];
   List<Map<String, dynamic>> alimentosFiltrados = [];
+  List<String> classificacoes = [];
 
   @override
   void dispose() {
@@ -63,12 +77,39 @@ class _AddFoodScreenState extends State<AddFoodScreen>
   void initState() {
     super.initState();
     _tabController = TabController(
-        length: 3, vsync: this); // Atualize para o número correto de abas
+        length: 4, vsync: this); // Atualize para o número correto de abas
     context.read<SavedFoodBloc>().add(const LoadUserSavedFoods());
-
+    if (widget.initialFoodData != null) {
+      _preFillFoodData(widget.initialFoodData!);
+    }
     _loadFoodsFromDatabase();
-    _searchController.addListener(_filterFoods);
   }
+
+  void _preFillFoodData(Map<String, dynamic> food) {
+    setState(() {
+      _nameController.text = food['nome_alimento'] ?? '';
+      _brandController.text = food['marca'] ?? '';
+      baseCalories = safeParseDouble(food['caloria']);
+      baseProteins = safeParseDouble(food['proteina']);
+      baseCarbs = safeParseDouble(food['carboidrato']);
+      baseFat = safeParseDouble(food['gordura']);
+      baseFibers = safeParseDouble(food['fibra']);
+      baseSodium = safeParseDouble(food['sodio']);
+      baseIron = safeParseDouble(food['ferro']);
+      baseCalcium = safeParseDouble(food['calcio']);
+      baseWater = safeParseDouble(food['agua']);
+      _isCreatingNew = false;
+      _updateNutritionValues();
+    });
+  }
+  // void _loadFoodsFromDatabase() async {
+  //   final querySnapshot =
+  //       await FirebaseFirestore.instance.collection('foods').get();
+  //   setState(() {
+  //     allAlimentos = querySnapshot.docs.map((doc) => doc.data()).toList();
+  //     alimentosFiltrados = List.from(allAlimentos);
+  //   });
+  // }
 
   void _loadFoodsFromDatabase() async {
     final querySnapshot =
@@ -76,20 +117,13 @@ class _AddFoodScreenState extends State<AddFoodScreen>
     setState(() {
       allAlimentos = querySnapshot.docs.map((doc) => doc.data()).toList();
       alimentosFiltrados = List.from(allAlimentos);
-    });
-  }
 
-  void _filterFoods() {
-    final query = _searchController.text.toLowerCase();
-    setState(() {
-      if (query.isEmpty) {
-        alimentosFiltrados = List.from(allAlimentos);
-      } else {
-        alimentosFiltrados = allAlimentos.where((food) {
-          final foodName = food['nome_alimento']?.toLowerCase() ?? '';
-          return foodName.contains(query);
-        }).toList();
-      }
+      classificacoes = allAlimentos
+          .map<String?>((food) => food['categoria'] as String?)
+          .where((c) => c != null)
+          .toSet()
+          .cast<String>()
+          .toList();
     });
   }
 
@@ -107,8 +141,7 @@ class _AddFoodScreenState extends State<AddFoodScreen>
               onPrimary: Colors.white,
               surface: Color(0xFF303030),
               onSurface: Colors.white,
-            ),
-            dialogBackgroundColor: const Color(0xFF303030),
+            ), dialogTheme: DialogThemeData(backgroundColor: const Color(0xFF303030)),
           ),
           child: child!,
         );
@@ -119,37 +152,6 @@ class _AddFoodScreenState extends State<AddFoodScreen>
         _selectedDate = picked;
       });
     }
-  }
-
-  Widget _buildMyFoodsTab() {
-    return alimentosFiltrados.isEmpty
-        ? const Center(child: Text('Nenhum alimento encontrado.'))
-        : Expanded(
-            child: ListView.builder(
-              itemCount: alimentosFiltrados.length,
-              itemBuilder: (context, index) {
-                final data = alimentosFiltrados[index];
-
-                return GestureDetector(
-                  onTap: () => _selectFoodFromDatabase(data),
-                  child: CustomCard(
-                    caloriesIcon: Icons.water_drop_outlined,
-                    calories:
-                        '${safeParseDouble(data['energia_kcal']).toStringAsFixed(2)}',
-                    carbo:
-                        '${safeParseDouble(data['carboidrato']).toStringAsFixed(2)}',
-                    proteinIcon: Icons.fitness_center,
-                    fibersIcon: Icons.fiber_smart_record,
-                    fibers:
-                        '${safeParseDouble(data['fibras']).toStringAsFixed(2)}',
-                    foodName: data['nome_alimento'] ?? 'Sem nome',
-                    classification: data['classificacao'] ?? 'Sem nome',
-                    data: data,
-                  ),
-                );
-              },
-            ),
-          );
   }
 
   // Função auxiliar para tratar valores numéricos
@@ -168,6 +170,11 @@ class _AddFoodScreenState extends State<AddFoodScreen>
       _carbsController.text = food.carbs.toString();
       _fatsController.text = food.fats.toString();
       _brandController.text = food.brand ?? '';
+      _calciumController.text = food.calsium.toString();
+      _sodiumController.text = food.sodium.toString();
+      _fibersController.text = food.fiber.toString();
+      _ironController.text = food.iron.toString();
+      _waterController.text = food.water.toString();
       _servingSizeController.text = food.servingSize ?? '';
       _selectedUnit = food.servingUnit ?? 'g';
       _isCreatingNew = false;
@@ -189,6 +196,11 @@ class _AddFoodScreenState extends State<AddFoodScreen>
       _proteinsController.text = (baseProteins * quantity).toStringAsFixed(2);
       _carbsController.text = (baseCarbs * quantity).toStringAsFixed(2);
       _fibersController.text = (baseFibers * quantity).toStringAsFixed(2);
+      _waterController.text = (baseWater * quantity).toStringAsFixed(2);
+      _ironController.text = (baseIron * quantity).toStringAsFixed(2);
+      _calciumController.text = (baseCalcium * quantity).toStringAsFixed(2);
+      _sodiumController.text = (baseSodium * quantity).toStringAsFixed(2);
+      _fatsController.text = (baseFat * quantity).toStringAsFixed(2);
     });
   }
 
@@ -201,6 +213,11 @@ class _AddFoodScreenState extends State<AddFoodScreen>
       _carbsController.clear();
       _fatsController.clear();
       _brandController.clear();
+      _waterController.clear();
+      _ironController.clear();
+      _calciumController.clear();
+      _sodiumController.clear();
+      _fibersController.clear();
       _isCreatingNew = true;
       _isFavorite = false;
       _isPublic = false;
@@ -210,11 +227,16 @@ class _AddFoodScreenState extends State<AddFoodScreen>
   void _selectFoodFromDatabase(Map<String, dynamic> food) {
     setState(() {
       _nameController.text = food['nome_alimento'] ?? '';
-      baseCalories = safeParseDouble(food['energia_kcal']);
+      baseCalories = safeParseDouble(food['caloria']);
       baseProteins = safeParseDouble(food['proteina']);
       baseCarbs = safeParseDouble(food['carboidrato']);
-      baseFibers = safeParseDouble(food['fibras']);
-      _classificationController.text = food['classificacao'] ?? '';
+      baseFibers = safeParseDouble(food['fibra']);
+      baseFat = safeParseDouble(food['gordura']);
+      baseSodium = safeParseDouble(food['sodio']);
+      baseCalcium = safeParseDouble(food['calcio']);
+      baseIron = safeParseDouble(food['ferro']);
+      baseWater = safeParseDouble(food['agua']);
+      _classificationController.text = food['categoria'] ?? '';
       _quantityController.text = '1';
       _updateNutritionValues();
     });
@@ -265,6 +287,11 @@ class _AddFoodScreenState extends State<AddFoodScreen>
               : _servingSizeController.text,
           servingUnit: _selectedUnit,
           isPublic: _isPublic,
+          water: double.parse(_waterController.text),
+          calsium: double.parse(_calciumController.text),
+          sodium: double.parse(_sodiumController.text),
+          iron: double.parse(_ironController.text),
+          fiber: double.parse(_fibersController.text),
         );
 
         context.read<SavedFoodBloc>().add(AddSavedFood(savedFood));
@@ -286,7 +313,7 @@ class _AddFoodScreenState extends State<AddFoodScreen>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -303,68 +330,73 @@ class _AddFoodScreenState extends State<AddFoodScreen>
                 )),
             title: const Text('Add Food',
                 style: TextStyle(color: BeShapeColors.primary)),
-            backgroundColor: Colors.black.withOpacity(0.7),
+            backgroundColor: Colors.black.withValues(alpha: (0.7)),
             elevation: 2,
             bottom: TabBar(
               controller: _tabController,
               tabs: const [
-                Tab(text: 'Create New'),
-                Tab(text: 'App Foods'),
-                Tab(text: 'My Foods'),
+                Tab(text: 'Novo Alimento'),
+                Tab(text: 'Alimentos'),
+                Tab(text: 'Meus Alimentos'),
+                Tab(text: 'Favoritos'),
               ],
               indicatorColor: BeShapeColors.primary,
               labelColor: BeShapeColors.primary,
               unselectedLabelColor: Colors.grey,
             ),
             actions: [
-              if (_isCreatingNew)
-                IconButton(
+              IconButton(
+                  onPressed: () => _tabController.animateTo(3),
                   icon: Icon(
-                    _isFavorite ? Icons.favorite : Icons.favorite_border,
+                    Icons.favorite,
                     color: BeShapeColors.primary,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isFavorite = !_isFavorite;
-                    });
-                  },
-                ),
+                  ))
             ],
           ),
           body: TabBarView(
             controller: _tabController,
             children: [
               // Create New Tab
-              CreateNewTabWidget(
-                nameController: _nameController,
-                brandController: _brandController,
-                servingSizeController: _servingSizeController,
-                quantityController: _quantityController,
-                caloriesController: _caloriesController,
-                proteinsController: _proteinsController,
-                carbsController: _carbsController,
-                fatsController: _fatsController,
-                formKey: _formKey,
-                isFavorite: _isFavorite,
-                isPublic: _isPublic,
-                isCreatingNew: _isCreatingNew,
-                selecteDate: _selectedDate,
-                selectDatetap: () => _selectDate(context),
-                isPubliconChanged: (bool value) {
-                  setState(() {
-                    _isPublic = value;
-                  });
-                },
-                submitFoodPressed: _submitFood,
-                updateNutritionValues: (_) => _updateNutritionValues(),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    CreateNewTabWidget(
+                      nameController: _nameController,
+                      brandController: _brandController,
+                      servingSizeController: _servingSizeController,
+                      quantityController: _quantityController,
+                      caloriesController: _caloriesController,
+                      proteinsController: _proteinsController,
+                      carbsController: _carbsController,
+                      fatsController: _fatsController,
+                      formKey: _formKey,
+                      isFavorite: _isFavorite,
+                      isPublic: _isPublic,
+                      isCreatingNew: _isCreatingNew,
+                      selecteDate: _selectedDate,
+                      selectDatetap: () => _selectDate(context),
+                      isPubliconChanged: (bool value) {
+                        setState(() {
+                          _isPublic = value;
+                        });
+                      },
+                      submitFoodPressed: _submitFood,
+                      updateNutritionValues: (_) => _updateNutritionValues(),
+                      fibersController: _fibersController,
+                      sodiumController: _sodiumController,
+                      calciumController: _calciumController,
+                      ironController: _ironController,
+                      waterController: _waterController,
+                      fat: baseFat,
+                      carbs: baseCarbs,
+                      protein: baseProteins,
+                    ),
+                  ],
+                ),
               ),
-              Column(
-                children: [
-                  SearchInput(
-                      controller: _searchController, searchText: 'Alimento'),
-                  _buildMyFoodsTab(),
-                ],
-              ),
+              // App Foods Tab
+              OpenFoodFactsScreen(),
+
               // My Foods Tab
               Column(
                 children: [
@@ -381,7 +413,12 @@ class _AddFoodScreenState extends State<AddFoodScreen>
                           ));
                         }
                         if (state.foods.isEmpty) {
-                          return AddFoodButtonTab();
+                          return EmptyListComponent(
+                            title: 'Nenhum Alimento Encontrado',
+                            subTitle:
+                                'Adicione novos alimentos a sua lista, e salve-os',
+                            buttonText: 'Adicionar',
+                          );
                         }
 
                         return ListView.builder(
@@ -405,6 +442,7 @@ class _AddFoodScreenState extends State<AddFoodScreen>
                   ),
                 ],
               ),
+              FavoriteFoodsScreen()
             ],
           ),
         ),

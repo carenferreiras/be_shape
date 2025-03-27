@@ -42,7 +42,9 @@ class GenderSelectionStep extends StatelessWidget {
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
-                  context.read<OnboardingBloc>().add(const UpdateGender('skip'));
+                  context
+                      .read<OnboardingBloc>()
+                      .add(const UpdateGender('skip'));
                 },
                 child: const Text(
                   'Prefer to skip, thanks!',
@@ -94,7 +96,7 @@ class GenderSelectionStep extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withOpacity(0.7),
+                    Colors.black.withValues(alpha: (0.7)),
                   ],
                 ),
               ),

@@ -1,4 +1,3 @@
-import 'package:be_shape_app/src/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -90,9 +89,8 @@ class _ActiveSupplementsTab extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final activeSupplements = state.supplements
-            .where((s) => s.isActive)
-            .toList();
+        final activeSupplements =
+            state.supplements.where((s) => s.isActive).toList();
 
         if (activeSupplements.isEmpty) {
           return Center(
@@ -102,7 +100,7 @@ class _ActiveSupplementsTab extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.purple.withOpacity(0.2),
+                    color: Colors.purple.withValues(alpha: (0.2)),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -166,7 +164,7 @@ class _HistoryTab extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.purple.withOpacity(0.2),
+                    color: Colors.purple.withValues(alpha: (0.2)),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -244,9 +242,8 @@ class _AlertsTab extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final lowSupplements = state.supplements
-            .where((s) => s.isRunningLow)
-            .toList();
+        final lowSupplements =
+            state.supplements.where((s) => s.isRunningLow).toList();
 
         if (lowSupplements.isEmpty) {
           return Center(
@@ -256,7 +253,7 @@ class _AlertsTab extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.2),
+                    color: Colors.orange.withValues(alpha: (0.2)),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -314,7 +311,7 @@ class _SupplementCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.purple.withOpacity(0.3)),
+        border: Border.all(color: Colors.purple..withValues(alpha: (0.3))),
       ),
       child: Column(
         children: [
@@ -323,7 +320,7 @@ class _SupplementCard extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.purple.withOpacity(0.2),
+                  Colors.purple.withValues(alpha: (0.2)),
                   Colors.transparent,
                 ],
               ),
@@ -336,7 +333,7 @@ class _SupplementCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.purple.withOpacity(0.2),
+                    color: Colors.purple.withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -374,7 +371,7 @@ class _SupplementCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.purple.withOpacity(0.2),
+                    color: Colors.purple.withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -481,17 +478,20 @@ class _SupplementCard extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           context.read<SupplementBloc>().add(
-                            LogSupplementTaken(
-                              SupplementLog(
-                                id: DateTime.now().toString(),
-                                userId: supplement.userId,
-                                supplementId: supplement.id,
-                                takenAt: DateTime.now(),
-                                dosage: supplement.dosage,
-                                unit: supplement.unit.toString().split('.').last,
-                              ),
-                            ),
-                          );
+                                LogSupplementTaken(
+                                  SupplementLog(
+                                    id: DateTime.now().toString(),
+                                    userId: supplement.userId,
+                                    supplementId: supplement.id,
+                                    takenAt: DateTime.now(),
+                                    dosage: supplement.dosage,
+                                    unit: supplement.unit
+                                        .toString()
+                                        .split('.')
+                                        .last,
+                                  ),
+                                ),
+                              );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,
@@ -517,7 +517,7 @@ class _SupplementCard extends StatelessWidget {
     Color? color,
   }) {
     color ??= Colors.grey[400]!;
-    
+
     return Expanded(
       child: Row(
         children: [
@@ -587,14 +587,14 @@ class _LogCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.purple.withOpacity(0.3)),
+        border: Border.all(color: Colors.purple..withValues(alpha: (0.3))),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.2),
+              color: Colors.purple.withValues(alpha: (0.2)),
               shape: BoxShape.circle,
             ),
             child: const Icon(
@@ -632,7 +632,7 @@ class _LogCard extends StatelessWidget {
               vertical: 6,
             ),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.2),
+              color: Colors.purple.withValues(alpha: (0.2)),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -661,7 +661,7 @@ class _AlertCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+        border: Border.all(color: Colors.orange..withValues(alpha: (0.3))),
       ),
       child: Column(
         children: [
@@ -670,7 +670,7 @@ class _AlertCard extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.orange.withOpacity(0.2),
+                  Colors.orange.withValues(alpha: (0.2)),
                   Colors.transparent,
                 ],
               ),
@@ -683,7 +683,7 @@ class _AlertCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.2),
+                    color: Colors.orange.withValues(alpha: (0.2)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -725,7 +725,8 @@ class _AlertCard extends StatelessWidget {
                 LinearProgressIndicator(
                   value: supplement.daysRemaining / supplement.daysSupply,
                   backgroundColor: Colors.grey[800],
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.orange),
+                  valueColor:
+                      const AlwaysStoppedAnimation<Color>(Colors.orange),
                 ),
                 const SizedBox(height: 16),
                 Row(

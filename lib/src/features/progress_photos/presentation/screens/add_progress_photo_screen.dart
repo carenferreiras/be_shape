@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -111,8 +110,7 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
               onPrimary: Colors.white,
               surface: Color(0xFF303030),
               onSurface: Colors.white,
-            ),
-            dialogBackgroundColor: const Color(0xFF303030),
+            ), dialogTheme: DialogThemeData(backgroundColor: const Color(0xFF303030)),
           ),
           child: child!,
         );
@@ -401,7 +399,7 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.purple.withOpacity(0.2),
+                            color: Colors.purple.withValues(alpha: (0.2)),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: const Icon(
@@ -518,7 +516,7 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(color: Colors.grey[800]!),
                         ),
-                        focusedBorder:  OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(color: BeShapeColors.primary),
                         ),
@@ -545,7 +543,8 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
                         width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       )
                     : const Text(
@@ -576,7 +575,9 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? BeShapeColors.primary.withOpacity(0.2) : Colors.grey[800],
+            color: isSelected
+                ? BeShapeColors.primary.withValues(alpha: (0.2))
+                : Colors.grey[800],
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: isSelected ? BeShapeColors.primary : Colors.transparent,
@@ -646,7 +647,7 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: Colors.grey[800]!),
       ),
-      focusedBorder:  OutlineInputBorder(
+      focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: BeShapeColors.primary),
       ),
@@ -659,7 +660,8 @@ class _AddProgressPhotoScreenState extends State<AddProgressPhotoScreen> {
   void dispose() {
     _weightController.dispose();
     _notesController.dispose();
-    _measurementControllers.values.forEach((controller) => controller.dispose());
+    _measurementControllers.values
+        .forEach((controller) => controller.dispose());
     _skinfoldControllers.values.forEach((controller) => controller.dispose());
     super.dispose();
   }

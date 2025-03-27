@@ -26,6 +26,12 @@ class _SavedFoodFormScreenState extends State<SavedFoodFormScreen> {
   final _proteinsController = TextEditingController();
   final _carbsController = TextEditingController();
   final _fatsController = TextEditingController();
+  final _sodiumController = TextEditingController();
+  final _waterController = TextEditingController();
+  final _ironController = TextEditingController();
+  final _fibersController = TextEditingController();
+
+  final _calciumController = TextEditingController();
   String _selectedUnit = 'g';
   bool _isPublic = false;
   File? _imageFile;
@@ -145,10 +151,17 @@ class _SavedFoodFormScreenState extends State<SavedFoodFormScreen> {
         carbs: double.parse(_carbsController.text),
         fats: double.parse(_fatsController.text),
         brand: _brandController.text.isEmpty ? null : _brandController.text,
-        servingSize: _servingSizeController.text.isEmpty ? null : _servingSizeController.text,
+        servingSize: _servingSizeController.text.isEmpty
+            ? null
+            : _servingSizeController.text,
         servingUnit: _selectedUnit,
         isPublic: _isPublic,
         photoUrl: photoUrl,
+        water: double.parse(_waterController.text),
+        sodium: double.parse(_sodiumController.text),
+        calsium: double.parse(_calciumController.text),
+        fiber: double.parse(_fibersController.text),
+        iron: double.parse(_ironController.text),
       );
 
       context.read<SavedFoodBloc>().add(AddSavedFood(savedFood));
@@ -282,11 +295,12 @@ class _SavedFoodFormScreenState extends State<SavedFoodFormScreen> {
                 activeColor: BeShapeColors.primary,
               ),
               const SizedBox(height: 24),
-              BeShapeCustomButton(label: 'Salvar Alimento', 
-              icon: Icons.save,
-              isLoading: _isUploading,
-              onPressed:  _isUploading ? null : _submitFood,)
-              
+              BeShapeCustomButton(
+                label: 'Salvar Alimento',
+                icon: Icons.save,
+                isLoading: _isUploading,
+                onPressed: _isUploading ? null : _submitFood,
+              )
             ],
           ),
         ),
@@ -462,14 +476,14 @@ class _NutritionCard extends StatelessWidget {
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: color.withOpacity(0.3)),
+                borderSide: BorderSide(color: color..withValues(alpha: (0.3))),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(color: color),
               ),
               filled: true,
-              fillColor: color.withOpacity(0.1),
+              fillColor: color.withValues(alpha: (0.1)),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
